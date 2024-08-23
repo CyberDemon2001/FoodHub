@@ -1,0 +1,730 @@
+{
+  "restaurants": [
+    {
+      "restaurantName": "FOOD-O-HOLIC",
+      "menu": [
+        {
+          "section": "Tea",
+          "items": [
+            {
+              "name": "Masala Tea",
+              "price": 15
+            },
+            {
+              "name": "Kulhad Tea",
+              "price": 20
+            }
+          ]
+        },
+        {
+          "section": "Hot Coffee",
+          "items": [
+            {
+              "name": "Classic Hot Coffee",
+              "price": 30
+            },
+            {
+              "name": "Vanilla Hot Coffee",
+              "price": 40
+            },
+            {
+              "name": "Hazelnut Hot Coffee",
+              "price": 40
+            },
+            {
+              "name": "Butter Scotch Hot Coffee",
+              "price": 40
+            }
+          ]
+        },
+        {
+          "section": "Cold Coffee",
+          "items": [
+            {
+              "name": "Classic Cold Coffee",
+              "price": 70
+            },
+            {
+              "name": "Vanilla Cold Coffee",
+              "price": 80
+            },
+            {
+              "name": "Hazelnut Cold Coffee",
+              "price": 80
+            },
+            {
+              "name": "Butter Scotch Cold Coffee",
+              "price": 80
+            }
+          ]
+        },
+        {
+          "section": "Shakes",
+          "items": [
+            {
+              "name": "Strawberry Shake",
+              "price": 90
+            },
+            {
+              "name": "Mixed Fruit Shake",
+              "price": 90
+            },
+            {
+              "name": "Orange Shake",
+              "price": 90
+            },
+            {
+              "name": "Kiwi Shake",
+              "price": 90
+            },
+            {
+              "name": "Pineapple Shake",
+              "price": 90
+            },
+            {
+              "name": "ButterScotch Shake",
+              "price": 90
+            },
+            {
+              "name": "Green Apple Shake",
+              "price": 90
+            },
+            {
+              "name": "Black Current Shake",
+              "price": 90
+            },
+            {
+              "name": "Blueberry Shake",
+              "price": 90
+            },
+            {
+              "name": "Rasmalai Shake",
+              "price": 90
+            }
+          ]
+        },
+        {
+          "section": "Mocktails",
+          "items": [
+            {
+              "name": "Mint Mojito",
+              "price": 70
+            },
+            {
+              "name": "Green Mint Mojito",
+              "price": 70
+            },
+            {
+              "name": "Blue Curacao Mojito",
+              "price": 70
+            },
+            {
+              "name": "Grenadine Mojito",
+              "price": 70
+            },
+            {
+              "name": "WaterMelon Mojito",
+              "price": 70
+            },
+            {
+              "name": "Strawberry Mojito",
+              "price": 70
+            },
+            {
+              "name": "Green Apple Mojito",
+              "price": 70
+            },
+            {
+              "name": "Lichi Mojito",
+              "price": 70
+            },
+            {
+              "name": "Pineapple Mojito",
+              "price": 70
+            },
+            {
+              "name": "Blood Orange Mojito",
+              "price": 70
+            }
+          ]
+        },
+        {
+          "section": "Momos Gravy",
+          "items": [
+            {
+              "name": "Tandoori Momos",
+              "price": 100
+            },
+            {
+              "name": "Kashmiri Momos",
+              "price": 110
+            },
+            {
+              "name": "Afgani Momos",
+              "price": 120
+            },
+            {
+              "name": "Paneer Dum Momos",
+              "price": 100
+            }
+          ]
+        },
+        {
+          "section": "Momos",
+          "items": [
+            {
+              "name": "Veg. Momos",
+              "price": 50
+            },
+            {
+              "name": "Nutrilla Momos",
+              "price": 50
+            },
+            {
+              "name": "Paneer Veg Momos",
+              "price": 60
+            },
+            {
+              "name": "Paneer Momos",
+              "price": 80
+            },
+            {
+              "name": "Veg./Nutrilla Momos Fry",
+              "price": 60
+            },
+            {
+              "name": "Paneer Veg Momos Fry",
+              "price": 70
+            },
+            {
+              "name": "Paneer Momos Fry",
+              "price": 90
+            },
+            {
+              "name": "Special Masala Momos",
+              "price": 80
+            },
+            {
+              "name": "Veg. Kurkure Momos",
+              "price": 100
+            },
+            {
+              "name": "Paneer Veg. Kurkure Momos",
+              "price": 110
+            },
+            {
+              "name": "Paneer Kurkure Momos",
+              "price": 130
+            }
+          ]
+        },
+        {
+          "section": "Spring Rolls",
+          "items": [
+            {
+              "name": "Veg. Spring Roll",
+              "price": 60
+            },
+            {
+              "name": "Noodles Spring Roll",
+              "price": 80
+            },
+            {
+              "name": "Veg. Kurkure Spring Roll",
+              "price": 100
+            },
+            {
+              "name": "Noodles Kurkure Spring Roll",
+              "price": 120
+            }
+          ]
+        },
+        {
+          "section": "Rolls",
+          "items": [
+            {
+              "name": "Veg. Roll",
+              "price": 50
+            },
+            {
+              "name": "Paneer Roll",
+              "price": 70
+            },
+            {
+              "name": "Chilli Paneer Roll",
+              "price": 80
+            },
+            {
+              "name": "Noodles Roll",
+              "price": 70
+            }
+          ]
+        },
+        {
+          "section": "Chaap Rolls",
+          "items": [
+            {
+              "name": "Afgani Chaap Roll",
+              "price": 120
+            },
+            {
+              "name": "Kashmiri Chaap Roll",
+              "price": 120
+            },
+            {
+              "name": "Tandoori Chaap Roll",
+              "price": 120
+            }
+          ]
+        },
+        {
+          "section": "Burger",
+          "items": [
+            {
+              "name": "Veg. Burger",
+              "price": 50
+            },
+            {
+              "name": "Paneer Burger",
+              "price": 70
+            },
+            {
+              "name": "Cheese Burger",
+              "price": 70
+            },
+            {
+              "name": "Chilli Cheese Paneer Burger",
+              "price": 80
+            },
+            {
+              "name": "Kurkura Paneer Cheese Burger",
+              "price": 120
+            },
+            {
+              "name": "Crunchy Paneer Tikki Burger",
+              "price": 120
+            }
+          ]
+        },
+        {
+          "section": "French Fries",
+          "items": [
+            {
+              "name": "Salted French Fries",
+              "price": 60
+            },
+            {
+              "name": "Masala French Fries",
+              "price": 70
+            },
+            {
+              "name": "Peri-Peri French Fries",
+              "price": 80
+            },
+            {
+              "name": "Cheesy French Fries",
+              "price": 110
+            },
+            {
+              "name": "Peri-Peri Cheesy French Fries",
+              "price": 130
+            }
+          ]
+        },
+        {
+          "section": "Snacks",
+          "items": [
+            {
+              "name": "Chilli Paneer Dry",
+              "price": 120
+            },
+            {
+              "name": "Chilli Paneer Gravy",
+              "price": 140
+            },
+            {
+              "name": "Chilly Potato",
+              "price": 90
+            },
+            {
+              "name": "Honey Chilly Potato",
+              "price": 100
+            }
+          ]
+        },
+        {
+          "section": "Sandwich",
+          "items": [
+            {
+              "name": "Veg. Mayonnaise Sandwich",
+              "price": 40
+            },
+            {
+              "name": "Veg. Grilled Sandwich",
+              "price": 50
+            },
+            {
+              "name": "Tawa Veg. Sandwich",
+              "price": 50
+            },
+            {
+              "name": "Veg. Sweet Corn Grilled Sandwich",
+              "price": 60
+            },
+            {
+              "name": "Paneer Grilled Sandwich",
+              "price": 60
+            },
+            {
+              "name": "Tawa Paneer Sandwich",
+              "price": 60
+            },
+            {
+              "name": "Aloo Masala Sandwich",
+              "price": 60
+            },
+            {
+              "name": "Cheese Sandwich",
+              "price": 60
+            },
+            {
+              "name": "Paneer Cheese Sandwich",
+              "price": 70
+            },
+            {
+              "name": "Cheesy Chilly Paneer Sandwich",
+              "price": 90
+            },
+            {
+              "name": "Triple Layer Sandwich",
+              "price": 100
+            },
+            {
+              "name": "Veg. Cheese Loaded Sandwich",
+              "price": 100
+            }
+          ]
+        },
+        {
+          "section": "Noodles",
+          "items": [
+            {
+              "name": "Veg. Noodles",
+              "price": 60
+            },
+            {
+              "name": "Paneer Noodles",
+              "price": 80
+            },
+            {
+              "name": "Chilly Garlic Noodles",
+              "price": 80
+            },
+            {
+              "name": "Hakka Noodles",
+              "price": 90
+            }
+          ]
+        },
+        {
+          "section": "Fried Rice & Manchurian",
+          "items": [
+            {
+              "name": "Veg.Fried Rice",
+              "price": 70
+            },
+            {
+              "name": "Paneer Fried Rice",
+              "price": 90
+            },
+            {
+              "name": "Veg. Manchurian Dry",
+              "price": 100
+            },
+            {
+              "name": "Veg. Manchurian Gravy",
+              "price": 120
+            }
+          ]
+        },
+        {
+          "section": "Pizza",
+          "items": [
+            {
+              "name": "Kulhad Pizza",
+              "price": 80
+            },
+            {
+              "name": "Onion-Capsicum Pizza",
+              "price": 100
+            },
+            {
+              "name": "Onion-Corn Pizza",
+              "price": 100
+            },
+            {
+              "name": "Capsicum-Tomato Pizza",
+              "price": 100
+            },
+            {
+              "name": "Capsicum-Corn Pizza",
+              "price": 100
+            },
+            {
+              "name": "Veg Loaded Pizza",
+              "price": 120
+            },
+            {
+              "name": "Paneer Veg. Pizza",
+              "price": 130
+            },
+            {
+              "name": "Margereta Pizza",
+              "price": 140
+            },
+            {
+              "name": "Veg. Cheese Pizza",
+              "price": 160
+            },
+            {
+              "name": "Paneer Cheese Pizza",
+              "price": 180
+            },
+            {
+              "name": "Veg. Cheese Loaded Pizza",
+              "price": 200
+            }
+          ]
+        },
+        {
+          "section": "Parantha",
+          "items": [
+            {
+              "name": "Aloo Parantha",
+              "price": 35
+            },
+            {
+              "name": "Aloo-Pyaz Parantha",
+              "price": 40
+            },
+            {
+              "name": "Gobhi Parantha",
+              "price": 40
+            },
+            {
+              "name": "Mix Parantha",
+              "price": 60
+            },
+            {
+              "name": "Paneer Parantha",
+              "price": 60
+            },
+            {
+              "name": "Cheese Parantha",
+              "price": 80
+            },
+            {
+              "name": "Tawa Butter Nan",
+              "price": 40
+            }
+          ]
+        },
+        {
+          "section":"Maggi",
+          "items":[
+            {
+              "name":"Plain Maggi",
+              "price":40
+            },
+            {
+              "name":"Plain Masala Maggi",
+              "price":50
+            },
+            {
+              "name":"Veg. Maggi",
+              "price":50
+            },
+            {
+              "name":"Veg. Masala Maggi",
+              "price":60
+            },
+            {
+              "name":"Fried Veg. Maggi",
+              "price":60
+            },
+            {
+              "name":"Paneer Maggi",
+              "price":70
+            },
+            {
+              "name":"Cheesy maggi",
+              "price":80
+            },
+            {
+              "name":"Cheese Chilly Maggi",
+              "price":90
+            }
+          ]
+        },
+        {
+          "section":"Sweet Corn",
+          "items":[
+            {
+              "name":"Salted Sweet orn",
+              "price":50
+            },
+            {
+              "name":"Magic MAsala Corn",
+              "price":50
+            },
+            {
+              "name":"Peri-Peri Sweet Corn",
+              "price":60
+            },
+            {
+              "name":"Cheesy Sweet Corn",
+              "price":80
+            },
+            {
+              "name":"Veg. Sweet Corn Chaat",
+              "price":100
+            }
+          ]
+        },
+        {
+          "section":"Soups",
+          "items":[
+            {
+              "name":"Vegetable Soup",
+              "price":50
+            },
+            {
+              "name":"Hot & Sour Soup",
+              "price":50
+            },
+            {
+              "name":"Sweet Corn Soup",
+              "price":60
+            },
+            {
+              "name":"Manchow Soup",
+              "price":60
+            },
+            {
+              "name":"Tomato Soup",
+              "price":70
+            },
+            {
+              "name":"Paneer Veg. Soup",
+              "price":70
+            }
+          ]
+        },
+        {
+          "section":"Pasta",
+          "items":[
+            {
+              "name":"White Sauce Pasta",
+              "price":100
+            },
+            {
+              "name":"Red Sauce Pasta",
+              "price":100
+            },
+            {
+              "name":"Pink Sauce Pasta",
+              "price":100
+            }
+          ]
+        },
+        {
+          "section":"Macaroni",
+          "items":[
+            {
+              "name":"Veg. Masala Macaroni",
+              "price":40
+            },
+            {
+              "name":"Red Sauce Macaroni",
+              "price":60
+            },
+            {
+              "name":"Tandoori Sauce Macaroni",
+              "price":60
+            },
+            {
+              "name":"Paneer Macaroni",
+              "price":60
+            },
+            {
+              "name":"Chilly Cheese Macaroni",
+              "price":80
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "restaurantName": "Cafe Delight",
+      "menu": [
+        {
+          "section": "Cold Coffee",
+          "items": [
+            {
+              "name": "Iced Coffee",
+              "price": 50
+            },
+            {
+              "name": "Mocha Frappe",
+              "price": 60
+            }
+          ]
+        },
+        {
+          "section": "Smoothies",
+          "items": [
+            {
+              "name": "Strawberry Smoothie",
+              "price": 70
+            },
+            {
+              "name": "Mango Smoothie",
+              "price": 80
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "restaurantName": "Bistro Bites",
+      "menu": [
+        {
+          "section": "Sandwiches",
+          "items": [
+            {
+              "name": "Grilled Cheese",
+              "price": 40
+            },
+            {
+              "name": "Chicken Sandwich",
+              "price": 60
+            }
+          ]
+        },
+        {
+          "section": "Salads",
+          "items": [
+            {
+              "name": "Caesar Salad",
+              "price": 50
+            },
+            {
+              "name": "Greek Salad",
+              "price": 55
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
