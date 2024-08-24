@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import SearchIcon from '@mui/icons-material/Search';
 import HomeIcon from '@mui/icons-material/Home';
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
@@ -8,6 +8,15 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import InfoIcon from '@mui/icons-material/Info';
 
 const Header = () => {
+  const username = JSON.parse(localStorage.getItem("Logged User"));
+  console.log(username);
+  const navigate = useNavigate();
+
+  const handleLogout = ()=>{
+    localStorage.removeItem("Logged User")
+    navigate('/signin')
+
+  }
   return (
     <>
     <div className="h-[70px] w-[100%] flex justify-around items-center text-lg bg-white fixed top-0 z-10 bg-opacity-50">
@@ -36,11 +45,18 @@ const Header = () => {
         </div>
 
         <div className='flex gap-4'>
-
-        <NavLink className={({ isActive }) => `text-black ${isActive ? 'text-orange-500' : 'hover:text-orange-500'} flex items-center`} to="/signin">
-        <PersonIcon />
-        SIGN IN
-        </NavLink>
+        { username ? (
+          <>
+          <p className="text-2xl">{username}!</p>
+          <button className='hover:text-orange-500' onClick={handleLogout} type='submit'>SIGN OUT</button>
+        </>
+        ):
+          <NavLink className={({ isActive }) => `text-black ${isActive ? 'text-orange-500' : 'hover:text-orange-500'} flex items-center`} to="/signin">
+          <PersonIcon />
+          SIGN IN
+          </NavLink>
+        }
+        
         <NavLink className={({ isActive }) => `text-black ${isActive ? 'text-orange-500' : 'hover:text-orange-500'} flex items-center`} to="/cart">
         <ShoppingCartIcon />
         CART

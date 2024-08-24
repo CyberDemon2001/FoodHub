@@ -14,14 +14,13 @@ const RestaurantMenu=({restaurants})=>{
       }
     // console.log("Restaurant Name from URL:", restaurantName);
     return(
-        <div className="mt-[70px] flex justify-center">
+        <div className="mx-[120px] my-[90px] border-2 border-dotted">
         <div>
-            <h2 className='text-blue-500 text-5xl'>{restaurant.restaurantName}<hr /></h2>
+            <h2 className="text-3xl text-[#FE5005]">{restaurant.restaurantName}<hr /></h2>
             <div>
                 {restaurant.menu.map((section,index)=>(
                     <MenuSection key={index} section={section.section} items={section.items} />
                 ))}
-            
             </div>
             </div>
         </div>

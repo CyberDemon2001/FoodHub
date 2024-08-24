@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Signup() {
 
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         fullname: "",
         email: "",
@@ -12,6 +13,7 @@ export default function Signup() {
         password: "",
         repeatPassword: "",
     });
+    
 
     const handleChange = (event)=>{
         setFormData((prevData)=>({
@@ -45,6 +47,7 @@ export default function Signup() {
         existingUsers.push(formData);
         localStorage.setItem("Form Data", JSON.stringify(existingUsers));
         alert("Registered Successfully")
+        navigate('/signin')
 
         setFormData({
             fullname: "",

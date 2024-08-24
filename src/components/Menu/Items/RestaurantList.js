@@ -1,15 +1,15 @@
 import Restaurant from "./Restaurant";
 
-const RestaurantList=({restaurants})=>{
-    return(<>
-        <h1>Restaurant Menu</h1>
-    <div className='text-orange-500 grid grid-cols-2'>
-        {restaurants.map((restaurant,index)=>(
-            <Restaurant key={index} restaurantName={restaurant.restaurantName} />
+const RestaurantList = ({ restaurants }) => {
+  return (
+    <>
+      <div className="grid grid-cols-4 gap-5">
+        {restaurants.map((restaurant, index) => (
+          <Restaurant key={index} restaurantName={restaurant.restaurantName} />
         ))}
-    </div>
+      </div>
     </>
-);
-}
+  );
+};
 
 export default RestaurantList;
