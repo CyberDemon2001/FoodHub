@@ -1,9 +1,14 @@
 import { Link } from "react-router-dom";
 
 const Restaurant=({restaurantName})=>(
-    <div className=' h-[200px] w-[400px] bg-red-100 m-6 text-5xl'>
-        <h2 className='text-yellow-500'><Link to={`/menu/restaurants/${restaurantName}`}>{restaurantName}</Link></h2>
+    <Link to={`/menu/restaurants/${restaurantName}`}>
+    <div className="h-[200px] flex flex-col justify-center items-center">
+        <div className="h-[70%] w-[70%] border-2 border-solid">
+        <img src="bjj" alt={restaurantName}/>
+        </div>
+        <h2 className="text-xl text-black">{restaurantName}</h2>
     </div>
+    </Link>
 );
 
 export default Restaurant;

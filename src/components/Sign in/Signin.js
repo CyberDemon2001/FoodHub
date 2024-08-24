@@ -22,17 +22,16 @@ function Signin() {
     if(user){
       navigate('/menu');
       alert("Login Succesfully");  
-      localStorage.setItem("Logged User", JSON.stringify(user.name))
+      localStorage.setItem("Logged User", JSON.stringify(user.username))
     }
     
     else{
       setError("Username or Password is incorrect");
     }
-    localStorage.setItem("Logged User", JSON.stringify(user.name))
   }
 
   return (
-    <div className='h-[calc(100vh-70px)]  flex items-center justify-center'>
+    <div className='h-[calc(100vh-70px)] flex items-center justify-center'>
       <div className='h-[90%] w-[70%] flex border-2 border-solid border-black'>
         <form className="flex flex-col justify-center w-[30%] px-[20px]" onSubmit={handleSubmit}>
         <h1 className="text-3xl font-extrabold mb-2">Sign In</h1>

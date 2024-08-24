@@ -8,12 +8,10 @@ export default function Menu() {
     // console.log(data.restaurants);
     return (
         <>
-            <div className="py-[30px] px-[120px] mt-[60px]">
+            <div className="py-[30px] px-[120px]">
                 <Foods />
-                <div>
-                    <h1>
-                        <RestaurantList restaurants={data.restaurants}/>
-                    </h1>
+                <div className="border-2 border-solid grid">
+                    <RestaurantList restaurants={data.restaurants}/>
                 </div>
             </div>
         </>
