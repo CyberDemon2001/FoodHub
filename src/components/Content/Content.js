@@ -8,7 +8,7 @@ const Content = () => {
   // }
 
   return (
-    <div className="relative h-[calc(100vh)]">
+    <div className="relative h-[calc(100vh)] mt-[-70px]">
       <div
         className="absolute inset-0 bg-cover bg-center bg-fixed"
         style={{ backgroundImage: "url('/bg.jpg')", filter: 'blur(4px)' }}

@@ -67,13 +67,13 @@ export default function Signup() {
   return (
     <>
       <div className="h-[calc(100vh-70px)] mt-[70px] flex justify-center items-center">
-        <div className="flex h-[90%] w-[70%] border border-solid border-black">
-          <img className="h-[100%] w-[70%]" src="login.jpg" alt="raman" />
-          <form onSubmit={handleSubmit} className="flex flex-col justify-center w-[30%] px-[20px]">
+        <div className="flex h-[95%] w-[70%] border border-solid border-black">
+          <img className="h-[100%] w-[70%]" src="sign.jpg" alt="raman" />
+          <form onSubmit={handleSubmit} className="flex flex-col justify-center w-[30%] px-[15px]">
             <h1 className="text-3xl font-extrabold mb-2">Sign Up</h1>
             <label htmlFor="fullname">Full Name</label>
             <input
-              className="my-[4px] outline-none border-b-2 border-solid border-custom-gray"
+              className="my-[2px] outline-none border-b-2 border-solid border-custom-gray"
               type="text"
               id="fullname"
               name="fullname"
@@ -85,7 +85,7 @@ export default function Signup() {
 
             <label htmlFor="email">Email</label>
             <input
-              className="my-[4px] outline-none border-b-2 border-solid border-custom-gray"
+              className="my-[2px] outline-none border-b-2 border-solid border-custom-gray"
               type="email"
               id="email"
               name="email"
@@ -97,7 +97,7 @@ export default function Signup() {
 
             <label htmlFor="number">Number</label>
             <input
-            className="my-[4px] outline-none border-b-2 border-solid border-custom-gray"
+            className="my-[2px] outline-none border-b-2 border-solid border-custom-gray"
               type="number"
               id="number"
               name="number"
@@ -109,7 +109,7 @@ export default function Signup() {
 
             <label htmlFor="college">College</label>
             <input
-            className="my-[4px] outline-none border-b-2 border-solid border-custom-gray"
+            className="my-[2px] outline-none border-b-2 border-solid border-custom-gray"
               type="text"
               id="college"
               name="college"
@@ -121,7 +121,7 @@ export default function Signup() {
 
             <label htmlFor="username">Username</label>
             <input
-            className="my-[4px] outline-none border-b-2 border-solid border-custom-gray"
+            className="my-[2px] outline-none border-b-2 border-solid border-custom-gray"
               type="text"
               id="username"
               name="username"
@@ -133,7 +133,7 @@ export default function Signup() {
 
             <label htmlFor="password">Password</label>
             <input
-            className="my-[4px] outline-none border-b-2 border-solid border-custom-gray"
+            className="my-[2px] outline-none border-b-2 border-solid border-custom-gray"
               type="password"
               id="password"
               name="password"
@@ -145,7 +145,7 @@ export default function Signup() {
 
             <label htmlFor="repeatpassword">Repeat Password</label>
             <input
-            className="my-[4px] outline-none border-b-2 border-solid border-custom-gray"
+            className="my-[2px] outline-none border-b-2 border-solid border-custom-gray"
               type="password"
               id="repeatPassword"
               name="repeatPassword"
@@ -156,7 +156,7 @@ export default function Signup() {
             ></input>
             
             <button className="bg-[#fe8d00] py-1 rounded-full" type="submit">Sign Up</button>
-            <p className="text-sm my-1">Already have an account? <Link className="text-[#fe8d00] underline" to="/signin">Sign in</Link></p>
+            <p className="text-sm">Already have an account?<Link className="text-[#fe8d00] underline" to="/signin">Sign in</Link></p>
           </form>
         </div>
       </div>
