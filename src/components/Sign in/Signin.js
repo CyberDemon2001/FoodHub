@@ -22,7 +22,7 @@ function Signin() {
     if(user){
       navigate('/menu');
       alert("Login Succesfully");  
-      localStorage.setItem("Logged User", JSON.stringify(user.username))
+      localStorage.setItem("Logged User", JSON.stringify(userName))
     }
     
     else{
