@@ -1,4 +1,5 @@
-import { React, useState } from "react";
+import React, { useState } from "react";
+import axios from "axios";
 
 function UserSignup() {
   const [user, setUser] = useState({
@@ -8,8 +9,12 @@ function UserSignup() {
     mobile: "",
     dob: "",
     department: "",
-    role: "",
   });
+
+  const [message, setMessage] = useState("");
+  const [repeatPassword, setRepeatPassword] = useState(""); 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUser((prevUser) => ({
@@ -18,11 +23,31 @@ function UserSignup() {
     }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(user);
+  const handleRepeatPasswordChange = (e) => {
+    setRepeatPassword(e.target.value); 
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (user.password !== repeatPassword) {
+      setMessage("Passwords do not match.");
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const response = await axios.post("http://localhost:5000/user/signup", user);
+      setMessage("User registered successfully");
+      console.log(response.data);
+    } catch (error) {
+      const errorMessage = error.response
+        ? error.response.data.message
+        : "An unexpected error occurred.";
+      setMessage(errorMessage);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div>
@@ -34,6 +59,7 @@ function UserSignup() {
           name="name"
           value={user.name}
           onChange={handleChange}
+          required
         />
         <label>Email</label>
         <input
@@ -41,6 +67,7 @@ function UserSignup() {
           name="email"
           value={user.email}
           onChange={handleChange}
+          required
         />
         <label>Password</label>
         <input
@@ -48,13 +75,25 @@ function UserSignup() {
           name="password"
           value={user.password}
           onChange={handleChange}
+          required
+        />
+        <label>Repeat Password</label>
+        <input
+          type="password"
+          name="repeatPassword"
+          value={repeatPassword}
+          onChange={handleRepeatPasswordChange} 
+          required
         />
         <label>Mobile</label>
         <input
-          type="number"
+          type="text"
           name="mobile"
           value={user.mobile}
           onChange={handleChange}
+          required
+          pattern="^\d{10}$" 
+          title="Mobile number must be exactly 10 digits."
         />
         <label>DOB</label>
         <input
@@ -62,6 +101,7 @@ function UserSignup() {
           name="dob"
           value={user.dob}
           onChange={handleChange}
+          required
         />
         <label>Department</label>
         <input
@@ -69,16 +109,13 @@ function UserSignup() {
           name="department"
           value={user.department}
           onChange={handleChange}
+          required
         />
-        <label>Role</label>
-        <input
-          type="text"
-          name="role"
-          value={user.role}
-          onChange={handleChange}
-        />
-        <button type="submit">Submit</button>
+        <button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? "Submitting..." : "Submit"}
+        </button>
       </form>
+      {message && <p>{message}</p>}
     </div>
   );
 }
