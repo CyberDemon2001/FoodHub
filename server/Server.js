@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const adminRoutes = require("./routes/adminRoutes"); // CommonJS `require`
+const userRoutes = require("./routes/userRoutes"); // CommonJS `require`
 
 dotenv.config(); // Load environment variables from a .env file
 
@@ -22,7 +23,8 @@ app.get("/", (req, res) => {
   res.send("Welcome to FoodHub API");
 });
 
-app.use("/api/admin", adminRoutes); // Register the admin routes
+app.use("/api/admin", adminRoutes);
+app.use("/api/user", userRoutes) // Register the admin routes
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
