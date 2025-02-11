@@ -36,9 +36,10 @@ function UserSignup() {
 
     setIsSubmitting(true);
     try {
-      const response = await axios.post("http://localhost:5000/user/signup", user);
+      const response = await axios.post("http://localhost:5000/api/user/signup", user);
       setMessage("User registered successfully");
       console.log(response.data);
+      alert(response.data.message);
     } catch (error) {
       const errorMessage = error.response
         ? error.response.data.message

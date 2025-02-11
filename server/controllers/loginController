@@ -1,0 +1,55 @@
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const UserSchema = require('../models/UserSchema');
+const AdminSchema = require('../models/AdminSchema');
+
+// Login Controller
+const Login = async (req, res) => {
+    const { email, password, isAdmin } = req.body;
+
+    // Validate request body
+    if (!email || !password) {
+        return res.status(400).json({ message: 'Email and password are required' });
+    }
+
+    try {
+        if (isAdmin) {
+            // Check if email exists in Admin collection
+            const admin = await AdminSchema.findOne({ email });
+            if (!admin) {
+                return res.status(400).json({ message: 'Admin does not exist' }); // Specific error for admin
+            }
+
+            // Compare passwords
+            const isMatch = await bcrypt.compare(password, admin.password);
+            if (!isMatch) {
+                return res.status(400).json({ message: 'Invalid email or password' });
+            }
+
+            // Generate JWT for admin
+            const token = jwt.sign({ id: admin._id, email: admin.email, isAdmin: true }, process.env.JWT_SECRET, { expiresIn: '1h' });
+            return res.status(200).json({ token, message: 'Admin login successful' });
+        } else {
+            // Check if email exists in User collection
+            const user = await UserSchema.findOne({ email });
+            if (!user) {
+                return res.status(400).json({ message: 'User does not exist' }); // Specific error for user
+            }
+
+            // Compare passwords
+            const isMatch = await bcrypt.compare(password, user.password);
+            if (!isMatch) {
+                return res.status(400).json({ message: 'Invalid email or password' });
+            }
+
+            // Generate JWT for user (student)
+            const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+            return res.status(200).json({ token });
+        }
+    } catch (error) {
+        console.error('Error during login:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+module.exports = { Login };

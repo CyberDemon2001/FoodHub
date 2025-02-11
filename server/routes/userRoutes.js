@@ -1,6 +1,7 @@
 const express = require('express');
-const Joi = require('joi');
+// const Joi = require('joi');
 const {Signup}=require('../controllers/userController');
+
 
 const router = express.Router();
 

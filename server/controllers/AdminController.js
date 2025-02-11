@@ -1,4 +1,4 @@
-const adminSchema = require("../models/Admin"); // CommonJS `require`
+const adminSchema = require("../models/AdminSchema"); // CommonJS `require`
 const bcrypt = require("bcrypt");
 
 const Signup = async (req, res) => {

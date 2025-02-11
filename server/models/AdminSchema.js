@@ -1,6 +1,6 @@
-const { Schema, model } = require("mongoose"); // CommonJS `require`
+const { Schema, model } = require("mongoose");
 
-const adminSchema = new Schema({
+const AdminSchema = new Schema({
   name: { type: String, required: true },
   password: { type: String, required: true },
   email: { type: String, required: true, unique: true, trim: true },
@@ -10,5 +10,4 @@ const adminSchema = new Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
-// Export the model using CommonJS
-module.exports = model("Admin", adminSchema);
+module.exports = model("Admin", AdminSchema);

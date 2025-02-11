@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import './AdminSignup.css';
+// import './AdminSignup.css';
 
 function AdminSignup() {
   // State to store form input values
