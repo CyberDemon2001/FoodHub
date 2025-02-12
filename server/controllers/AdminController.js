@@ -1,4 +1,5 @@
 const adminSchema = require("../models/Admin"); // CommonJS `require`
+const Restaurant=require("../models/Restaurant");
 const bcrypt = require("bcrypt");
 
 const Signup = async (req, res) => {
@@ -23,7 +24,12 @@ const Signup = async (req, res) => {
     });
     // Save the user to the database
     await newAdmin.save();
-    res.status(201).json({ message: "Admin created successfully" });
+
+    //Create Restaurant
+    const restaurant =new Restaurant({adminName:name,email,restaurantName});
+    await restaurant.save();
+
+    res.status(201).json({ message: "Admin and Restaurant created successfully" });
   } catch (error) {
     console.error("Error in admin registration:", error);
     res.status(500).json({ message: "Registration failed! Please try again." });
