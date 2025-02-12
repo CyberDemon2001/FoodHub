@@ -10,11 +10,12 @@ const RestaurantSchema = new mongoose.Schema({
       items: [
         {
           name: { type: String, required: true },
-          price: { type: String, required: true },
+          price: { type: Number, required: true }, 
         },
       ],
     },
   ],
 });
 
-module.exports=mongoose.Model('Restaurants',RestaurantSchema);
+// Export the model
+module.exports = mongoose.model("Restaurant", RestaurantSchema);
