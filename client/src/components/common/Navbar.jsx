@@ -6,8 +6,8 @@ const Navbar = () => {
 
     return (
         <>
-        <nav className="navbar">
-            <div className="navbar-brand" onClick={() => navigate('/')}>
+        <nav className="h-[20vh] bg-amber-300 flex justify-between items-center px-4">
+            <div onClick={() => navigate('/')}>
                 FoodHub
             </div>
             <ul className="navbar-links">

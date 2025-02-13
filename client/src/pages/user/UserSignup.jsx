@@ -1,124 +1,89 @@
 import React, { useState } from "react";
 import axios from "axios";
+import backgroundImage from "../../assets/background.jpg";
 
-function UserSignup() {
-  const [user, setUser] = useState({
+const UserSignup = () => {
+  const [formData, setFormData] = useState({
     name: "",
     email: "",
-    password: "",
-    mobile: "",
     dob: "",
     department: "",
+    mobile: "",
+    password: "",
+    confirmPassword: "",
   });
-
-  const [message, setMessage] = useState("");
-  const [repeatPassword, setRepeatPassword] = useState(""); 
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setUser((prevUser) => ({
-      ...prevUser,
-      [name]: value,
-    }));
-  };
-
-  const handleRepeatPasswordChange = (e) => {
-    setRepeatPassword(e.target.value); 
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (user.password !== repeatPassword) {
-      setMessage("Passwords do not match.");
+    if (formData.password !== formData.confirmPassword) {
+      setError("Passwords do not match!");
       return;
     }
+    setError("");
 
-    setIsSubmitting(true);
     try {
-      const response = await axios.post("http://localhost:5000/api/user/signup", user);
-      setMessage("User registered successfully");
-      console.log(response.data);
+      const response = await axios.post("http://localhost:5000/api/user/signup", formData);
       alert(response.data.message);
-    } catch (error) {
-      const errorMessage = error.response
-        ? error.response.data.message
-        : "An unexpected error occurred.";
-      setMessage(errorMessage);
-    } finally {
-      setIsSubmitting(false);
+    } catch (err) {
+      setError(err.response?.data?.message || "Registration failed! Please try again.");
     }
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <h1>Register</h1>
-        <label>Name</label>
-        <input
-          type="text"
-          name="name"
-          value={user.name}
-          onChange={handleChange}
-          required
-        />
-        <label>Email</label>
-        <input
-          type="email"
-          name="email"
-          value={user.email}
-          onChange={handleChange}
-          required
-        />
-        <label>Password</label>
-        <input
-          type="password"
-          name="password"
-          value={user.password}
-          onChange={handleChange}
-          required
-        />
-        <label>Repeat Password</label>
-        <input
-          type="password"
-          name="repeatPassword"
-          value={repeatPassword}
-          onChange={handleRepeatPasswordChange} 
-          required
-        />
-        <label>Mobile</label>
-        <input
-          type="text"
-          name="mobile"
-          value={user.mobile}
-          onChange={handleChange}
-          required
-          pattern="^\d{10}$" 
-          title="Mobile number must be exactly 10 digits."
-        />
-        <label>DOB</label>
-        <input
-          type="date"
-          name="dob"
-          value={user.dob}
-          onChange={handleChange}
-          required
-        />
-        <label>Department</label>
-        <input
-          type="text"
-          name="department"
-          value={user.department}
-          onChange={handleChange}
-          required
-        />
-        <button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? "Submitting..." : "Submit"}
-        </button>
-      </form>
-      {message && <p>{message}</p>}
+    <div className="relative flex justify-center items-center h-screen">
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{
+          backgroundImage: `url(${backgroundImage})`,
+          filter: "blur(0px)",
+          zIndex: "-1",
+        }}
+      ></div>
+
+      <div className="relative z-10 h-auto w-[350px] bg-transparent p-6 rounded-2xl shadow-2xl border border-gray-300">
+        <h2 className="text-2xl font-bold text-orange-400 text-left mb-3">User Signup</h2>
+
+        <form onSubmit={handleSubmit} className="flex flex-col">
+          {[
+            { label: "Name", name: "name", type: "text" },
+            { label: "Email", name: "email", type: "email" },
+            { label: "Date of Birth", name: "dob", type: "date" },
+            { label: "Department", name: "department", type: "text" },
+            { label: "Mobile", name: "mobile", type: "text" },
+            { label: "Password", name: "password", type: "password" },
+            { label: "Confirm Password", name: "confirmPassword", type: "password" },
+          ].map(({ label, name, type }) => (
+            <div className="mb-1" key={name}>
+              <label className="block text-white font-medium text-sm mb-1">{label}:</label>
+              <input
+                type={type}
+                name={name}
+                value={formData[name]}
+                onChange={handleChange}
+                required
+                className="w-full p-1 bg-gray-100 text-gray-700 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 transition"
+              />
+            </div>
+          ))}
+
+          {error && <p className="text-red-500 text-sm mb-3">{error}</p>}
+
+          <button
+            type="submit"
+            className="w-full py-2 bg-orange-500 text-white font-semibold rounded-lg hover:bg-orange-600 transition mt-2"
+          >
+            Register
+          </button>
+        </form>
+      </div>
     </div>
   );
-}
+};
 
 export default UserSignup;
