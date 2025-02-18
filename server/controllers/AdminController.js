@@ -1,11 +1,12 @@
-const adminSchema = require("../models/AdminSchema"); // CommonJS `require`
+const AdminSchema = require("../models/AdminSchema"); // CommonJS `require`
 const bcrypt = require("bcrypt");
+
 
 const Signup = async (req, res) => {
   try {
     const { name, email, password, restaurantName, dob, mobile } = req.body;
     // Check if the user already exists
-    const admin = await adminSchema.findOne({ email });
+    const admin = await AdminSchema.findOne({ email });
     if (admin) {
       console.log("Admin already exists:", email);
       return res.status(400).json({ message: "Admin already exists" });
@@ -13,7 +14,7 @@ const Signup = async (req, res) => {
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 12);
     // Create a new user
-    const newAdmin = new adminSchema({
+    const newAdmin = new AdminSchema({
       name,
       email,
       password: hashedPassword,
@@ -25,8 +26,6 @@ const Signup = async (req, res) => {
     await newAdmin.save();
 
     //Create Restaurant
-    const restaurant =new Restaurant({adminName:name,email,restaurantName});
-    await restaurant.save();
 
     res.status(201).json({ message: "Admin and Restaurant created successfully" });
   } catch (error) {

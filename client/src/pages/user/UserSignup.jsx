@@ -36,7 +36,7 @@ const UserSignup = () => {
   };
 
   return (
-    <div className="relative flex justify-center items-center h-screen">
+    <div className="relative flex justify-center items-center h-[90vh]">
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{
@@ -59,15 +59,16 @@ const UserSignup = () => {
             { label: "Password", name: "password", type: "password" },
             { label: "Confirm Password", name: "confirmPassword", type: "password" },
           ].map(({ label, name, type }) => (
-            <div className="mb-1" key={name}>
-              <label className="block text-white font-medium text-sm mb-1">{label}:</label>
+            <div className="mb-4" key={name}>
+              {/* <label className="block text-white font-medium text-sm mb-1">{label}:</label> */}
               <input
                 type={type}
                 name={name}
                 value={formData[name]}
                 onChange={handleChange}
+                placeholder={label}
                 required
-                className="w-full p-1 bg-gray-100 text-gray-700 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 transition"
+                className="w-full p-1 bg-gray-100 text-gray-700 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 transition placeholder:font-bold placeholder:text-gray-500"
               />
             </div>
           ))}

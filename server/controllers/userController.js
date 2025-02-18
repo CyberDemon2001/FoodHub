@@ -1,11 +1,5 @@
-<<<<<<< HEAD
 const bcrypt = require('bcrypt');
 const UserSchema = require('../models/UserSchema');
-=======
-const bcrypt=require('bcrypt');
-const UserSchema=require('../models/UserSignup');
-const jwt=require('jsonwebtoken');
->>>>>>> a5a734dc30c3733f46cd92dbc37bce506637d9d5
 
 const Signup = async (req, res) => {
   // const { error } = UserSchema.validate(req.body);

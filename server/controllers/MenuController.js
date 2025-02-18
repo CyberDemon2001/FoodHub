@@ -1,6 +1,7 @@
 const Restaurant=require('../models/Restaurant');
 
-const RestaurantMenu=async (req, res) => {
+
+const MenuController=async (req, res) => {
     try {
       const { email } = req.params;
       const { section, items } = req.body;
@@ -19,4 +20,4 @@ const RestaurantMenu=async (req, res) => {
     }
   }
 
-  module.exports={RestaurantMenu};
+  module.exports={MenuController};

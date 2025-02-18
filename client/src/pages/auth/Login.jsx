@@ -1,14 +1,17 @@
 import React, { useState } from "react";
 import axios from "axios";
 import backgroundImage from "../../assets/background.jpg"; // Use your background image path
+import { useNavigate } from "react-router-dom"
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     console.log({ email, password, isAdmin });
+
     try {
       const response = await axios.post("http://localhost:5000/api/login", {
         email,
@@ -16,7 +19,12 @@ const Login = () => {
         isAdmin,
       });
       if (response.status === 200) {
+        const { token, name } = response.data;
         console.log("Login successful:", response.data);
+        localStorage.setItem("user", JSON.stringify({ name, token }));
+        if(isAdmin){
+          navigate("/admin/dashboard");
+        }
         alert(response.data.message);
       } else {
         console.log("Login failed");
@@ -28,7 +36,7 @@ const Login = () => {
   };
 
   return (
-    <div className="relative flex justify-center items-center h-screen">
+    <div className="relative flex justify-center items-center h-[90vh]">
       {/* Full-Screen Blurred Background Image */}
       <div
         className="absolute inset-0 bg-cover bg-center"
@@ -40,7 +48,7 @@ const Login = () => {
       ></div>
 
       {/* Login Form */}
-      <div className="relative z-10 h-[500px] w-[400px] bg-transparent p-8 rounded-2xl shadow-2xl border border-gray-300 ">
+      <div className="relative z-10 h-auto w-[350px] bg-transparent p-8 rounded-2xl shadow-2xl border border-gray-300 ">
         <h2 className="text-3xl font-bold text-orange-400 text-left mb-6">Login</h2>
 
         {/* Role Toggle Switch */}
@@ -77,29 +85,31 @@ const Login = () => {
         {/* Form */}
         <form onSubmit={(e) => e.preventDefault()} className="flex flex-col">
           <div className="mb-4">
-            <label className="block text-white font-semibold">Email:</label>
+            {/* <label className="block text-white font-semibold">Email:</label> */}
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter Email"
               required
-              className="w-full p-3 bg-gray-100 text-gray-700 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-orange-500 transition"
+              className="w-full p-2 bg-gray-100 text-gray-700 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-orange-500 transition placeholder:font-bold placeholder:text-gray-500"
             />
           </div>
           <div className="mb-6">
-            <label className="block text-white font-semibold">Password:</label>
+            {/* <label className="block text-white font-semibold">Password:</label> */}
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter Password"
               required
-              className="w-full p-3 bg-gray-100 text-gray-700 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-orange-500 transition"
+              className="w-full p-2 bg-gray-100 text-gray-700 border border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-orange-500 transition placeholder:font-bold placeholder:text-gray-500"
             />
           </div>
           <button
             type="submit"
             onClick={handleLogin}
-            className="w-full py-3 bg-orange-500 text-white font-semibold rounded-full hover:bg-orange-600 transition mt-6"
+            className="w-full py-2 bg-orange-500 text-white font-semibold rounded-full hover:bg-orange-600 transition mt-6"
           >
             Login
           </button>

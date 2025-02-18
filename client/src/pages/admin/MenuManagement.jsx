@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const AdminDashboard = ({ email }) => {
+const MenuManagement = ({ email }) => {
   const [restaurant, setRestaurant] = useState(null);
   const [section, setSection] = useState("");
   const [items, setItems] = useState([{ name: "", price: "" }]);
@@ -29,18 +29,19 @@ const AdminDashboard = ({ email }) => {
   };
 
   return (
-    <div>
-      <h1>Welcome, {restaurant?.adminName}</h1>
-      <h2>{restaurant?.restaurantName}</h2>
-      <form onSubmit={handleAddMenu}>
+    <div className="h-screen p-6 overflow-auto bg-white shadow-md rounded-lg">
+      <h1 className="text-xl font-bold">Welcome, {restaurant?.adminName}</h1>
+      <h2 className="text-lg">{restaurant?.restaurantName}</h2>
+      <form onSubmit={handleAddMenu} className="mt-4">
         <input
           type="text"
           placeholder="Section Name"
           value={section}
           onChange={(e) => setSection(e.target.value)}
+          className="border p-2 rounded w-full mb-2"
         />
         {items.map((item, index) => (
-          <div key={index}>
+          <div key={index} className="flex gap-2 mb-2">
             <input
               type="text"
               placeholder="Item Name"
@@ -50,6 +51,7 @@ const AdminDashboard = ({ email }) => {
                 newItems[index].name = e.target.value;
                 setItems(newItems);
               }}
+              className="border p-2 rounded w-full"
             />
             <input
               type="text"
@@ -60,16 +62,23 @@ const AdminDashboard = ({ email }) => {
                 newItems[index].price = e.target.value;
                 setItems(newItems);
               }}
+              className="border p-2 rounded w-full"
             />
           </div>
         ))}
-        <button type="button" onClick={() => setItems([...items, { name: "", price: "" }])}>
+        <button
+          type="button"
+          onClick={() => setItems([...items, { name: "", price: "" }])}
+          className="bg-blue-500 text-white p-2 rounded mr-2"
+        >
           Add Item
         </button>
-        <button type="submit">Add Section</button>
+        <button type="submit" className="bg-green-500 text-white p-2 rounded">
+          Add Section
+        </button>
       </form>
     </div>
   );
 };
 
-export default AdminDashboard;
+export default MenuManagement;

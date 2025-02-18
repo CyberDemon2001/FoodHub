@@ -1,6 +1,4 @@
-// import { response } from 'express'
-const express = require('express');
-// const { response } = require('express');
+// const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const UserSchema = require('../models/UserSchema');
@@ -9,7 +7,6 @@ const AdminSchema = require('../models/AdminSchema');
 // Login Controller
 const Login = async (req, res) => {
     const { email, password, isAdmin } = req.body;
-
     // Validate request body
     if (!email || !password) {
         return res.status(400).json({ message: 'Email and password are required' });
@@ -30,8 +27,9 @@ const Login = async (req, res) => {
             }
 
             // Generate JWT for admin
-            const token = jwt.sign({ id: admin._id, email: admin.email, isAdmin: true }, process.env.JWT_SECRET, { expiresIn: '1h' });
-            return res.status(200).json({ token, message: 'Admin login successful' });
+            const token = jwt.sign({ id: admin._id, email: admin.email, isAdmin: true, name: admin.name }, process.env.JWT_SECRET, { expiresIn: '1h' });
+            return res.status(200).json({ token, name:admin.name, message: 'Admin login successful' });
+
         } else {
             // Check if email exists in User collection
             const user = await UserSchema.findOne({ email });
