@@ -6,14 +6,14 @@ const AdminSchema = require('../models/AdminSchema');
 
 // Login Controller
 const Login = async (req, res) => {
-    const { email, password, isAdmin } = req.body;
+    const { email, password, role } = req.body;
     // Validate request body
     if (!email || !password) {
         return res.status(400).json({ message: 'Email and password are required' });
     }
 
     try {
-        if (isAdmin) {
+        if (role==="admin") {
             // Check if email exists in Admin collection
             const admin = await AdminSchema.findOne({ email });
             if (!admin) {
@@ -28,12 +28,12 @@ const Login = async (req, res) => {
 
             // Generate JWT for admin
             const token = jwt.sign({ id: admin._id, email: admin.email, isAdmin: true, name: admin.name }, process.env.JWT_SECRET, { expiresIn: '1h' });
-            return res.status(200).json({ token, name:admin.name, message: 'Admin login successful' });
+            return res.status(200).json({ token, name:admin.name,id:admin._id, message: 'Admin login successful' });
 
         } else {
             // Check if email exists in User collection
             const user = await UserSchema.findOne({ email });
-            if (!user) {
+            if (!role=="student") {
                 return res.status(400).json({ message: 'User does not exist' }); // Specific error for user
             }
 

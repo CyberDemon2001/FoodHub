@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
-import backgroundImage from "../../assets/background.jpg"; // Use your background image path
+import backgroundImage from "../../assets/bg.jpg"; // Use your background image path
+import { useNavigate } from "react-router-dom";
 
 const AdminSignup = () => {
   const [formData, setFormData] = useState({
@@ -13,6 +14,7 @@ const AdminSignup = () => {
     confirmPassword: "",
   });
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,6 +32,9 @@ const AdminSignup = () => {
     try {
       const response = await axios.post("http://localhost:5000/api/admin/signup", formData);
       alert(response.data.message);
+      // console.log(response.data);
+      navigate('/login');
+      
     } catch (err) {
       setError(err.response?.data?.message || "Registration failed! Please try again.");
     }

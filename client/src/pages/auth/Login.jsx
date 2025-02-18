@@ -1,29 +1,32 @@
 import React, { useState } from "react";
 import axios from "axios";
 import backgroundImage from "../../assets/background.jpg"; // Use your background image path
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [role, setRole] = useState("student"); // Default role is "student"
   const navigate = useNavigate();
 
   const handleLogin = async () => {
-    console.log({ email, password, isAdmin });
+    console.log({ email, password, role });
 
     try {
       const response = await axios.post("http://localhost:5000/api/login", {
         email,
         password,
-        isAdmin,
+        role,
       });
       if (response.status === 200) {
-        const { token, name } = response.data;
+        const { token, name, id } = response.data;
         console.log("Login successful:", response.data);
-        localStorage.setItem("user", JSON.stringify({ name, token }));
-        if(isAdmin){
-          navigate("/admin/dashboard");
+        localStorage.setItem("user", JSON.stringify({ name, token, id, role }));
+
+        if (role === "admin") {
+          navigate(`/admin/dashboard/${id}`);
+        } else {
+          navigate(`/user/dashboard/${id}`);
         }
         alert(response.data.message);
       } else {
@@ -54,19 +57,19 @@ const Login = () => {
         {/* Role Toggle Switch */}
         <div
           className="relative w-full h-12 border-2 border-gray-400 bg-gray-200 rounded-full flex items-center mb-6 cursor-pointer p-1 transition-all"
-          onClick={() => setIsAdmin(!isAdmin)}
+          onClick={() => setRole(role === "student" ? "admin" : "student")}
         >
           {/* Sliding Background */}
           <div
             className={`absolute top-1 bottom-1 w-1/2 rounded-full transition-all ${
-              isAdmin ? "translate-x-full bg-orange-400" : "translate-x-0 bg-orange-500"
+              role === "admin" ? "translate-x-full bg-orange-400" : "translate-x-0 bg-orange-500"
             }`}
           ></div>
 
           {/* Student Role */}
           <span
             className={`w-1/2 text-center font-semibold transition-all relative z-10 ${
-              !isAdmin ? "text-white" : "text-gray-700"
+              role === "student" ? "text-white" : "text-gray-700"
             }`}
           >
             User
@@ -75,7 +78,7 @@ const Login = () => {
           {/* Admin Role */}
           <span
             className={`w-1/2 text-center font-semibold transition-all relative z-10 ${
-              isAdmin ? "text-white" : "text-gray-700"
+              role === "admin" ? "text-white" : "text-gray-700"
             }`}
           >
             Admin
@@ -85,7 +88,6 @@ const Login = () => {
         {/* Form */}
         <form onSubmit={(e) => e.preventDefault()} className="flex flex-col">
           <div className="mb-4">
-            {/* <label className="block text-white font-semibold">Email:</label> */}
             <input
               type="email"
               value={email}
@@ -96,7 +98,6 @@ const Login = () => {
             />
           </div>
           <div className="mb-6">
-            {/* <label className="block text-white font-semibold">Password:</label> */}
             <input
               type="password"
               value={password}

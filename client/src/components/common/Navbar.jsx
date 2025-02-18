@@ -3,10 +3,17 @@ import { useNavigate } from "react-router-dom";
 import logo from "../../assets/logo.png";
 
 const Navbar = () => {
+
+  const user = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
 
+  const clickLogout=()=>{
+    localStorage.removeItem("user")
+    navigate("./login");
+  }
+
   return (
-    <nav className="h-[10vh] bg-orange-400 flex justify-between items-center px-6">
+    <nav className="h-[10vh] bg-orange-500 flex justify-between items-center px-6">
       {/* Logo & Text Container */}
       <div
         className="flex items-center gap-4 h-full"
@@ -40,9 +47,11 @@ const Navbar = () => {
         </li>
       </ul>
       <div className="font-bold leading-5 text-center">
-        <span className=" text-lg">Raman Cauhan</span>
-        <br></br>
-        <span className="text-gray-300">Admin</span></div>
+        {/* <span className=" text-lg">Welcome,{user.name}</span> */}
+        {/* <br></br> */}
+        {/* <span className="text-gray-300">{user.role}</span> */}
+        </div>
+        <button onClick={clickLogout}>Logout</button>
     </nav>
   );
 };
