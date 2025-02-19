@@ -1,17 +1,17 @@
 const express = require("express");
 const { Signup } = require("../controllers/AdminController");
-const { RestaurantController } = require("../controllers/RestaurantController");
+const { getRestaurant } = require("../controllers/RestaurantController");
+const { addMenuSection } = require("../controllers/MenuController");
+
 const router = express.Router();
-const {MenuController}=require('../controllers/MenuController');
 
 // POST route for admin sign up
 router.post("/signup", Signup);
 
-// Get Restaurant Details
-router.get("/restaurant/:email", RestaurantController);
+// ✅ Corrected: Get Restaurant Details by Name
+router.get("/restaurant/:id", getRestaurant);
 
-// Add Menu Section
-router.post("/restaurant/:email/menu", MenuController);
+// ✅ Corrected: Add Menu Section by Restaurant Name
+router.post("/restaurant/:id/menu", addMenuSection);
 
-// Export the router using CommonJS
 module.exports = router;

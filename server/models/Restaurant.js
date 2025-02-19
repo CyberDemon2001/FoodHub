@@ -6,17 +6,18 @@ const RestaurantSchema = new mongoose.Schema({
     ref: "Admin", // References Admin collection
     required: true,
     unique: true, // Ensures one admin per restaurant
+    index: true,
   },
   adminName: { type: String, required: true },
   email: { type: String, required: true, unique: true }, // Unique to prevent duplicate admin entries
-  restaurantName: { type: String, required: true, unique: true }, // Ensures unique restaurant names
+  restaurantName: { type: String, required: true, unique: true, index:true }, // Ensures unique restaurant names
   menu: [
     {
       section: { type: String, required: true },
       items: [
         {
           name: { type: String, required: true },
-          price: { type: Number, required: true },
+          price: { type: Number, required: true, min: 0 },
         },
       ],
     },

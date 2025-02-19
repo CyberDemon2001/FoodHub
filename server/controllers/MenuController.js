@@ -1,23 +1,28 @@
-const Restaurant=require('../models/Restaurant');
+const RestaurantSchema = require("../models/Restaurant");
 
+const addMenuSection = async (req, res) => {
+  try {
+    const { section, items } = req.body;
 
-const MenuController=async (req, res) => {
-    try {
-      const { email } = req.params;
-      const { section, items } = req.body;
-  
-      const restaurant = await Restaurant.findOne({ email });
-      if (!restaurant) {
-        return res.status(404).json({ message: "Restaurant not found" });
-      }
-  
-      restaurant.menu.push({ section, items });
-      await restaurant.save();
-  
-      res.status(201).json({ message: "Menu section added successfully!" });
-    } catch (error) {
-      res.status(500).json({ error: error.message });
+    if (!section || !items || !Array.isArray(items) || items.length === 0) {
+      return res.status(400).json({ error: "Invalid input data" });
     }
-  }
 
-  module.exports={MenuController};
+    const restaurant = await RestaurantSchema.findOneAndUpdate(
+      { adminId: req.params.id },
+      { $push: { menu: { section, items } } },
+      { new: true }
+    );
+
+    if (!restaurant) {
+      return res.status(404).json({ error: "Restaurant not found" });
+    }
+
+    res.json({ message: "Menu section added successfully!", restaurant });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+module.exports = { addMenuSection };
