@@ -31,7 +31,7 @@ function Content() {
     <>
       {/* Swiper Carousel */}
       {/*absolute top-0 left-0 w-full h-[60vh] -z-10 */}
-      <div className="pt-20 px-10 h-[80vh]">
+      <div className=" px-10 h-[80vh]">
         <Swiper
           modules={[Navigation, Pagination, Autoplay]}
           navigation
