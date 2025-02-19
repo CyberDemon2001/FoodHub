@@ -24,7 +24,7 @@ const Login = () => {
         localStorage.setItem("user", JSON.stringify({ name, token, id, role }));
 
         if (role === "admin") {
-          navigate(`/admin/dashboard/${id}`);
+          navigate(`/admin/${id}/dashboard`);
         } else {
           navigate(`/user/dashboard/${id}`);
         }

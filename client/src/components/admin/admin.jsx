@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, Route, Routes, Navigate, useLocation } from "react-router-dom";
+import { Link, Route, Routes, Navigate, useLocation, useParams } from "react-router-dom";
 import AdminDashboard from "../../pages/admin/AdminDashboard";
 import Analytics from "../../pages/admin/Analytics";
 import MenuManagement from "../../pages/admin/MenuManagement";
@@ -8,9 +8,12 @@ import Settings from "../../pages/admin/Settings";
 import Reviews from "../../pages/admin/Reviews";
 import Customers from "../../pages/admin/Customers";
 
+
 const Admin = () => {
+  const {id} = useParams();
   const location = useLocation();
   const activeSection = location.pathname.split("/").pop(); // Get the last part of the URL
+  // const activeSection = location.pathname.replace("/admin/", ""); 
 
   const menuItems = [
     { name: "Dashboard", path: "dashboard", icon: "fa-solid fa-house" },
@@ -34,7 +37,7 @@ const Admin = () => {
               className={`text-lg pl-4 py-1${
                 activeSection === path ? "text-black font-bold bg-orange-400" : "text-gray-700 hover:text-black"}`}>
               <Link
-                to={`/admin/${path}`}
+                to={`/admin/${id}/${path}`}
                 className="flex items-center gap-3">
                 <i className={`${icon} text-gray-700`}></i>
                 <span>{name}</span>
@@ -52,7 +55,8 @@ const Admin = () => {
       <div className="overflow-y-auto flex-1 p-6 custom-scrollbar">
         <Routes>
           {/* Redirect /admin to /admin/dashboard */} 
-          <Route path="" element={<Navigate to="dashboard" replace />} />
+          {/* <Route path="" element={<Navigate to="dashboard" replace />} /> */}
+          <Route path="" element={<Navigate to={`/admin/${id}/dashboard`} replace />} />
 
           <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="orders" element={<Orders />} />

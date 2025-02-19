@@ -13,7 +13,7 @@ const Navbar = () => {
   }
 
   return (
-    <nav className="h-[10vh] bg-orange-500 flex justify-between items-center px-6">
+    <nav className="fixed z-10 bg-black text-orange-500 w-[100vw] h-[10vh] backdrop-blur-sm shadow-xl flex justify-between items-center px-6">
       {/* Logo & Text Container */}
       <div
         className="flex items-center gap-4 h-full"
@@ -46,12 +46,12 @@ const Navbar = () => {
           Admin<br></br>Signup
         </li>
       </ul>
-      <div className="font-bold leading-5 text-center">
+      {/* <div className="font-bold leading-5 text-center"> */}
         {/* <span className=" text-lg">Welcome,{user.name}</span> */}
         {/* <br></br> */}
         {/* <span className="text-gray-300">{user.role}</span> */}
-        </div>
-        <button onClick={clickLogout}>Logout</button>
+        {/* </div> */}
+        {/* <button onClick={clickLogout}>Logout</button> */}
     </nav>
   );
 };

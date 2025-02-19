@@ -3,6 +3,12 @@
 .custom-scrollbar::-webkit-scrollbar {
     display: none;
   }
+
+body{
+  background-color:black;
+  margin:0;
+  padding:0;
+}
   
   /* Hide scrollbar for Firefox */
   /* .custom-scrollbar {

@@ -30,14 +30,15 @@ function Content() {
   return (
     <>
       {/* Swiper Carousel */}
-      <div className="h-[60vh] w-screen bg-black">
+      {/*absolute top-0 left-0 w-full h-[60vh] -z-10 */}
+      <div className="pt-20 px-10 h-[80vh]">
         <Swiper
           modules={[Navigation, Pagination, Autoplay]}
           navigation
           pagination={{ clickable: true }}
-          autoplay={{ delay: 3000 }}
+          autoplay={{ delay: 2000 }}
           loop={true}
-          className="h-full w-full "
+          className="h-full w-full"
         >
           <SwiperSlide>
             <img
@@ -64,12 +65,19 @@ function Content() {
       </div>
 
       {/* Grid Section */}
-      <h1 className="px-6 py-3 font-bold text-xl ">We Deliver</h1>
-      <div className="grid gap-8 px-10 grid-cols-4 grid-rows-2 h-[90vh]">
-        <div className="border-1 border-black">fdjsm</div>
-        <div className="border-1 border-black">sdfdsf</div>
-        <div className="border-1 border-black">dsfds</div>
-        <div className="border-1 border-black">dsf</div>
+      <h1 className="py-5 text-orange-500 font-bold text-2xl text-center">Recipes By Restaurant</h1>
+      <div className="grid gap-8 px-10 grid-cols-4 text-orange-500 font-bold grid-rows-1 h-70">
+        <div className="border-1  border-orange-500">fdjsm</div>
+        <div className="border-1 border-orange-500">sdfdsf</div>
+        <div className="border-1 border-orange-500">dsfds</div>
+        <div className="border-1 border-orange-500">dsf</div>
+      </div>
+      <h1 className="py-5 text-orange-500 font-bold text-2xl text-center">Recipes By Categories</h1>
+      <div className="grid gap-8 px-10 mb-10 grid-cols-4 text-orange-500 font-bold grid-rows-1 h-60">
+        <div className="border-1  border-orange-500">fdjsm</div>
+        <div className="border-1 border-orange-500">sdfdsf</div>
+        <div className="border-1 border-orange-500">dsfds</div>
+        <div className="border-1 border-orange-500">dsf</div>
       </div>
     </>
   );
