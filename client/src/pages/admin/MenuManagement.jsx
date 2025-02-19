@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+const API_BASE_URL = "http://localhost:5000/api/admin/restaurant";
 
 const MenuManagement = ({ adminId }) => {
   const [restaurant, setRestaurant] = useState(null);
   const [section, setSection] = useState("");
   const [items, setItems] = useState([{ name: "", price: "" }]);
-  const [loading, setLoading] = useState(false); // Loading state
-  const [error, setError] = useState(""); // Error state
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    console.log("AdminId:", adminId); // Debugging check
     if (adminId) {
       fetchRestaurant();
     }
@@ -18,52 +21,72 @@ const MenuManagement = ({ adminId }) => {
   const fetchRestaurant = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`http://localhost:5000/api/admin/restaurant/${adminId}`);
+      const response = await axios.get(`${API_BASE_URL}/${adminId}`);
       setRestaurant(response.data);
-      console.log("Menu Data:", response.data.menu); // Debugging menu data
     } catch (error) {
       console.error("Error fetching restaurant:", error.response?.data || error.message);
       setError(error.response?.data?.message || "Failed to fetch restaurant details");
+      toast.error("Failed to fetch restaurant details");
     } finally {
       setLoading(false);
     }
   };
 
-  const handleAddMenu = async (e) => {
-    e.preventDefault();
-    setError(""); // Reset error message
-
-    // Validate Inputs
+  const validateInputs = () => {
     if (!adminId) {
       setError("Admin ID is missing! Please refresh the page.");
-      return;
+      return false;
     }
     if (!section.trim()) {
       setError("Section name cannot be empty!");
-      return;
+      return false;
     }
-    if (items.some(item => !item.name.trim() || !item.price || item.price <= 0)) {
+    if (items.some((item) => !item.name.trim() || !item.price || item.price <= 0)) {
       setError("Please fill out all item fields correctly!");
-      return;
+      return false;
     }
+    return true;
+  };
+
+  const handleAddMenu = async (e) => {
+    e.preventDefault();
+    setError("");
+
+    if (!validateInputs()) return;
 
     try {
       setLoading(true);
-      await axios.post(`http://localhost:5000/api/admin/restaurant/${adminId}/menu`, {
-        section,
-        items: items.map(item => ({ name: item.name, price: Number(item.price) })),
-      });
 
-      alert("Menu section added successfully!");
+      const existingSection = restaurant?.menu?.find((menuSection) => menuSection.section === section);
+
+      if (existingSection) {
+        await axios.put(`${API_BASE_URL}/${adminId}/menu/${existingSection._id}`, {
+          items: items.map((item) => ({ name: item.name, price: Number(item.price) })),
+        });
+        toast.success("Items added to the existing section successfully!");
+      } else {
+        await axios.post(`${API_BASE_URL}/${adminId}/menu`, {
+          section,
+          items: items.map((item) => ({ name: item.name, price: Number(item.price) })),
+        });
+        toast.success("New menu section added successfully!");
+      }
+
       fetchRestaurant(); // Refresh menu
       setSection("");
       setItems([{ name: "", price: "" }]);
     } catch (error) {
       console.error("Error adding menu:", error.response?.data || error.message);
       setError(error.response?.data?.error || "Failed to add menu section");
+      toast.error("Failed to add menu section");
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleRemoveItem = (index) => {
+    const newItems = items.filter((_, i) => i !== index);
+    setItems(newItems);
   };
 
   return (
@@ -74,7 +97,7 @@ const MenuManagement = ({ adminId }) => {
       {error && <p className="text-red-500">{error}</p>}
       {loading && <p className="text-gray-500">Loading...</p>}
 
-      {/* ✅ Display Existing Menu */}
+      {/* Display Existing Menu */}
       <div className="mt-6">
         <h3 className="text-lg font-bold mb-2">Menu</h3>
         {restaurant?.menu && restaurant.menu.length > 0 ? (
@@ -96,15 +119,22 @@ const MenuManagement = ({ adminId }) => {
         )}
       </div>
 
-      {/* ✅ Form to Add New Menu Section */}
+      {/* Form to Add New Menu Section */}
       <form onSubmit={handleAddMenu} className="mt-4">
         <input
           type="text"
           placeholder="Section Name"
           value={section}
           onChange={(e) => setSection(e.target.value)}
+          list="sections"
           className="border p-2 rounded w-full mb-2"
+          disabled={loading}
         />
+        <datalist id="sections">
+          {restaurant?.menu?.map((menuSection, index) => (
+            <option key={index} value={menuSection.section} />
+          ))}
+        </datalist>
         {items.map((item, index) => (
           <div key={index} className="flex gap-2 mb-2">
             <input
@@ -117,6 +147,7 @@ const MenuManagement = ({ adminId }) => {
                 setItems(newItems);
               }}
               className="border p-2 rounded w-full"
+              disabled={loading}
             />
             <input
               type="number"
@@ -124,17 +155,27 @@ const MenuManagement = ({ adminId }) => {
               value={item.price}
               onChange={(e) => {
                 const newItems = [...items];
-                newItems[index].price = Math.max(0, Number(e.target.value)); // Prevent negative prices
+                newItems[index].price = Math.max(0, Number(e.target.value));
                 setItems(newItems);
               }}
               className="border p-2 rounded w-full"
+              disabled={loading}
             />
+            <button
+              type="button"
+              onClick={() => handleRemoveItem(index)}
+              className="bg-red-500 text-white p-2 rounded"
+              disabled={loading}
+            >
+              Remove
+            </button>
           </div>
         ))}
         <button
           type="button"
           onClick={() => setItems([...items, { name: "", price: "" }])}
           className="bg-blue-500 text-white p-2 rounded mr-2"
+          disabled={loading}
         >
           Add Item
         </button>
