@@ -28,40 +28,37 @@ const Navbar = () => {
         {/* Student Links */}
         {user && user.role === "student" && (
           <>
-          <li className="cursor-pointer hover:text-white" onClick={() => navigate("/")}>Home</li>
-            <li className="cursor-pointer hover:text-white" onClick={() => navigate("/student/orders")}>Orders</li>
-            <li className="cursor-pointer hover:text-white" onClick={() => navigate("/student/profile")}>Profile</li>
+          <li className="cursor-pointer list-none hover:text-white" onClick={() => navigate("/")}>Home</li>
+            <li className="cursor-pointer list-none hover:text-white" onClick={() => navigate("/student/orders")}>Orders</li>
+            <li className="cursor-pointer list-none hover:text-white" onClick={() => navigate("/student/profile")}>Profile</li>
           </>
         )}
 
         {/* Admin Links */}
-        {/* {user && user.role === "admin" && (
+        {user && user.role === "admin" && (
           <>
-            <li className="cursor-pointer hover:text-white" onClick={() => navigate(`/admin/${user.restaurantId}/dashboard`)}>Dashboard</li>
-            <li className="cursor-pointer hover:text-white" onClick={() => navigate(`/admin/${user.restaurantId}/menu`)}>Menu</li>
-          </>
-        )} */}
-
-        {/* Show Login/Signup only if no user */}
-        {!user && (
-          <>
-            <li className="cursor-pointer hover:text-white" onClick={() => navigate("/login")}>Login</li>
-            <li className="cursor-pointer hover:text-white" onClick={() => navigate("/user/signup")}>User Signup</li>
-            <li className="cursor-pointer hover:text-white" onClick={() => navigate("/admin/signup")}>Admin Signup</li>
+            {/* <li className="cursor-pointer hover:text-white" onClick={() => navigate(`/admin/${user.restaurantId}/dashboard`)}>Dashboard</li> */}
+            {/* <li className="cursor-pointer hover:text-white" onClick={() => navigate(`/admin/${user.restaurantId}/menu`)}>Menu</li> */}
           </>
         )}
 
       {/* User Profile / Logout Section */}
-      {user && (
+      {user? (
         <div className="flex items-center gap-6">
           <div className="font-bold text-right">
             <p className="text-white">Welcome, {user.name}</p>
-            {/* <p className="text-sm text-gray-200 capitalize">{user.role}</p> */}
+            <p className="text-sm text-gray-200 capitalize">{user.role}</p>
           </div>
           <button onClick={clickLogout} className="bg-white text-orange-500 px-4 py-1 rounded hover:bg-gray-100">
             Logout
           </button>
         </div>
+      ):(
+        <>
+            <li className="cursor-pointer hover:text-white" onClick={() => navigate("/login")}>Login</li>
+            <li className="cursor-pointer hover:text-white" onClick={() => navigate("/user/signup")}>User Signup</li>
+            <li className="cursor-pointer hover:text-white" onClick={() => navigate("/admin/signup")}>Admin Signup</li>
+          </>
       )}
     </nav>
   );
