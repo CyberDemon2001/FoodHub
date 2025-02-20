@@ -28,9 +28,9 @@ const Navbar = () => {
         {/* Student Links */}
         {user && user.role === "student" && (
           <>
-          <li className="cursor-pointer list-none hover:text-white" onClick={() => navigate("/")}>Home</li>
+          {/* <li className="cursor-pointer list-none hover:text-white" onClick={() => navigate("/")}>Home</li>
             <li className="cursor-pointer list-none hover:text-white" onClick={() => navigate("/student/orders")}>Orders</li>
-            <li className="cursor-pointer list-none hover:text-white" onClick={() => navigate("/student/profile")}>Profile</li>
+            <li className="cursor-pointer list-none hover:text-white" onClick={() => navigate("/student/profile")}>Profile</li> */}
           </>
         )}
 
