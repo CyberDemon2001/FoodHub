@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, Route, Routes, Navigate, useLocation, useParams } from "react-router-dom";
+import { Link, Route, Routes, Navigate, useLocation, useParams, useNavigate } from "react-router-dom";
 import AdminDashboard from "../../pages/admin/AdminDashboard";
 import Analytics from "../../pages/admin/Analytics";
 import MenuManagement from "../../pages/admin/MenuManagement";
@@ -11,7 +11,10 @@ import Customers from "../../pages/admin/Customers";
 const Admin = () => {
   const { id } = useParams(); // Extract restaurant ID from URL
   const location = useLocation();
-  const activeSection = location.pathname.split("/").pop(); // Get the last part of the URL
+  const navigate = useNavigate();
+
+  // Get the active section from the URL
+  const activeSection = location.pathname.split("/").pop();
 
   const menuItems = [
     { name: "Dashboard", path: "dashboard", icon: "fa-house" },
@@ -25,8 +28,9 @@ const Admin = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("user"); // Clear additional user data if any
     alert("Logged out successfully!");
-    window.location.href = "/login";
+    navigate("/login"); // Use navigate for programmatic navigation
   };
 
   return (
@@ -41,8 +45,9 @@ const Admin = () => {
                 className={`flex items-center gap-3 px-4 py-2 rounded-md ${
                   activeSection === path ? "text-white font-bold bg-orange-500" : "text-gray-700 hover:bg-gray-200"
                 }`}
+                aria-label={`Navigate to ${name}`}
               >
-                <i className={`fa-solid ${icon} text-inherit`}></i> {/* Ensuring text color matches */}
+                <i className={`fa-solid ${icon} text-inherit`}></i>
                 <span>{name}</span>
               </Link>
             </li>
@@ -51,6 +56,8 @@ const Admin = () => {
           <li
             className="cursor-pointer flex items-center gap-3 px-4 py-2 rounded-md text-gray-700 hover:bg-red-400 hover:text-white"
             onClick={handleLogout}
+            role="button"
+            aria-label="Logout"
           >
             <i className="fa-solid fa-power-off text-inherit"></i>
             <span>Logout</span>
@@ -60,7 +67,12 @@ const Admin = () => {
         {/* Help Section */}
         <div className="mt-10 text-center">
           <h1 className="text-gray-600">Having Trouble?</h1>
-          <button className="mt-2 px-6 py-2 text-white rounded-3xl bg-orange-500">Contact Us</button>
+          <button
+            className="mt-2 px-6 py-2 text-white rounded-3xl bg-orange-500"
+            aria-label="Contact Us"
+          >
+            Contact Us
+          </button>
         </div>
       </aside>
 
@@ -70,7 +82,7 @@ const Admin = () => {
           <Route path="" element={<Navigate to={id ? `/admin/${id}/dashboard` : "/admin"} replace />} />
           <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="orders" element={<Orders />} />
-          <Route path="menu" element={<MenuManagement adminId={id} />} /> {/* Passed restaurantName */}
+          <Route path="menu" element={<MenuManagement adminId={id} />} />
           <Route path="customers" element={<Customers />} />
           <Route path="reviews" element={<Reviews />} />
           <Route path="analytics" element={<Analytics />} />
