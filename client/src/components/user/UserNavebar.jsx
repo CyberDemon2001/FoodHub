@@ -2,6 +2,8 @@ import React from "react";
 import { Link, Route, Routes, Navigate, useLocation, useParams, useNavigate } from "react-router-dom";
 import StudentDashboard from "../../pages/user/StudentDashboard";
 import Menu from "../../pages/user/Menu";
+import Profile from "../../pages/user/Profile";
+import Cart from "../../pages/user/Cart";
 
 const Student = () => {
   const { id } = useParams(); 
@@ -12,8 +14,10 @@ const Student = () => {
   const activeSection = location.pathname.split("/").pop();
 
   const menuItems = [
-    { name: "Dashboard", path: "dashboard", icon: "fa-house" },
-    { name: "Menu", path: "menu", icon: "fa-book" },
+    { name: "Dashboard", path: "dashboard", icon: "fa-solid fa-house" },
+    { name: "Menu", path: "menu", icon: "fa-solid fa-utensils" },
+    {name:"Cart",path:"cart",icon:"fa-solid fa-cart-shopping"},
+    {name:"Profile",path:"profile",icon:"fa-solid fa-user"},
    
   ];
 
@@ -38,7 +42,7 @@ const Student = () => {
                 }`}
                 aria-label={`Navigate to ${name}`}
               >
-                <i className={`fa-solid ${icon} text-inherit`}></i>
+                <i className={`${icon} text-inherit`}></i>
                 <span>{name}</span>
               </Link>
             </li>
@@ -73,6 +77,9 @@ const Student = () => {
           <Route path="" element={<Navigate to={id ? `/user/${id}/dashboard` : "/student"} replace />} />
           <Route path="dashboard" element={<StudentDashboard />} />
           <Route path="menu" element={<Menu />} />
+          <Route path="cart" element={<Cart />}/>
+          <Route path="profile" element={<Profile />}/>
+
         </Routes>
       </div>
     </div>
