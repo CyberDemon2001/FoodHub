@@ -12,11 +12,11 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-black text-orange-500 w-full h-[10vh] shadow-xl flex justify-between items-center px-6">
+    <nav className="bg-gray-900 text-orange-500 w-full h-[10vh] shadow-xl flex justify-between items-end px-18">
       {/* Logo & Home Navigation */}
-      <div className="flex items-center gap-4 h-full cursor-pointer" onClick={() => navigate("/")}>
-        <img src={logo} alt="FOODHUB" className="h-full py-1" />
-        <div>
+      <div className="flex items-end gap-4 h-full cursor-pointer" onClick={() => navigate("/")}>
+        <img src={logo} alt="FOODHUB" className="h-full py-2" />
+        <div className="pb-2">
           <h1 className="font-bold mt-2 text-2xl font-[cursive] leading-5">FOODHUB</h1>
           <h2 className="text-sm">Food For Your Soul...</h2>
         </div>
@@ -54,11 +54,11 @@ const Navbar = () => {
           </button>
         </div>
       ):(
-        <>
+        <ul className="list-none flex text-xl gap-8 pb-2">
             <li className="cursor-pointer hover:text-white" onClick={() => navigate("/login")}>Login</li>
             <li className="cursor-pointer hover:text-white" onClick={() => navigate("/user/signup")}>User Signup</li>
             <li className="cursor-pointer hover:text-white" onClick={() => navigate("/admin/signup")}>Admin Signup</li>
-          </>
+          </ul>
       )}
     </nav>
   );
