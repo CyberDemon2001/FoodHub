@@ -55,9 +55,9 @@ const Navbar = () => {
         </div>
       ):(
         <>
-            <li className="cursor-pointer hover:text-white" onClick={() => navigate("/login")}>Login</li>
-            <li className="cursor-pointer hover:text-white" onClick={() => navigate("/user/signup")}>User Signup</li>
-            <li className="cursor-pointer hover:text-white" onClick={() => navigate("/admin/signup")}>Admin Signup</li>
+            <li className="cursor-pointer list-none hover:text-white" onClick={() => navigate("/login")}>Login</li>
+            <li className="cursor-pointer list-none hover:text-white" onClick={() => navigate("/user/signup")}>User Signup</li>
+            <li className="cursor-pointer list-none hover:text-white" onClick={() => navigate("/admin/signup")}>Admin Signup</li>
           </>
       )}
     </nav>
