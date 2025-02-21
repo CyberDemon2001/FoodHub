@@ -20,7 +20,7 @@ const AdminDashboard = () => {
             Total Customers<br></br>9040
           </button>
           <button className="bg-orange-600 rounded-lg text-center text-white shadow font-bold text-lg hover:bg-orange-700">
-            Total Revenue <br></br>$9040
+            Total Revenue <br></br>₹9040
           </button>
         </div>
 

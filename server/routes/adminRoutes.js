@@ -1,14 +1,16 @@
 const express = require("express");
 const { Signup } = require("../controllers/AdminController");
-const { getRestaurant } = require("../controllers/RestaurantController");
+const { getRestaurant, getAllRestaurants} = require("../controllers/RestaurantController");
 const { addMenuSection } = require("../controllers/MenuController");
 const { ExistingSection } = require("../controllers/ExistingSectionController");
+
 
 const router = express.Router();
 
 // POST route for admin sign up
 router.post("/signup", Signup);
 
+router.get("/", getAllRestaurants);
 // GET restaurant details by ID
 router.get("/restaurant/:id", getRestaurant);
 

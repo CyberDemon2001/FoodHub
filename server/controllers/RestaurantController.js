@@ -13,5 +13,14 @@ const getRestaurant = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+const getAllRestaurants = async(req,res)=>{
+  try{
+    const restaurant = await Restaurant.find();
+    res.json(restaurant);
+  }
+  catch(error){
+    res.status(500).json({ message: "Server error" });
+  }
+};
 
-module.exports = { getRestaurant };
+module.exports = { getRestaurant,getAllRestaurants };
