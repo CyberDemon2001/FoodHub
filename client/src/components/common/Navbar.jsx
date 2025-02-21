@@ -44,7 +44,7 @@ const Navbar = () => {
 
       {/* User Profile / Logout Section */}
       {user? (
-        <div className="flex items-center gap-6">
+        <div className="flex gap-6 items-center">
           <div className="font-bold text-right">
             <p className="text-white">Welcome, {user.name}</p>
             <p className="text-sm text-gray-200 capitalize">{user.role}</p>
@@ -54,7 +54,7 @@ const Navbar = () => {
           </button>
         </div>
       ):(
-        <ul className="list-none flex text-xl gap-8 pb-2">
+        <ul className="list-none h-full items-center flex text-xl gap-8 pb-2">
             <li className="cursor-pointer hover:text-white" onClick={() => navigate("/login")}>Login</li>
             <li className="cursor-pointer hover:text-white" onClick={() => navigate("/user/signup")}>User Signup</li>
             <li className="cursor-pointer hover:text-white" onClick={() => navigate("/admin/signup")}>Admin Signup</li>
