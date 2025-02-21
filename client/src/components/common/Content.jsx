@@ -1,5 +1,3 @@
-
-// export default Content
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -14,6 +12,10 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 function Content() {
+  const restaurants = ["fdjsm", "sdfdsf", "sdas"];
+  const items = ["fdjsm", "sdfdsf", "dsfds", "dsf"];
+  
+
   const [restaurant, setRestaurant] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -50,12 +52,14 @@ function Content() {
     <>
       {/* Swiper Carousel */}
       {/*absolute top-0 left-0 w-full h-[60vh] -z-10 */}
-      <div className="px-10 h-[80vh]">
+    
+    <div className="bg-orange-500 w-full absolute mt-20 h-[80vh]"></div>
+    <div className="border-20 mx-15 my-6 relative border-gray-900 h-[70vh]">
         <Swiper
           modules={[Navigation, Pagination, Autoplay]}
           navigation
           pagination={{ clickable: true }}
-          autoplay={{ delay: 2000 }}
+          autoplay={{ delay:10000000 }}
           loop={true}
           className="h-full w-full"
         >
@@ -77,27 +81,37 @@ function Content() {
             <img
               src={slide3}
               alt="Slide 3"
-              className="w-full h-full object-cover"
+              className="w-full h-full object-fit"
             />
           </SwiperSlide>
         </Swiper>
+        
       </div>
 
       {/* Grid Section */}
-      <h1 className="py-5 text-orange-500 font-bold text-2xl text-center">Recipes By Restaurant</h1>
-      <div className="grid gap-8 px-10 grid-cols-4 text-orange-500 font-bold grid-rows-1 h-70">
-        <div className="border-1  border-orange-500">fdjsm</div>
-        <div className="border-1 border-orange-500">sdfdsf</div>
-        <div className="border-1 border-orange-500">dsfds</div>
-        <div className="border-1 border-orange-500">dsf</div>
+      <div className="grid gap-20 relative px-20 grid-cols-3 font-bold grid-rows-1 h-70">
+      {
+        restaurants.map((restaurant, index)=>(
+          <div key={index} className="border-10 bg-white border-gray-900">
+            {restaurant}
+            </div>
+        ))}
       </div>
-      <h1 className="py-5 text-orange-500 font-bold text-2xl text-center">Recipes By Categories</h1>
-      <div className="grid gap-8 px-10 mb-10 grid-cols-4 text-orange-500 font-bold grid-rows-1 h-60">
-        <div className="border-1  border-orange-500">fdjsm</div>
-        <div className="border-1 border-orange-500">sdfdsf</div>
-        <div className="border-1 border-orange-500">dsfds</div>
-        <div className="border-1 border-orange-500">dsf</div>
+
+      <div className="flex items-center justify-center my-6">
+  <hr className="flex-grow border-2 border-gray-500 mx-20" />
+  <span className="text-white text-2xl font-bold">Favorite Food</span>
+  <hr className="flex-grow border-2 border-gray-500 mx-20" />
+</div>
+      <div className="grid gap-15 px-10 mb-10 grid-cols-4 text-orange-500 font-bold grid-rows-1 h-80">
+       {
+        items.map((item, index)=>(
+          <div key={index} className="border-10 bg-white border-gray-900">
+            {item}
+            </div>
+        ))}
       </div>
+      
     </>
   );
 }
