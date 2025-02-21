@@ -9,8 +9,43 @@ import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import slide1 from '../../assets/slide1.jpg';
 import slide2 from '../../assets/slide2.jpeg';
 import slide3 from '../../assets/slide3.jpeg';
+import { useEffect,useState } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 function Content() {
+  const [restaurant, setRestaurant] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  useEffect(() => {
+    const fetchRestaurant = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get("http://localhost:5000/");
+        setRestaurant(response.data);
+        console.log("Restaurant Data:", response.data);
+        console.log("Restaurant Data:", response.data.map(r => r.restaurantName));
+
+
+      } catch (error) {
+        console.error("Error fetching restaurant:", error.response?.data || error.message);
+        setError(error.response?.data?.message || "Failed to fetch restaurant details");
+        toast.error("Failed to fetch restaurant details");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchRestaurant();
+  }, []);
+
+  if (loading) {
+    return <p className="text-center text-gray-600">Loading...</p>;
+  }
+
+  if (error) {
+    return <p className="text-center text-red-500">{error}</p>;
+  }
+
   return (
     <>
       {/* Swiper Carousel */}

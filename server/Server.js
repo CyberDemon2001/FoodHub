@@ -5,6 +5,7 @@ const cors=require('cors');
 const adminRoutes = require("./routes/adminRoutes"); // CommonJS `require`
 const userRoutes = require("./routes/userRoutes"); // CommonJS `require`
 const loginRoutes = require("./routes/loginRoutes"); // CommonJS `require`
+const getAllRestaurants =require("./controllers/RestaurantController");
 
 dotenv.config(); // Load environment variables from a .env file
 
@@ -20,14 +21,12 @@ mongoose
 app.use(express.json()); // Middleware to parse JSON bodies
 app.use(cors()); // Enable CORS for cross-origin requests
 
-app.get("/", (req, res) => {
-  res.send("Welcome to FoodHub API");
-});
+app.use("/", adminRoutes);
 
 app.use("/api/admin", adminRoutes);
 app.use("/api/user", userRoutes) // Register the admin routes
 app.use('/api', loginRoutes);
-app.use("/api/restaurant", adminRoutes)
+// app.get("/", adminRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

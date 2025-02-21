@@ -108,7 +108,7 @@ const MenuManagement = ({ adminId }) => {
                 {menuSection.items.map((item, i) => (
                   <li key={i} className="flex justify-between">
                     <span>{item.name}</span>
-                    <span className="font-bold">${item.price}</span>
+                    <span className="font-bold">₹{item.price}</span>
                   </li>
                 ))}
               </ul>
