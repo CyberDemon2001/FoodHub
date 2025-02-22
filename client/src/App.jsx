@@ -9,6 +9,7 @@ import Footer from "./components/common/Footer";
 import Admin from "./components/admin/admin";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import User from "./components/user/UserNavebar";
+import RestaurantMenu from "./pages/user/RestaurantMenu";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/admin/:id/*" element={<Admin />} />
       <Route path="/user/:id/*" element={<User />}/>
+      <Route path="/restaurant/:id" element={<RestaurantMenu />}/>
     </Routes>
     <Footer />
     </>

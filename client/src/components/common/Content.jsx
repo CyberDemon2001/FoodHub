@@ -11,12 +11,14 @@ import slide4 from '../../assets/slide4.jpg';
 import slide5 from '../../assets/slide5.jpg';
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 function Content() {
   const [restaurant, setRestaurant] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [section, setSection] = useState([]);
+  const navigate=useNavigate();
 
   useEffect(() => {
     const fetchRestaurant = async () => {
@@ -27,7 +29,7 @@ function Content() {
           setRestaurant(response.data);
           console.log(response.data);
           console.log();
-          setSection(response.data[7].menu);
+          setSection(response.data[0].menu);
           console.log(section.map(s=>s.section));
         } else {
           console.error("Unexpected data format:", response.data);
@@ -43,6 +45,11 @@ function Content() {
     };
     fetchRestaurant();
   }, []);
+
+  const handleViewFullMenu=(restaurantId)=>{
+    navigate(`/restaurant/${restaurantId}`);
+  }
+
 
   if (loading) {
     return <p className="text-center text-gray-600">Loading...</p>;
@@ -89,11 +96,17 @@ function Content() {
           spaceBetween={30}
           slidesPerView={4}
           loop={true}
+          breakpoints={{
+            320:{slidesPerView:1},
+            640:{slidesPerView:2},
+            1024:{slidesPerView:4},
+          }}
         >
           {restaurant.map((restaurant, index) => (
             <SwiperSlide key={index}>
               <div className="border-15 mx-5 my-5 h-70 text-center bg-white border-gray-900 transition-transform duration-300 ease-in-out transform hover:scale-110 shadow-lg">
-                {restaurant.restaurantName || "Unnamed Restaurant"}
+                <h3 className="text-xl font-bold">{restaurant.restaurantName || "Unnamed Restaurant"}</h3>
+                <button onClick={()=>handleViewFullMenu(restaurant._id)} className="mt-4 bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors">View Full Menu</button>
               </div>
             </SwiperSlide>
           ))}
@@ -115,11 +128,16 @@ function Content() {
           spaceBetween={30}
           slidesPerView={4}
           loop={true}
+          breakpoints={{
+            320:{slidesPerView:1},
+            640:{slidesPerView:2},
+            1024:{slidesPerView:4},
+          }}
         >
-          {restaurant.map((restaurant, index) => (
+          {section.map((menuSection, index) => (
             <SwiperSlide key={index}>
               <div className="border-15 mx-5 my-5 h-70 text-center bg-white border-gray-900 transition-transform duration-300 ease-in-out transform hover:scale-110 shadow-lg">
-                {restaurant.restaurantName || "Unnamed Restaurant"}
+                {menuSection.section || "Unnamed Section"}
               </div>
             </SwiperSlide>
           ))}

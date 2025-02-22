@@ -13,6 +13,19 @@ const getRestaurant = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+const getRestaurantById = async (req, res) => {
+  try {
+    const restaurant = await Restaurant.findById(req.params.id);
+    if (!restaurant) {
+      return res.status(404).json({ message: "Restaurant not found" });
+    }
+    res.status(200).json(restaurant);
+  } catch (error) {
+    console.error("Error fetching restaurant:", error);
+    res.status(500).json({ message: "Failed to fetch restaurant" });
+  }
+};
 const getAllRestaurants = async(req,res)=>{
   try{
     const restaurant = await Restaurant.find();
@@ -23,4 +36,4 @@ const getAllRestaurants = async(req,res)=>{
   }
 };
 
-module.exports = { getRestaurant,getAllRestaurants };
+module.exports = { getRestaurant,getAllRestaurants,getRestaurantById };

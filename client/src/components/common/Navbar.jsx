@@ -27,11 +27,11 @@ const Navbar = () => {
 
         {/* Student Links */}
         {user && user.role === "student" && (
-          <>
-          {/* <li className="cursor-pointer list-none hover:text-white" onClick={() => navigate("/")}>Home</li>
+          <ul className="h-full items-center flex list-none gap-20">
+          <li className="cursor-pointer  hover:text-white" onClick={() => navigate("/")}>Home</li>
             <li className="cursor-pointer list-none hover:text-white" onClick={() => navigate("/student/orders")}>Orders</li>
-            <li className="cursor-pointer list-none hover:text-white" onClick={() => navigate("/student/profile")}>Profile</li> */}
-          </>
+            <li className="cursor-pointer list-none hover:text-white" onClick={() => navigate("/student/profile")}>Profile</li>
+          </ul>
         )}
 
         {/* Admin Links */}
@@ -44,7 +44,7 @@ const Navbar = () => {
 
       {/* User Profile / Logout Section */}
       {user? (
-        <div className="flex gap-6 items-center">
+        <div className="flex h-full gap-6 items-center">
           <div className="font-bold text-right">
             <p className="text-white">Welcome, {user.name}</p>
             <p className="text-sm text-gray-200 capitalize">{user.role}</p>
