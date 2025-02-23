@@ -4,17 +4,22 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 function RestaurantMenu() {
-  const { id } = useParams(); // Get restaurant ID from URL
+  const { name } = useParams();
   const [restaurant, setRestaurant] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchRestaurantMenu = async () => {
-        console.log(id);
       try {
+
         setLoading(true);
-        const response = await axios.get(`http://localhost:5000/restaurant/${id}`);
+        const response = await axios.get(`http://localhost:5000/restaurant/${name}`);
+        
+        if (!response.data) {
+          throw new Error("Restaurant not found");
+        }
+
         setRestaurant(response.data);
       } catch (error) {
         console.error("Error fetching restaurant menu:", error.response?.data || error.message);
@@ -24,15 +29,32 @@ function RestaurantMenu() {
         setLoading(false);
       }
     };
+
     fetchRestaurantMenu();
-  }, [id]);
+  }, [name]);
 
   if (loading) {
-    return <p className="text-center text-gray-600">Loading...</p>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <p className="text-center text-gray-600">Loading...</p>
+      </div>
+    );
   }
 
   if (error) {
-    return <p className="text-center text-red-500">{error}</p>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <p className="text-center text-red-500">{error}</p>
+      </div>
+    );
+  }
+
+  if (!restaurant) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <p className="text-center text-gray-600">Restaurant not found.</p>
+      </div>
+    );
   }
 
   return (

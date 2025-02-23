@@ -46,8 +46,9 @@ function Content() {
     fetchRestaurant();
   }, []);
 
-  const handleViewFullMenu=(restaurantId)=>{
-    navigate(`/restaurant/${restaurantId}`);
+  const handleViewFullMenu=(restaurantName)=>{
+    console.log(restaurantName);
+    navigate(`/restaurant/${restaurantName}`);
   }
 
 
@@ -106,7 +107,7 @@ function Content() {
             <SwiperSlide key={index}>
               <div className="border-15 mx-5 my-5 h-70 text-center bg-white border-gray-900 transition-transform duration-300 ease-in-out transform hover:scale-110 shadow-lg">
                 <h3 className="text-xl font-bold">{restaurant.restaurantName || "Unnamed Restaurant"}</h3>
-                <button onClick={()=>handleViewFullMenu(restaurant._id)} className="mt-4 bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors">View Full Menu</button>
+                <button onClick={()=>handleViewFullMenu(restaurant.restaurantName)} className="mt-4 bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors">View Full Menu</button>
               </div>
             </SwiperSlide>
           ))}
