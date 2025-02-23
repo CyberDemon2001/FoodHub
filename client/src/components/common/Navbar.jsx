@@ -12,13 +12,13 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-gray-900 text-white w-full h-[10vh] shadow-xl flex justify-between items-end px-18">
+    <nav className="bg-[#101010] text-white w-full h-[10vh] shadow-xl flex justify-between items-end px-18">
       {/* Logo & Home Navigation */}
       <div className="flex items-end gap-4 h-full cursor-pointer" onClick={() => navigate("/")}>
         <img src={logo} alt="FOODHUB" className="h-full py-2" />
         <div className="pb-2">
           <h1 className="font-bold mt-2 text-2xl font-[cursive] leading-5">FOODHUB</h1>
-          <h2 className="text-sm">Food For Your Soul...</h2>
+          <h2 className="text-sm ml-10">Food For Your Soul...</h2>
         </div>
       </div>
 

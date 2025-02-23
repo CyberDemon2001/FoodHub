@@ -5,7 +5,7 @@ const AdminDashboard = () => {
     const navigate = useNavigate();
 
   return (
-    <div className="flex  bg-gray-100">
+    <div className="flex bg-gray-100">
       {/* Main Content */}
       <main className="flex-1 p-6">
         {/* Stats Buttons */}

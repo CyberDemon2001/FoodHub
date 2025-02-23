@@ -34,7 +34,7 @@ const Admin = () => {
   };
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-[90vh]">
       {/* Sidebar */}
       <aside className="w-1/5 md:w-1/6 bg-white shadow-md p-5">
         <ul className="flex flex-col gap-4">

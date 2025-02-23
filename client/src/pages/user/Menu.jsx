@@ -1,14 +1,7 @@
 import React, { useState, useEffect } from "react";
-
-import "react-toastify/dist/ReactToastify.css";
+// import "react-toastify/dist/ReactToastify.css";
 
 const Menu = () => {
-  
-
- 
-  
-
- 
   return (
     <div className="bg-gray-100 p-6">
       <h1 className="text-2xl font-bold mb-6">Menu</h1>
