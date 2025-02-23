@@ -1,6 +1,7 @@
 const express = require('express');
 // const Joi = require('joi');
 const {Signup}=require('../controllers/userController');
+const { getRestaurantByName } = require('../controllers/RestaurantController');
 
 
 const router = express.Router();
@@ -15,5 +16,6 @@ const router = express.Router();
 // });
 
 router.post('/signup', Signup);
+router.get('/:name',getRestaurantByName);
   
 module.exports = router;

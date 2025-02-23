@@ -11,12 +11,13 @@ import slide4 from '../../assets/slide4.jpg';
 import slide5 from '../../assets/slide5.jpg';
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 function Content() {
   const [restaurant, setRestaurant] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  // const [section, setSection] = useState([]);
+  const [section, setSection] = useState([]);
 
   useEffect(() => {
     const fetchRestaurant = async () => {
@@ -26,6 +27,10 @@ function Content() {
         console.log("Api Response", response.data);
         if (Array.isArray(response.data)) {
           setRestaurant(response.data);
+          console.log(response.data);
+          console.log();
+          setSection(response.data[7].menu);
+          console.log(section.map(s=>s.section));
         } else {
           console.error("Unexpected data format:", response.data);
           setError("Invalid Restaurants Data Received");
@@ -40,35 +45,6 @@ function Content() {
     };
     fetchRestaurant();
   }, []);
-
-
-
-// Flatten the items while keeping track of restaurant
-const allItems = restaurant.flatMap((restaurant) => {
-  // console.log("Processing restaurant:", restaurant);
-
-  if (!restaurant.menu) {
-    console.log(`Missing menu for restaurant: ${restaurant.restaurantName}`);
-    return []; // Skip this restaurant if menu is missing
-  }
-
-  return restaurant.menu.flatMap((section) => {
-    // if (!section.items) {
-    //   console.log(`Missing items for section: ${section.section} in ${restaurant.restaurantName}`);
-    //   return [];
-    // }
-
-    return section.items.map((item) => ({
-      restaurantName: restaurant.restaurantName,
-      section: section.section,
-      itemId: item._id,
-      name: item.name,
-      price: item.price,
-    }));
-  });
-});
-
-console.log("Processed items:", allItems);
 
   if (loading) {
     return <p className="text-center text-gray-600">Loading...</p>;
@@ -119,11 +95,17 @@ console.log("Processed items:", allItems);
           spaceBetween={30}
           slidesPerView={4}
           loop={true}
+          breakpoints={{
+            320:{slidesPerView:1},
+            640:{slidesPerView:2},
+            1024:{slidesPerView:4},
+          }}
         >
           {restaurant.map((restaurant, index) => (
             <SwiperSlide key={index}>
               <div className="border-15 mx-5 my-5 h-70 text-center bg-white border-gray-900 transition-transform duration-300 ease-in-out transform hover:scale-110 shadow-lg">
-                {restaurant.restaurantName || "Unnamed Restaurant"}
+                <h3 className="text-xl font-bold">{restaurant.restaurantName || "Unnamed Restaurant"}</h3>
+                <button onClick={()=>handleViewFullMenu(restaurant.restaurantName)} className="mt-4 bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors">View Full Menu</button>
               </div>
             </SwiperSlide>
           ))}
@@ -145,11 +127,16 @@ console.log("Processed items:", allItems);
           spaceBetween={30}
           slidesPerView={4}
           loop={true}
+          breakpoints={{
+            320:{slidesPerView:1},
+            640:{slidesPerView:2},
+            1024:{slidesPerView:4},
+          }}
         >
-          {restaurant.map((restaurant, index) => (
+          {section.map((menuSection, index) => (
             <SwiperSlide key={index}>
               <div className="border-15 mx-5 my-5 h-70 text-center bg-white border-gray-900 transition-transform duration-300 ease-in-out transform hover:scale-110 shadow-lg">
-                {restaurant.restaurantName || "Unnamed Restaurant"}
+                {menuSection.section || "Unnamed Section"}
               </div>
             </SwiperSlide>
           ))}
