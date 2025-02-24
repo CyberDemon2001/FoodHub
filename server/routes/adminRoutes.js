@@ -11,6 +11,7 @@ const router = express.Router();
 router.post("/signup", Signup);
 
 router.get("/", getAllRestaurants);
+
 // GET restaurant details by ID
 router.get("/restaurant/:id", getRestaurant);
 

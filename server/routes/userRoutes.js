@@ -16,6 +16,6 @@ const router = express.Router();
 // });
 
 router.post('/signup', Signup);
-router.get('/:name',getRestaurantByName);
+router.get('restaurant/:name',getRestaurantByName);
   
 module.exports = router;

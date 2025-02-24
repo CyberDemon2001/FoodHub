@@ -4,6 +4,12 @@
     display: none;
   }
 
+  /* Change Swiper navigation button color to orange */
+.swiper-button-next, .swiper-button-prev {
+  color: orange !important;
+}
+
+
 body{
   background-color:black;
   margin:0;
