@@ -4,11 +4,11 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
-import slide1 from '../../assets/slide1.jpg';
-import slide2 from '../../assets/slide2.jpg';
-import slide3 from '../../assets/slide3.jpg';
-import slide4 from '../../assets/slide4.jpg';
-import slide5 from '../../assets/slide5.jpg';
+import slide1 from "../../assets/slide1.jpg";
+import slide2 from "../../assets/slide2.jpg";
+import slide3 from "../../assets/slide3.jpg";
+import slide4 from "../../assets/slide4.jpg";
+import slide5 from "../../assets/slide5.jpg";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -17,27 +17,29 @@ function Content() {
   const [restaurant, setRestaurant] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [section, setSection] = useState([]);
-  const navigate=useNavigate();
+  // const [uniqueSection, setUniqueSection] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchRestaurant = async () => {
       try {
         setLoading(true);
-        const response = await axios.get("http://localhost:5000/");
+        const response = await axios.get("http://localhost:5000/home");
+        console.log("Api Response", response.data);
         if (Array.isArray(response.data)) {
           setRestaurant(response.data);
-          console.log(response.data);
-          console.log();
-          setSection(response.data[0].menu);
-          console.log(section.map(s=>s.section));
         } else {
           console.error("Unexpected data format:", response.data);
           setError("Invalid Restaurants Data Received");
         }
       } catch (error) {
-        console.error("Error fetching restaurant:", error.response?.data || error.message);
-        setError(error.response?.data?.message || "Failed to fetch restaurant details");
+        console.error(
+          "Error fetching restaurant:",
+          error.response?.data || error.message
+        );
+        setError(
+          error.response?.data?.message || "Failed to fetch restaurant details"
+        );
         toast.error("Failed to fetch restaurant details");
       } finally {
         setLoading(false);
@@ -46,11 +48,38 @@ function Content() {
     fetchRestaurant();
   }, []);
 
-  const handleViewFullMenu=(restaurantName)=>{
-    console.log(restaurantName);
-    navigate(`/restaurant/${restaurantName}`);
-  }
+  // Extracting all unique sections
+  const allSections = restaurant.flatMap((restaurant) =>
+    restaurant.menu ? restaurant.menu.map((section) => section.section) : []
+  );
 
+  // Remove duplicates using Set
+  const uniqueSections = [...new Set(allSections)];
+  console.log("Unique Sections:", uniqueSections);
+
+  // Flatten the items while keeping track of restaurant
+  const allItems = restaurant.flatMap(
+    (res) =>
+      res.menu?.flatMap(
+        (section) =>
+          section.items?.map((item) => ({
+            restaurantName: res.restaurantName,
+            section: section.section,
+            itemId: item._id,
+            name: item.name,
+            price: item.price,
+          })) || []
+      ) || []
+  );
+  console.log("All items:", allItems);
+
+  // const handleViewMenu=(restaurantName)=>{
+  //   navigate(`/home/${restaurantName}`, {state:{restaurant}})
+  // }
+
+  const handleViewMenu = (selectedRestaurant) => {
+    navigate(`/home/${selectedRestaurant.restaurantName}`, { state: { restaurant: selectedRestaurant } });
+  };
 
   if (loading) {
     return <p className="text-center text-gray-600">Loading...</p>;
@@ -93,21 +122,23 @@ function Content() {
           modules={[Navigation, Pagination, Autoplay]}
           navigation
           pagination={{ clickable: true }}
-          autoplay={{ delay: 1000 }}
-          spaceBetween={30}
+          autoplay={{
+            delay: 2000,
+            // disableOnInteraction:true,
+            pauseOnMouseEnter: true,
+          }}
+          spaceBetween={70}
           slidesPerView={4}
           loop={true}
-          breakpoints={{
-            320:{slidesPerView:1},
-            640:{slidesPerView:2},
-            1024:{slidesPerView:4},
-          }}
         >
           {restaurant.map((restaurant, index) => (
             <SwiperSlide key={index}>
               <div className="border-15 mx-5 my-5 h-70 text-center bg-white border-gray-900 transition-transform duration-300 ease-in-out transform hover:scale-110 shadow-lg">
-                <h3 className="text-xl font-bold">{restaurant.restaurantName || "Unnamed Restaurant"}</h3>
-                <button onClick={()=>handleViewFullMenu(restaurant.restaurantName)} className="mt-4 bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors">View Full Menu</button>
+                <h1>{restaurant.restaurantName || "Unnamed Restaurant"}</h1>
+                <button className="bg-orange-500 rounded-xl p-1"
+                onClick={()=>handleViewMenu(restaurant)}>
+                  Open Menu
+                </button>
               </div>
             </SwiperSlide>
           ))}
@@ -129,16 +160,11 @@ function Content() {
           spaceBetween={30}
           slidesPerView={4}
           loop={true}
-          breakpoints={{
-            320:{slidesPerView:1},
-            640:{slidesPerView:2},
-            1024:{slidesPerView:4},
-          }}
         >
-          {section.map((menuSection, index) => (
+          {uniqueSections.map((section, index) => (
             <SwiperSlide key={index}>
               <div className="border-15 mx-5 my-5 h-70 text-center bg-white border-gray-900 transition-transform duration-300 ease-in-out transform hover:scale-110 shadow-lg">
-                {menuSection.section || "Unnamed Section"}
+                {section}
               </div>
             </SwiperSlide>
           ))}

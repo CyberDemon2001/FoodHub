@@ -14,7 +14,7 @@ const Login = () => {
     console.log({ email, password, role });
 
     try {
-      const response = await axios.post("http://localhost:5000/api/login", {
+      const response = await axios.post("http://localhost:5000/api/auth", {
         email,
         password,
         role,
@@ -33,7 +33,7 @@ const Login = () => {
           if (role === "admin") {
             navigate(`/admin/${id}/dashboard`);
           } else {
-            navigate(`/user/${id}/dashboard`);
+            navigate(`/user/${id}/home`);
           }
         }, 1000);
       } else {
