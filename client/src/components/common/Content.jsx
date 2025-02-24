@@ -18,18 +18,18 @@ function Content() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [section, setSection] = useState([]);
+  const navigate=useNavigate();
 
   useEffect(() => {
     const fetchRestaurant = async () => {
       try {
         setLoading(true);
         const response = await axios.get("http://localhost:5000/");
-        console.log("Api Response", response.data);
         if (Array.isArray(response.data)) {
           setRestaurant(response.data);
           console.log(response.data);
           console.log();
-          setSection(response.data[7].menu);
+          setSection(response.data[0].menu);
           console.log(section.map(s=>s.section));
         } else {
           console.error("Unexpected data format:", response.data);
@@ -46,6 +46,12 @@ function Content() {
     fetchRestaurant();
   }, []);
 
+  const handleViewFullMenu=(restaurantName)=>{
+    console.log(restaurantName);
+    navigate(`/restaurant/${restaurantName}`);
+  }
+
+
   if (loading) {
     return <p className="text-center text-gray-600">Loading...</p>;
   }
@@ -60,12 +66,12 @@ function Content() {
       <div className="bg-orange-500 w-full absolute mt-20 h-[70vh]"></div>
 
       {/* Swiper Carousel */}
-      <div className="border-[20px] mx-15 my-6 relative border-gray-900 h-[65vh]">
+      <div className="border-20 mx-15 my-6 relative border-gray-900 h-[65vh]">
         <Swiper
           modules={[Navigation, Pagination, Autoplay]}
           navigation
           pagination={{ clickable: true }}
-          autoplay={{ delay: 3000 }}
+          autoplay={{ delay: 2000 }}
           loop={true}
           className="h-full w-full"
         >
@@ -87,11 +93,7 @@ function Content() {
           modules={[Navigation, Pagination, Autoplay]}
           navigation
           pagination={{ clickable: true }}
-          autoplay={{ 
-            delay: 2000,
-            // disableOnInteraction:true,
-            pauseOnMouseEnter: true
-          }}
+          autoplay={{ delay: 1000 }}
           spaceBetween={30}
           slidesPerView={4}
           loop={true}
@@ -113,7 +115,7 @@ function Content() {
       </div>
 
       {/* Favorite Food Section */}
-      <div className="flex items-center justify-center my-2">
+      <div className="flex items-center justify-center my-6">
         <hr className="flex-grow border-2 border-gray-500 mx-20" />
         <span className="text-white text-2xl font-bold">Favorite Food</span>
         <hr className="flex-grow border-2 border-gray-500 mx-20" />
@@ -123,7 +125,7 @@ function Content() {
           modules={[Navigation, Pagination, Autoplay]}
           navigation
           pagination={{ clickable: true }}
-          autoplay={{ delay: 2000, pauseOnMouseEnter: true }}
+          autoplay={{ delay: 1000 }}
           spaceBetween={30}
           slidesPerView={4}
           loop={true}

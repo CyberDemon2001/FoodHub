@@ -1,11 +1,4 @@
-<<<<<<< HEAD
-import React, { useState, useEffect } from "react";
-// import "react-toastify/dist/ReactToastify.css";
-
-const Menu = () => {
-=======
 const Menu = () => { 
->>>>>>> 89aae51ec59efbe8345f52e816b9e35e8350f94a
   return (
     <div className="bg-gray-100 p-6">
       <h1 className="text-2xl font-bold mb-6">Menu</h1>
