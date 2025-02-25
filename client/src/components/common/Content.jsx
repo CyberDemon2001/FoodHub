@@ -11,13 +11,15 @@ import slide4 from "../../assets/slide4.jpg";
 import slide5 from "../../assets/slide5.jpg";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+
 
 function Content() {
   const [restaurant, setRestaurant] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   // const [uniqueSection, setUniqueSection] = useState([]);
+  const { id } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -78,7 +80,11 @@ function Content() {
   // }
 
   const handleViewMenu = (selectedRestaurant) => {
-    navigate(`/home/${selectedRestaurant.restaurantName}`, { state: { restaurant: selectedRestaurant } });
+    if (!id) {
+      navigate(`/home/${selectedRestaurant.restaurantName}`, { state: { restaurant: selectedRestaurant } });
+    } else {
+      navigate(`/user/${id}/${selectedRestaurant.restaurantName}`, { state: { restaurant: selectedRestaurant } });
+    }
   };
 
   if (loading) {

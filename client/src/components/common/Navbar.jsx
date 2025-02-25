@@ -57,6 +57,12 @@ const Navbar = () => {
           >
             Profile
           </li>
+          <li
+            className="cursor-pointer list-none hover:text-white"
+            onClick={() => navigate(`/user/${user.id}/cart`)}
+          >
+            Cart
+          </li>
         </ul>
       )}
 
