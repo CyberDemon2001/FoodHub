@@ -101,12 +101,12 @@ function Content() {
       <div className="bg-orange-500 w-full absolute mt-20 h-[70vh]"></div>
 
       {/* Swiper Carousel */}
-      <div className="border-[20px] mx-15 my-6 relative border-gray-900 h-[65vh]">
+      <div className="border-20 mx-15 my-6 relative border-gray-900 h-[65vh]">
         <Swiper
           modules={[Navigation, Pagination, Autoplay]}
           navigation
           pagination={{ clickable: true }}
-          autoplay={{ delay: 3000 }}
+          autoplay={{ delay: 2000 }}
           loop={true}
           className="h-full w-full"
         >
@@ -152,7 +152,7 @@ function Content() {
       </div>
 
       {/* Favorite Food Section */}
-      <div className="flex items-center justify-center my-2">
+      <div className="flex items-center justify-center my-6">
         <hr className="flex-grow border-2 border-gray-500 mx-20" />
         <span className="text-white text-2xl font-bold">Favorite Food</span>
         <hr className="flex-grow border-2 border-gray-500 mx-20" />
@@ -162,7 +162,7 @@ function Content() {
           modules={[Navigation, Pagination, Autoplay]}
           navigation
           pagination={{ clickable: true }}
-          autoplay={{ delay: 2000, pauseOnMouseEnter: true }}
+          autoplay={{ delay: 1000 }}
           spaceBetween={30}
           slidesPerView={4}
           loop={true}
