@@ -34,7 +34,7 @@ const Menu = () => {
             <h2 className="text-xl font-bold border-b-2 border-black pb-1">{section.section}</h2>
             <ul className="mt-2 italic">
               {section.items.map((item) => (
-                <li key={`${section._id}-${item._id}`}>
+                <li key={`${section._id}--${item._id}`}>
                   {item.name} - ₹{item.price} - {item._id}
                 </li>
               ))}

@@ -32,27 +32,27 @@ const MenuManagement = ({ adminId }) => {
     }
   };
 
-  const validateInputs = () => {
-    if (!adminId) {
-      setError("Admin ID is missing! Please refresh the page.");
-      return false;
-    }
-    if (!section.trim()) {
-      setError("Section name cannot be empty!");
-      return false;
-    }
-    if (items.some((item) => !item.name.trim() || !item.price || item.price <= 0)) {
-      setError("Please fill out all item fields correctly!");
-      return false;
-    }
-    return true;
-  };
+  // const validateInputs = () => {
+  //   if (!adminId) {
+  //     setError("Admin ID is missing! Please refresh the page.");
+  //     return false;
+  //   }
+  //   if (!section.trim()) {
+  //     setError("Section name cannot be empty!");
+  //     return false;
+  //   }
+  //   if (items.some((item) => !item.name.trim() || !item.price || item.price <= 0)) {
+  //     setError("Please fill out all item fields correctly!");
+  //     return false;
+  //   }
+  //   return true;
+  // };
 
   const handleAddMenu = async (e) => {
     e.preventDefault();
     setError("");
 
-    if (!validateInputs()) return;
+    // if (!validateInputs()) return;
 
     try {
       setLoading(true);
