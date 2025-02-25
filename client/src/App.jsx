@@ -9,9 +9,10 @@ import Footer from "./components/common/Footer";
 import Admin from "./components/admin/admin";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 // import User from "./components/user/UserNavebar";
-import RestaurantMenu from "./pages/user/RestaurantMenu";
+// import RestaurantMenu from "./pages/user/RestaurantMenu";
 import Menu from "./pages/user/Menu";
 import Orders from "./pages/user/Orders";
+import Cart from './pages/user/Cart';
 
 function App() {
   return (
@@ -26,9 +27,11 @@ function App() {
       <Route path="/admin/:id/*" element={<Admin />} />
       <Route path="/user/:id/home" element={<Content />} />
       <Route path="/user/:id/orders" element={<Orders />} />
+      <Route path="/user/:id/cart" element={<Cart />} />
       {/* <Route path="/user/:id/*" element={<User />}/> */}
-      <Route path="/restaurant/:name" element={<RestaurantMenu />}/>
+      {/* <Route path="/restaurant/:name" element={<RestaurantMenu />}/> */}
       <Route path="/home/:name" element={<Menu />}/>
+      <Route path="/user/:id/:name" element={<Menu />}/>
     </Routes>
     <Footer />
     </>

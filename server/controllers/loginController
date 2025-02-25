@@ -43,7 +43,7 @@ const Login = async (req, res) => {
     } else {
       // Check if email exists in User collection
       const user = await UserSchema.findOne({ email });
-      if (!role == "student") {
+      if (!user) {
         return res.status(400).json({ message: "User does not exist" }); // Specific error for user
       }
 
