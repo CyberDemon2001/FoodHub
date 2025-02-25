@@ -1,7 +1,7 @@
 const express = require("express");
 const { Signup } = require("../controllers/AdminController");
 const { getRestaurant, getAllRestaurants} = require("../controllers/RestaurantController");
-const { addMenuSection } = require("../controllers/MenuController");
+const { addMenuSection, updateMenuItem,deleteMenuItem } = require("../controllers/MenuController");
 const { ExistingSection } = require("../controllers/ExistingSectionController");
 
 
@@ -20,5 +20,12 @@ router.post("/restaurant/:id/menu", addMenuSection);
 
 // PUT add items to an existing section
 router.put("/restaurant/:id/menu/:sectionId", ExistingSection);
+
+// Update a specific menu item within a section
+router.put("/restaurant/:adminId/menu/:sectionId/item/:itemId", updateMenuItem);
+
+// Delete a specific menu item from a section
+router.delete("/restaurant/:adminId/menu/:sectionId/item/:itemId",deleteMenuItem);
+
 
 module.exports = router;

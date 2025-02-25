@@ -1,7 +1,7 @@
-const Restaurant = require("../models/Restaurant");
+const RestaurantSchema = require("../models/Restaurant");
 const getRestaurant = async (req, res) => {
   try {
-    const restaurant = await Restaurant.findOne({ adminId: req.params.id });
+    const restaurant = await RestaurantSchema.findOne({ adminId: req.params.id });
 
 
     if (!restaurant) {
@@ -19,7 +19,7 @@ const getRestaurantByName = async (req, res) => {
     const { name } = req.params; // Extract the restaurant name from the URL parameter
 
     // Find the restaurant by name (case-insensitive search)
-    const restaurant = await Restaurant.findOne({ restaurantName: { $regex: new RegExp(name, 'i') } });
+    const restaurant = await RestaurantSchema.findOne({ restaurantName: { $regex: new RegExp(name, 'i') } });
 
     if (!restaurant) {
       return res.status(404).json({ message: "Restaurant not found" });
@@ -33,7 +33,7 @@ const getRestaurantByName = async (req, res) => {
 };
 const getAllRestaurants = async(req,res)=>{
   try{
-    const restaurant = await Restaurant.find();
+    const restaurant = await RestaurantSchema.find();
     res.json(restaurant);
   }
   catch(error){
