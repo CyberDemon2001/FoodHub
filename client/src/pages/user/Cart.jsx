@@ -1,135 +1,89 @@
-import React, { useState, useEffect } from "react";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import React, { useState } from "react";
+import Address from "./Address";
+import PaymentInfo from "./PaymentInfo";
+import Checkout from "./Checkout";
 
 const Cart = () => {
-  const user = localStorage.getItem("user"); // Get user from localStorage
-  const [cart, setCart] = useState([]);
+  const [step, setStep] = useState(1);
 
-  // Load cart from localStorage when component mounts
-  useEffect(() => {
-    if (user) {
-      const storedCart = JSON.parse(localStorage.getItem(`cart_${user}`)) || [];
-      setCart(storedCart);
-    }
-  }, [user]);
-
-  // Update localStorage whenever cart changes
-  const updateCart = (updatedCart) => {
-    setCart(updatedCart);
-    localStorage.setItem(`cart_${user}`, JSON.stringify(updatedCart));
+  const nextStep = () => {
+    setStep((prevStep) => (prevStep < 3 ? prevStep + 1 : prevStep));
   };
 
-  // Increase/Decrease quantity of an item
-  const handleQuantityChange = (restaurantId, itemId, change) => {
-    const updatedCart = cart.map((restaurant) => {
-      if (restaurant.restaurantId === restaurantId) {
-        return {
-          ...restaurant,
-          items: restaurant.items.map((item) =>
-            item._id === itemId
-              ? { ...item, quantity: Math.max(1, item.quantity + change) }
-              : item
-          ),
-        };
-      }
-      return restaurant;
-    });
-
-    updateCart(updatedCart);
+  const prevStep = () => {
+    setStep((prevStep) => (prevStep > 1 ? prevStep - 1 : prevStep));
   };
-
-  // Remove an item from the cart
-  const handleRemoveItem = (restaurantId, itemId) => {
-    const updatedCart = cart
-      .map((restaurant) => {
-        if (restaurant.restaurantId === restaurantId) {
-          return {
-            ...restaurant,
-            items: restaurant.items.filter((item) => item._id !== itemId),
-          };
-        }
-        return restaurant;
-      })
-      .filter((restaurant) => restaurant.items.length > 0); // Remove empty restaurants
-
-    updateCart(updatedCart);
-    toast.error("Item removed from cart", { autoClose: 500 });
-  };
-
-  if (!user) {
-    return (
-      <div className="flex flex-col justify-center items-center min-h-[80vh]">
-        <p className="text-lg text-gray-600">Please log in to view your cart.</p>
-        <button
-          onClick={() => (window.location.href = "/login")}
-          className="mt-4 bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg shadow-md transition"
-        >
-          Go to Login
-        </button>
-      </div>
-    );
-  }
-
-  if (cart.length === 0) {
-    return (
-      <div className="flex flex-col justify-center items-center min-h-[80vh]">
-        <p className="text-lg text-gray-600">Your cart is empty.</p>
-      </div>
-    );
-  }
 
   return (
-    <div className="bg-gray-100 p-6 min-h-[90vh]">
-      <ToastContainer position="top-right" />
+    <div className="mx-30 h-[90vh] bg-white flex flex-col justify-between">
+      
+      <div>
+      {/* Step Indicator with Connected Lines */}
+      <div className="relative p-2 flex items-center justify-between w-full">
+        
+        {/* Connecting Lines */}
+        <div className="absolute top-1/3 left-1/6 right-1/6 h-1 bg-gray-300 z-0"></div>
+        <div className={`absolute top-1/3 left-1/6 h-1 ${step >= 2 ? "bg-orange-500" : "bg-gray-300"} w-1/3 z-0`}></div>
+        <div className={`absolute top-1/3 left-1/2 h-1 ${step === 3 ? "bg-green-400" : "bg-gray-300"} w-1/3 z-0`}></div>
 
-      <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">Your Cart</h1>
-
-      <div className="max-w-4xl mx-auto space-y-6">
-        {cart.map((restaurant) => (
-          <div key={restaurant.restaurantId} className="p-6 bg-white rounded-lg shadow-lg">
-            <h2 className="text-xl font-semibold text-gray-900 border-b pb-2">
-              {restaurant.restaurantName}
-            </h2>
-
-            <ul className="mt-4 space-y-4">
-              {restaurant.items.map((item) => (
-                <li
-                  key={item._id}
-                  className="flex justify-between items-center p-3 bg-gray-50 rounded-lg shadow-sm"
-                >
-                  <div className="flex flex-col">
-                    <span className="text-lg font-medium text-gray-800">{item.name}</span>
-                    <span className="text-sm text-gray-600">₹{item.price} x {item.quantity}</span>
-                  </div>
-
-                  <div className="flex items-center">
-                    <button
-                      onClick={() => handleQuantityChange(restaurant.restaurantId, item._id, -1)}
-                      className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-lg transition"
-                    >
-                      −
-                    </button>
-                    <span className="mx-3 text-lg font-medium">{item.quantity}</span>
-                    <button
-                      onClick={() => handleQuantityChange(restaurant.restaurantId, item._id, 1)}
-                      className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-lg transition"
-                    >
-                      +
-                    </button>
-                    <button
-                      onClick={() => handleRemoveItem(restaurant.restaurantId, item._id)}
-                      className="ml-4 bg-gray-700 hover:bg-gray-800 text-white px-4 py-1 rounded-lg transition"
-                    >
-                      Remove
-                    </button>
-                  </div>
-                </li>
-              ))}
-            </ul>
+        {/* Step 1 */}
+        <div className="relative z-10 flex flex-col items-center w-1/3">
+          <div className={`w-12 h-12 text-gray-900 flex items-center justify-center text-lg font-extrabold rounded-full ${step >= 1 ? "bg-orange-500" : "bg-gray-300"}`}>
+            1
           </div>
-        ))}
+          <span className="mt-2 ">Checkout</span>
+        </div>
+
+        {/* Step 2 */}
+        <div className="relative z-10 flex flex-col items-center w-1/3">
+          <div className={`w-12  h-12 flex items-center justify-center text-lg font-extrabold rounded-full ${step >= 2 ? "bg-orange-500" : "bg-gray-300"}`}>
+            2
+          </div>
+          <span className="mt-2">Address Info</span>
+        </div>
+
+        {/* Step 3 */}
+        <div className="relative z-10 flex flex-col items-center w-1/3">
+          <div className={`w-12 h-12 flex items-center justify-center text-lg font-extrabold rounded-full ${step === 3 ? "bg-green-400" : "bg-gray-300"}`}>
+            3
+          </div>
+          <span className="mt-2">Payment Method</span>
+        </div>
       </div>
+
+      {/* Step Content */}
+      <div className="">
+        {step === 1 && <Checkout />}
+        {step === 2 && <Address />}
+        {step === 3 && <PaymentInfo />}
+      </div>
+      </div>
+
+      {/* Navigation Buttons */}
+      <div className="flex justify-between mb-3">
+        {step > 1 && (
+          <button
+            onClick={prevStep}
+            className="px-6 py-2 bg-gray-400 text-white rounded-lg"
+          >
+            Previous
+          </button>
+        )}
+
+        {step < 3 ? (
+          <button
+            onClick={nextStep}
+            className="px-6 py-2 bg-orange-500 text-white rounded-lg"
+          >
+            Proceed
+          </button>
+        ) : (
+          <button className="px-6 py-2 bg-green-500 text-white rounded-lg">
+            Confirm Order
+          </button>
+        )}
+      </div>
+      
     </div>
   );
 };

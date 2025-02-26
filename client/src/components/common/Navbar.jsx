@@ -1,21 +1,28 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import logo from "../../assets/logo.png";
+import { toast, ToastContainer } from "react-toastify";
 
 const Navbar = () => {
   const user = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogo = () => {
-    if(user){navigate(`/user/${user.id}/home`)}
-    else {navigate('/home')}
+    if (user) {
+      navigate(`/user/${user.id}/home`);
+    } else {
+      navigate("/home");
     }
-
+  };
 
   const clickLogout = () => {
     localStorage.removeItem("user");
-    navigate("/login");
+    setTimeout(()=>{navigate("/home")},1000)
   };
+
+  const isActive = (path) =>
+    location.pathname === path ? "bg-orange-500 px-3 py-5 rounded-lg" : "text-white";
 
   return (
     <nav className="bg-[#101010] text-white w-full h-[10vh] shadow-xl flex justify-between items-end px-18">
@@ -34,34 +41,39 @@ const Navbar = () => {
       </div>
 
       {/* Navigation Links */}
-      {/* <ul className="flex items-center gap-6 font-bold text-lg"> */}
-
-      {/* Student Links */}
       {user && user.role === "student" && (
-        <ul className="h-full items-center flex list-none gap-20">
+        <ul className="h-full text-lg items-center flex list-none gap-15">
           <li
-            className="cursor-pointer  hover:text-white"
-            onClick={() =>navigate(`/user/${user.id}/home`)}
+            className={`cursor-pointer hover:text-white ${isActive(
+              `/user/${user.id}/home`
+            )}`}
+            onClick={() => navigate(`/user/${user.id}/home`)}
           >
-            Home
+            <i className="fa-solid fa-house pr-2"></i>Home
           </li>
           <li
-            className="cursor-pointer list-none hover:text-white"
+            className={`cursor-pointer list-none hover:text-white ${isActive(
+              `/user/${user.id}/orders`
+            )}`}
             onClick={() => navigate(`/user/${user.id}/orders`)}
           >
-            Orders
+            <i className="fa-regular fa-address-book pr-2"></i>Orders
           </li>
           <li
-            className="cursor-pointer list-none hover:text-white"
+            className={`cursor-pointer list-none hover:text-white ${isActive(
+              `/user/${user.id}/profile`
+            )}`}
             onClick={() => navigate(`/user/${user.id}/profile`)}
           >
-            Profile
+            <i className="fa-solid fa-user pr-2"></i>Profile
           </li>
           <li
-            className="cursor-pointer list-none hover:text-white"
+            className={`cursor-pointer list-none hover:text-white ${isActive(
+              `/user/${user.id}/cart`
+            )}`}
             onClick={() => navigate(`/user/${user.id}/cart`)}
           >
-            Cart
+            <i className="fa-solid fa-cart-shopping pr-1"></i>Cart
           </li>
         </ul>
       )}
@@ -69,8 +81,7 @@ const Navbar = () => {
       {/* Admin Links */}
       {user && user.role === "admin" && (
         <>
-          {/* <li className="cursor-pointer hover:text-white" onClick={() => navigate(`/admin/${user.restaurantId}/dashboard`)}>Dashboard</li> */}
-          {/* <li className="cursor-pointer hover:text-white" onClick={() => navigate(`/admin/${user.restaurantId}/menu`)}>Menu</li> */}
+          {/* Add Admin Links Here */}
         </>
       )}
 
@@ -83,33 +94,45 @@ const Navbar = () => {
           </div>
           <button
             onClick={clickLogout}
-            className="bg-white text-orange-500 px-4 py-1 rounded hover:bg-gray-100"
+            className="text-red-600 bg-white px-2 py-2 text-lg rounded-full hover:bg-red-600 hover:text-white"
           >
+            <i class="fas fa-sign-out pr-2"></i>
             Logout
           </button>
         </div>
       ) : (
-        <ul className="list-none h-full items-center flex text-xl gap-8 pb-2">
+        <ul className="list-none h-full items-center flex text-lg gap-8">
           <li
-            className="cursor-pointer hover:text-white"
+            className={`cursor-pointer hover:text-white ${isActive("/login")}`}
             onClick={() => navigate("/login")}
           >
-            Login
+            <i className="fa-solid fa-arrow-right-to-bracket pr-2"></i>Login
           </li>
           <li
-            className="cursor-pointer hover:text-white"
+            className={`cursor-pointer hover:text-white ${isActive(
+              "/user/signup"
+            )}`}
             onClick={() => navigate("/user/signup")}
           >
-            User Signup
+            <i className="fa-solid fa-address-card pr-2"></i>User Signup
           </li>
           <li
-            className="cursor-pointer hover:text-white"
+            className={`cursor-pointer hover:text-white ${isActive(
+              "/admin/signup"
+            )}`}
             onClick={() => navigate("/admin/signup")}
           >
-            Admin Signup
+            <i className="fa-solid fa-address-card pr-2"></i>Admin Signup
+          </li>
+          <li
+            className={`cursor-pointer hover:text-white ${isActive("/cart")}`}
+            onClick={() => navigate("/cart")}
+          >
+            <i className="fa-solid fa-cart-shopping pr-1"></i>Cart
           </li>
         </ul>
       )}
+      
     </nav>
   );
 };
