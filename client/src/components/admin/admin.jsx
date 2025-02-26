@@ -77,7 +77,7 @@ const Admin = () => {
       </aside>
 
       {/* Main Content */}
-      <div className="overflow-y-auto flex-1 p-6 custom-scrollbar">
+      <div className="overflow-y-auto flex-1 bg-gray-100 px-6 custom-scrollbar">
         <Routes>
           <Route path="" element={<Navigate to={id ? `/admin/${id}/dashboard` : "/admin"} replace />} />
           <Route path="dashboard" element={<AdminDashboard />} />

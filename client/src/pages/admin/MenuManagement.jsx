@@ -108,7 +108,8 @@ const MenuManagement = ({ adminId }) => {
               name: item.name,
               price: Number(item.price),
             })),
-          });
+          }
+        );
         toast.success("Items added to the existing section successfully!");
       } else {
         await axios.post(`${API_BASE_URL}/${adminId}/menu`, {
@@ -137,86 +138,15 @@ const MenuManagement = ({ adminId }) => {
   };
 
   return (
-    <div className="h-screen p-6 overflow-auto bg-white shadow-md rounded-lg">
+    <div className="p-4 bg-white shadow-md rounded-lg">
       <h1 className="text-xl font-bold">Welcome, {restaurant?.adminName}</h1>
       <h2 className="text-lg">{restaurant?.restaurantName}</h2>
 
       {error && <p className="text-red-500">{error}</p>}
       {loading && <p className="text-gray-500">Loading...</p>}
 
-      {/* Display Existing Menu */}
-      <div className="mt-6">
-        <h3 className="text-lg font-bold mb-2">Menu</h3>
-        {restaurant?.menu && restaurant.menu.length > 0 ? (
-          restaurant.menu.map((menuSection, index) => (
-            <div key={index} className="mb-4 p-4 border rounded shadow">
-              <h4 className="font-semibold text-lg">{menuSection.section}</h4>
-              <ul className="mt-2">
-                {menuSection.items.map((item) => (
-                  <li
-                    key={item._id}
-                    className="flex justify-between items-center"
-                  >
-                    {editingItemId === item._id ? (
-                      <>
-                        <input
-                          type="text"
-                          value={editItem.name}
-                          onChange={(e) =>
-                            setEditItem({ ...editItem, name: e.target.value })
-                          }
-                          className="border p-1 rounded"
-                        />
-                        <input
-                          type="number"
-                          value={editItem.price}
-                          onChange={(e) =>
-                            setEditItem({
-                              ...editItem,
-                              price: Math.max(0, Number(e.target.value)),
-                            })
-                          }
-                          className="border p-1 rounded"
-                        />
-                        <button
-                          onClick={handleUpdateItem}
-                          className="bg-green-500 text-white p-1 rounded"
-                        >
-                          Save
-                        </button>
-                      </>
-                    ) : (
-                      <>
-                        <span>{item.name}</span>
-                        <span className="font-bold">₹{item.price}</span>
-                        <button
-                          onClick={() => startEditing(menuSection._id, item)}
-                          className="bg-yellow-500 text-white p-1 rounded"
-                        >
-                          Edit
-                        </button>
-                        <button
-                          onClick={() =>
-                            handleDeleteItem(menuSection._id, item._id)
-                          }
-                          className="bg-red-500 text-white p-1 rounded"
-                        >
-                          Delete
-                        </button>
-                      </>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))
-        ) : (
-          <p>No menu sections added yet.</p>
-        )}
-      </div>
-
       {/* Form to Add New Menu Section */}
-      <form onSubmit={handleAddMenu} className="mt-4">
+      <form onSubmit={handleAddMenu} className="mt-3">
         <input
           type="text"
           placeholder="Section Name"
@@ -268,10 +198,10 @@ const MenuManagement = ({ adminId }) => {
           </div>
         ))}
         <button
-        type="button"
-        onClick={()=>setItems([...items,{name:"",price:""}])}
-        className="bg-blue-500 text-white p-2 rounded mr-2"
-        disabled={loading}
+          type="button"
+          onClick={() => setItems([...items, { name: "", price: "" }])}
+          className="bg-blue-500 text-white p-2 rounded mr-2"
+          disabled={loading}
         >
           Add Item
         </button>
@@ -279,6 +209,80 @@ const MenuManagement = ({ adminId }) => {
           {loading ? "Adding..." : "Add Section"}
         </button>
       </form>
+
+      {/* Display Existing Menu */}
+      <div className="mt-2">
+        <h3 className="text-xl font-bold mb-2">Menu</h3>
+        {restaurant?.menu && restaurant.menu.length > 0 ? (
+          restaurant.menu.map((menuSection, index) => (
+            <div key={index} className="mb-3 px-2 border rounded shadow">
+              <h4 className="font-semibold text-lg">{menuSection.section}</h4>
+              <ul className="">
+                {menuSection.items.map((item) => (
+                  <li
+                    key={item._id}
+                    className="flex justify-between pb-2 items-center relative"
+                  >
+                    <span className="flex-1">{item.name}</span>
+
+                    {editingItemId === item._id ? (
+                      <input
+                        type="number"
+                        value={editItem.price}
+                        onChange={(e) =>
+                          setEditItem({
+                            ...editItem,
+                            price: Math.max(0, Number(e.target.value)),
+                          })
+                        }
+                        className="border p-1 rounded absolute left-[85%] transform -translate-x-1/2 bg-white shadow-md"
+                        autoFocus
+                      />
+                    ) : (
+                      <span
+                        className="font-bold w-20 text-center cursor-pointer"
+                        onClick={() => startEditing(menuSection._id, item)}
+                      >
+                        ₹{item.price}
+                      </span>
+                    )}
+
+                    <div className="ml-4">
+                      {editingItemId === item._id ? (
+                        <button
+                          onClick={handleUpdateItem}
+                          className="bg-green-500 text-white p-1 mr-2 rounded"
+                        >
+                          Save
+                        </button>
+                      ) : (
+                        <>
+                          <button
+                            onClick={() => startEditing(menuSection._id, item)}
+                            className="bg-yellow-500 mr-4 text-white px-2 rounded"
+                          >
+                            <i class="fa-solid fa-pen-to-square"></i>
+                          </button>
+                          <button
+                            onClick={() =>
+                              handleDeleteItem(menuSection._id, item._id)
+                            }
+                            className="bg-red-500 text-white mr-4 px-2 rounded"
+                          >
+                            <i class="fa-solid fa-trash"></i>
+                          </button>
+                        </>
+                      )}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        ) : (
+          <p>No menu sections added yet.</p>
+        )}
+      </div>
     </div>
   );
 };
