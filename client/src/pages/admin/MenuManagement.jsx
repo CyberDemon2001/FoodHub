@@ -11,6 +11,9 @@ const MenuManagement = ({ adminId }) => {
   const [items, setItems] = useState([{ name: "", price: "" }]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [editingItemId, setEditingItemId] = useState(null);
+  const [editingSectionId, setEditingSectionId] = useState(null);
+  const [editItem, setEditItem] = useState({ name: "", price: "" });
 
   useEffect(() => {
     if (adminId) {
@@ -23,9 +26,9 @@ const MenuManagement = ({ adminId }) => {
       setLoading(true);
       const response = await axios.get(`${API_BASE_URL}/${adminId}`);
       setRestaurant(response.data);
+      setError("");
     } catch (error) {
-      console.error("Error fetching restaurant:", error.response?.data || error.message);
-      setError(error.response?.data?.message || "Failed to fetch restaurant details");
+      setError("Failed to fetch restaurant details");
       toast.error("Failed to fetch restaurant details");
     } finally {
       setLoading(false);
@@ -33,6 +36,7 @@ const MenuManagement = ({ adminId }) => {
   };
 
   const validateInputs = () => {
+    setError(""); // Reset errors before validating
     if (!adminId) {
       setError("Admin ID is missing! Please refresh the page.");
       return false;
@@ -41,11 +45,47 @@ const MenuManagement = ({ adminId }) => {
       setError("Section name cannot be empty!");
       return false;
     }
-    if (items.some((item) => !item.name.trim() || !item.price || item.price <= 0)) {
+    if (
+      items.some((item) => !item.name.trim() || !item.price || item.price <= 0)
+    ) {
       setError("Please fill out all item fields correctly!");
       return false;
     }
     return true;
+  };
+
+  const startEditing = (sectionId, item) => {
+    setEditingItemId(item._id);
+    setEditingSectionId(sectionId);
+    setEditItem({ name: item.name, price: item.price });
+  };
+
+  const handleUpdateItem = async () => {
+    if (!editingItemId || !editingSectionId) return;
+    try {
+      await axios.put(
+        `${API_BASE_URL}/${adminId}/menu/${editingSectionId}/item/${editingItemId}`,
+        editItem
+      );
+      toast.success("Item updated successfully!");
+      fetchRestaurant();
+      setEditingItemId(null);
+    } catch (error) {
+      toast.error("Failed to update item");
+    }
+  };
+
+  const handleDeleteItem = async (sectionId, itemId) => {
+    if (!window.confirm("Are you sure you want to delete this item?")) return;
+    try {
+      await axios.delete(
+        `${API_BASE_URL}/${adminId}/menu/${sectionId}/item/${itemId}`
+      );
+      toast.success("Item deleted successfully!");
+      fetchRestaurant();
+    } catch (error) {
+      toast.error("Failed to delete item");
+    }
   };
 
   const handleAddMenu = async (e) => {
@@ -56,28 +96,36 @@ const MenuManagement = ({ adminId }) => {
 
     try {
       setLoading(true);
-
-      const existingSection = restaurant?.menu?.find((menuSection) => menuSection.section === section);
+      const existingSection = restaurant?.menu?.find(
+        (menuSection) => menuSection.section === section
+      );
 
       if (existingSection) {
-        await axios.put(`${API_BASE_URL}/${adminId}/menu/${existingSection._id}`, {
-          items: items.map((item) => ({ name: item.name, price: Number(item.price) })),
-        });
+        await axios.put(
+          `${API_BASE_URL}/${adminId}/menu/${existingSection._id}`,
+          {
+            items: items.map((item) => ({
+              name: item.name,
+              price: Number(item.price),
+            })),
+          });
         toast.success("Items added to the existing section successfully!");
       } else {
         await axios.post(`${API_BASE_URL}/${adminId}/menu`, {
           section,
-          items: items.map((item) => ({ name: item.name, price: Number(item.price) })),
+          items: items.map((item) => ({
+            name: item.name,
+            price: Number(item.price),
+          })),
         });
         toast.success("New menu section added successfully!");
       }
 
-      fetchRestaurant(); // Refresh menu
+      fetchRestaurant();
       setSection("");
       setItems([{ name: "", price: "" }]);
     } catch (error) {
-      console.error("Error adding menu:", error.response?.data || error.message);
-      setError(error.response?.data?.error || "Failed to add menu section");
+      setError("Failed to add menu section");
       toast.error("Failed to add menu section");
     } finally {
       setLoading(false);
@@ -85,8 +133,7 @@ const MenuManagement = ({ adminId }) => {
   };
 
   const handleRemoveItem = (index) => {
-    const newItems = items.filter((_, i) => i !== index);
-    setItems(newItems);
+    setItems(items.filter((_, i) => i !== index));
   };
 
   return (
@@ -105,10 +152,59 @@ const MenuManagement = ({ adminId }) => {
             <div key={index} className="mb-4 p-4 border rounded shadow">
               <h4 className="font-semibold text-lg">{menuSection.section}</h4>
               <ul className="mt-2">
-                {menuSection.items.map((item, i) => (
-                  <li key={i} className="flex justify-between">
-                    <span>{item.name}</span>
-                    <span className="font-bold">₹{item.price}</span>
+                {menuSection.items.map((item) => (
+                  <li
+                    key={item._id}
+                    className="flex justify-between items-center"
+                  >
+                    {editingItemId === item._id ? (
+                      <>
+                        <input
+                          type="text"
+                          value={editItem.name}
+                          onChange={(e) =>
+                            setEditItem({ ...editItem, name: e.target.value })
+                          }
+                          className="border p-1 rounded"
+                        />
+                        <input
+                          type="number"
+                          value={editItem.price}
+                          onChange={(e) =>
+                            setEditItem({
+                              ...editItem,
+                              price: Math.max(0, Number(e.target.value)),
+                            })
+                          }
+                          className="border p-1 rounded"
+                        />
+                        <button
+                          onClick={handleUpdateItem}
+                          className="bg-green-500 text-white p-1 rounded"
+                        >
+                          Save
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <span>{item.name}</span>
+                        <span className="font-bold">₹{item.price}</span>
+                        <button
+                          onClick={() => startEditing(menuSection._id, item)}
+                          className="bg-yellow-500 text-white p-1 rounded"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          onClick={() =>
+                            handleDeleteItem(menuSection._id, item._id)
+                          }
+                          className="bg-red-500 text-white p-1 rounded"
+                        >
+                          Delete
+                        </button>
+                      </>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -172,14 +268,14 @@ const MenuManagement = ({ adminId }) => {
           </div>
         ))}
         <button
-          type="button"
-          onClick={() => setItems([...items, { name: "", price: "" }])}
-          className="bg-blue-500 text-white p-2 rounded mr-2"
-          disabled={loading}
+        type="button"
+        onClick={()=>setItems([...items,{name:"",price:""}])}
+        className="bg-blue-500 text-white p-2 rounded mr-2"
+        disabled={loading}
         >
           Add Item
         </button>
-        <button type="submit" className="bg-green-500 text-white p-2 rounded" disabled={loading}>
+        <button type="submit" className="bg-green-500 text-white p-2 rounded">
           {loading ? "Adding..." : "Add Section"}
         </button>
       </form>
