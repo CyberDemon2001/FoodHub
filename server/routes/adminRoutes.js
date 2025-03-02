@@ -1,14 +1,7 @@
 const express = require("express");
 const { Signup } = require("../controllers/AdminController");
-const {
-  getRestaurant,
-  getAllRestaurants,
-} = require("../controllers/RestaurantController");
-const {
-  addMenuSection,
-  updateMenuItem,
-  deleteMenuItem,
-} = require("../controllers/MenuController");
+const { getRestaurant, getAllRestaurants,} = require("../controllers/RestaurantController");
+const { addMenuSection, updateMenuItem, deleteMenuItem, } = require("../controllers/MenuController");
 const { ExistingSection } = require("../controllers/ExistingSectionController");
 
 const router = express.Router();
