@@ -13,6 +13,7 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import Menu from "./pages/user/Menu";
 import Orders from "./pages/user/Orders";
 import Cart from './pages/user/Cart';
+import OurTeam from './components/common/OurTeam';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
       {/* <Route path="/restaurant/:name" element={<RestaurantMenu />}/> */}
       <Route path="/home/:name" element={<Menu />}/>
       <Route path="/user/:id/:name" element={<Menu />}/>
+      <Route path="/ourteam" element={<OurTeam/>}/>
     </Routes>
     <Footer />
     </>
