@@ -30,7 +30,6 @@ const AdminDashboard = () => {
   const customerInfoData = [
     { name: "Regular", value: 500 },
     { name: "New", value: 200 },
-    
   ];
 
   const COLORS = ["#FFBB28", "#FF8042", "#00C49F", "#0088FE"];

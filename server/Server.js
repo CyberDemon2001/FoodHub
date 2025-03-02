@@ -1,14 +1,14 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-const cors=require('cors');
-const adminRoutes = require("./routes/adminRoutes"); // CommonJS `require`
-const userRoutes = require("./routes/userRoutes"); // CommonJS `require`
-const loginRoutes = require("./routes/loginRoutes"); // CommonJS `require`
-// const Restaurant = require("./models/Restaurant");
-// const getAllRestaurants =require("./controllers/RestaurantController");
+const cors = require("cors");
 
-dotenv.config(); // Load environment variables from a .env file
+const adminRoutes = require("./routes/adminRoutes");
+const userRoutes = require("./routes/userRoutes");
+const loginRoutes = require("./routes/loginRoutes");
+const orderRoutes = require("./routes/orderRoutes"); // 🔥 Fix Import
+
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -19,20 +19,18 @@ mongoose
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.log(err));
 
-app.use(express.json()); // Middleware to parse JSON bodies
-app.use(cors()); // Enable CORS for cross-origin requests
-
+app.use(express.json());
+app.use(cors());
 
 app.use("/home", adminRoutes);
 app.use("/api/admin", adminRoutes);
-app.use("/api/user", userRoutes) // Register the admin routes
-app.use('/api/auth', loginRoutes);
-
-
+app.use("/api/user", userRoutes);
+app.use("/api/auth", loginRoutes);
+// app.use("/api/orders", orderRoutes); // 🔥 FIXED ROUTE
+app.use("/api", orderRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
 
-// Use module.exports to export the app in CommonJS
-module.exports = app;
+module.exports = app; // Export the app if needed

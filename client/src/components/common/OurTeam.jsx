@@ -1,26 +1,37 @@
 import React from "react";
 import raman from "../../assets/raman.jpg";
+import toshika from "../../assets/toshika.jpg";
+import vaibhav from "../../assets/vaibhav.png";
 
 const teamMembers = [
   {
     name: "Vaibhav Tyagi",
     role: "Developer",
-    image: raman, // Replace with actual image URL
-    socials: ["facebook", "twitter", "instagram"],
+    image: vaibhav,
+    socials: [
+      { platform: "linkedin", link: "https://www.linkedin.com/in/vaibhavtyagi01?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BXPa1T%2FfcTayMzX33zGe1xA%3D%3D" },
+      { platform: "instagram", link: "https://www.instagram.com/vaibhav.tyagi01?igsh=MWx5MXVyMnk2NW5lbw==" },
+    ],
     position: "top-left",
   },
   {
     name: "Raman Chauhan",
     role: "Developer",
-    image: raman, // Replace with actual image URL
-    socials: ["facebook", "twitter", "instagram"],
+    image: raman,
+    socials: [
+      { platform: "linkedin", link: "https://www.linkedin.com/in/ramanchauhan13?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BEMXM4gtCTDyS06RWLN0UpA%3D%3D" },
+      { platform: "instagram", link: "https://www.instagram.com/__life_of_an_athlete__?utm_source=qr&igsh=MThvZnpxc3lmcWRyMA==" },
+    ],
     position: "center",
   },
   {
     name: "Toshika Varshney",
     role: "UI Designer",
-    image: raman, // Replace with actual image URL
-    socials: ["facebook", "twitter", "instagram"],
+    image: toshika,
+    socials: [
+      { platform: "linkedin", link: "https://www.linkedin.com/in/toshika-varshney-9a9b87280?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BHdHeL5jhS7ukTuKJ7yTNGw%3D%3D" },
+      { platform: "instagram", link: "https://www.instagram.com/toshi.ka_?igsh=eHhud25rNjhoaXc5" },
+    ],
     position: "bottom-right",
   },
 ];
@@ -47,12 +58,18 @@ function OurTeam() {
                 className="w-full h-full rounded-lg mx-auto object-cover border-4 border-gray-100"
               />
               <h3 className="text-lg font-semibold mt-8">{member.name}</h3>
-              <p className="text-gray-500 text-sm">{member.role}</p>
+              <p className="text-gray-600 pb-1 text-sm">{member.role}</p>
               <div className="flex justify-center gap-3 text-orange-600">
                 {member.socials.map((social, i) => (
-                  <span key={i} className="cursor-pointer text-xl">
-                    <i className={`fab fa-${social}`}></i>
-                  </span>
+                  <a 
+                    key={i} 
+                    href={social.link} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="cursor-pointer text-xl hover:text-orange-700"
+                  >
+                    <i className={`fab fa-${social.platform}`}></i>
+                  </a>
                 ))}
               </div>
             </div>

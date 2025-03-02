@@ -11,7 +11,8 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 // import User from "./components/user/UserNavebar";
 // import RestaurantMenu from "./pages/user/RestaurantMenu";
 import Menu from "./pages/user/Menu";
-import Orders from "./pages/user/Orders";
+import UserOrders from "./pages/user/UserOrders";
+import AdminOrders from "./pages/admin/AdminOrders";
 import Cart from './pages/user/Cart';
 import OurTeam from './components/common/OurTeam';
 
@@ -27,7 +28,8 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/admin/:id/*" element={<Admin />} />
       <Route path="/user/:id/home" element={<Content />} />
-      <Route path="/user/:id/orders" element={<Orders />} />
+      <Route path="/user/:id/orders" element={<UserOrders />} />
+      <Route path="/admin/orders/:id" element={<AdminOrders />} />
       <Route path="/user/:id/cart" element={<Cart />} />
       <Route  path="cart" element={<Cart />} />
       {/* <Route path="/user/:id/*" element={<User />}/> */}

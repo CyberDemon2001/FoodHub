@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import image from "../../assets/menusec.jpg";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -8,24 +8,26 @@ const Menu = () => {
   const location = useLocation();
   const restaurant = location.state?.restaurant;
   const [cart, setCart] = useState([]);
+  const {id} = useParams();
 
   // Assume user is logged in and we get user from localStorage
-  const user = localStorage.getItem("user"); // Unique User ID
+  const user = JSON.parse(localStorage.getItem("user")); // Unique User ID
+  const userId = user?.id;
 
   useEffect(() => {
     if (user) {
-      const storedCart = JSON.parse(localStorage.getItem(`cart_${user}`)) || [];
+      const storedCart = JSON.parse(localStorage.getItem(`cart_${id}`)) || [];
       setCart(storedCart);
     }
-  }, [user]);
+  }, [userId]);
 
   const updateCart = (updatedCart) => {
     setCart(updatedCart);
-    localStorage.setItem(`cart_${user}`, JSON.stringify(updatedCart)); // Store cart for specific user
+    localStorage.setItem(`cart_${id}`, JSON.stringify(updatedCart)); // Store cart for specific user
   };
 
   const handleAddToCart = (item, section) => {
-    if (!user) {
+    if (!userId) {
       toast.error("Please log in to add items to the cart!");
       return;
     }
@@ -53,8 +55,8 @@ const Menu = () => {
       }
     } else {
       updatedCart.push({
+        userId: userId,
         restaurantId: restaurant._id,
-        restaurantName: restaurant.restaurantName,
         items: [{ ...item, section: section.section, quantity: 1 }],
       });
       toast.success(`Added to cart: ${item.name}`, { autoClose: 1500 });

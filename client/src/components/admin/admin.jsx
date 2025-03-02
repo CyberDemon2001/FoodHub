@@ -3,7 +3,7 @@ import { Link, Route, Routes, Navigate, useLocation, useParams, useNavigate } fr
 import AdminDashboard from "../../pages/admin/AdminDashboard";
 import Analytics from "../../pages/admin/Analytics";
 import MenuManagement from "../../pages/admin/MenuManagement";
-import Orders from "../../pages/admin/Orders";
+import Orders from "../../pages/admin/AdminOrders";
 import Settings from "../../pages/admin/Settings";
 import Reviews from "../../pages/admin/Reviews";
 import Customers from "../../pages/admin/Customers";
@@ -81,7 +81,7 @@ const Admin = () => {
         <Routes>
           <Route path="" element={<Navigate to={id ? `/admin/${id}/dashboard` : "/admin"} replace />} />
           <Route path="dashboard" element={<AdminDashboard />} />
-          <Route path="orders" element={<Orders />} />
+          <Route path="orders" element={<Orders adminId={id} />} />
           <Route path="menu" element={<MenuManagement adminId={id} />} />
           <Route path="customers" element={<Customers />} />
           <Route path="reviews" element={<Reviews />} />

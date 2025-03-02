@@ -96,7 +96,7 @@ const Navbar = () => {
             onClick={clickLogout}
             className="text-red-600 bg-white px-2 py-2 text-lg rounded-full hover:bg-red-600 hover:text-white"
           >
-            <i class="fas fa-sign-out pr-2"></i>
+            <i className="fas fa-sign-out pr-2"></i>
             Logout
           </button>
         </div>

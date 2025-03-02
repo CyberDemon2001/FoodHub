@@ -102,7 +102,7 @@ function Content() {
       <div className="bg-orange-500 w-full absolute mt-20 h-[70vh]"></div>
 
       {/* Swiper Carousel */}
-      <div className="border-20 mx-15 my-6 relative border-gray-900 h-[65vh]">
+      <div className="border-20 mx-15 my-6 relative bg-gray-900 border-gray-900 h-[65vh]">
         <Swiper
           modules={[Navigation, Pagination, Autoplay]}
           navigation
@@ -116,8 +116,11 @@ function Content() {
               <img
                 src={slide}
                 alt={`Slide ${index + 1}`}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover absolute"
+                
               />
+              <h1 className="text-white block bg-white/10 backdrop-blur-xs font-bold text-4xl relative text-center top-1/3">FoodHub</h1>
+              <h1 className="text-white bg-white/10 backdrop-blur-xs text-2xl relative text-center top-1/3">Your Favorite Food, Delivered Fast!</h1>
             </SwiperSlide>
           ))}
         </Swiper>
