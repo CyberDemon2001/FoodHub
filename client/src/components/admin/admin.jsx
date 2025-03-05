@@ -20,9 +20,9 @@ const Admin = () => {
     { name: "Dashboard", path: "dashboard", icon: "fa-house" },
     { name: "Orders", path: "orders", icon: "fa-clipboard" },
     { name: "Menu", path: "menu", icon: "fa-bars" },
-    { name: "Customers", path: "customers", icon: "fa-user-plus" },
-    { name: "Reviews", path: "reviews", icon: "fa-pen" },
-    { name: "Analytics", path: "analytics", icon: "fa-chart-simple" },
+      // { name: "Customers", path: "customers", icon: "fa-user-plus" },
+      // { name: "Reviews", path: "reviews", icon: "fa-pen" },
+      // { name: "Analytics", path: "analytics", icon: "fa-chart-simple" },
     { name: "Settings", path: "settings", icon: "fa-gear" },
   ];
 

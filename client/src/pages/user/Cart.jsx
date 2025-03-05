@@ -3,15 +3,22 @@ import Address from "./Address";
 import PaymentInfo from "./PaymentInfo";
 import Checkout from "./Checkout";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 
 const Cart = () => {
   const [step, setStep] = useState(1);
   const [paymentDone, setPaymentDone] = useState(false);
 
   const nextStep = () => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const cart = JSON.parse(localStorage.getItem(`cart_${user.id}`));
+    if (!cart || cart.length === 0) {
+      toast.error("Add something to the cart before proceeding!");
+      return;
+    }
     setStep((prevStep) => (prevStep < 3 ? prevStep + 1 : prevStep));
   };
+
 
   const prevStep = () => {
     setStep((prevStep) => (prevStep > 1 ? prevStep - 1 : prevStep));
@@ -46,6 +53,7 @@ const Cart = () => {
   };
 
   return (
+    <>
     <div className="mx-30 h-[90vh] bg-white flex flex-col overflow-auto justify-between">
       <div>
         <div className="relative p-2 flex items-center justify-between w-full">
@@ -103,7 +111,10 @@ const Cart = () => {
           </button>
         )}
       </div>
+      
     </div>
+    <ToastContainer />
+    </>
   );
 };
 

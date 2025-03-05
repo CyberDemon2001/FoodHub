@@ -11,7 +11,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleLogin = async () => {
-    console.log({ email, password, role });
+    // console.log({ email, password, role });
 
     try {
       const response = await axios.post("http://localhost:5000/api/auth", {
@@ -21,12 +21,12 @@ const Login = () => {
       });
 
       if (response.status === 200) {
-        const { token, name, id } = response.data;
+        const { token, name, id, email, mobile, dob, department } = response.data;
         console.log("Login successful:", response.data);
         toast.success("Login Successfully");
 
         // Save user details in localStorage
-        localStorage.setItem("user", JSON.stringify({ name, token, id, role }));
+        localStorage.setItem("user", JSON.stringify({ name, token, id, role, email, mobile, dob, department }));  
 
         // Redirect after 2 seconds to allow users to see the toast message
         setTimeout(() => {

@@ -44,6 +44,14 @@ const Navbar = () => {
       {user && user.role === "student" && (
         <ul className="h-full text-lg items-center flex list-none gap-15">
           <li
+            className={`cursor-pointer list-none hover:text-white ${isActive(
+              `/user/${user.id}/cart`
+            )}`}
+            onClick={() => navigate(`/user/${user.id}/cart`)}
+          >
+            <i className="fa-solid fa-cart-shopping pr-1"></i>Cart
+          </li>
+          <li
             className={`cursor-pointer hover:text-white ${isActive(
               `/user/${user.id}/home`
             )}`}
@@ -102,6 +110,15 @@ const Navbar = () => {
         </div>
       ) : (
         <ul className="list-none h-full items-center flex text-lg gap-8">
+           <li
+            className={`cursor-pointer hover:text-white ${isActive(
+              "/menu"
+            )}`}
+            onClick={() => navigate("/menu")}
+          >
+            <i className="fa-solid fa-bowl-food pr-2"></i>Menu
+          </li>
+
           <li
             className={`cursor-pointer hover:text-white ${isActive("/login")}`}
             onClick={() => navigate("/login")}

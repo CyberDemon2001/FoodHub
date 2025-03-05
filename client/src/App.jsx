@@ -15,6 +15,7 @@ import UserOrders from "./pages/user/UserOrders";
 import AdminOrders from "./pages/admin/AdminOrders";
 import Cart from './pages/user/Cart';
 import OurTeam from './components/common/OurTeam';
+import Profile from "./pages/user/Profile";
 
 function App() {
   return (
@@ -36,7 +37,9 @@ function App() {
       {/* <Route path="/restaurant/:name" element={<RestaurantMenu />}/> */}
       <Route path="/home/:name" element={<Menu />}/>
       <Route path="/user/:id/:name" element={<Menu />}/>
+      <Route path="user/:id/profile" element={<Profile />} />  
       <Route path="/ourteam" element={<OurTeam/>}/>
+
     </Routes>
     <Footer />
     </>
