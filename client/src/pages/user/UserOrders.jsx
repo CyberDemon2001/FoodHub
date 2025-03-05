@@ -118,7 +118,7 @@ const UserOrders = () => {
                   <div key={index} className="p-4 bg-white shadow rounded-lg flex flex-col gap-2">
                     {/* Restaurant Name */}
                     <div className="text-lg font-semibold text-gray-800">
-                      {order.restaurantId?.name || "Unknown Restaurant"}
+                      {order.restaurantId?.restaurantName || "Unknown Restaurant"}
                     </div>
 
                     <div className="flex justify-between">
