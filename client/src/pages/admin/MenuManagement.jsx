@@ -14,6 +14,7 @@ const MenuManagement = ({ adminId }) => {
   const [editingItemId, setEditingItemId] = useState(null);
   const [editingSectionId, setEditingSectionId] = useState(null);
   const [editItem, setEditItem] = useState({ name: "", price: "" });
+  const [editingSectionName, setEditingSectionName] = useState("");
 
   useEffect(() => {
     if (adminId) {
@@ -60,6 +61,11 @@ const MenuManagement = ({ adminId }) => {
     setEditItem({ name: item.name, price: item.price });
   };
 
+  const startEditingSection = (sectionId, sectionName) => {
+    setEditingSectionId(sectionId);
+    setEditingSectionName(sectionName);
+  };
+
   const handleUpdateItem = async () => {
     if (!editingItemId || !editingSectionId) return;
     try {
@@ -75,6 +81,20 @@ const MenuManagement = ({ adminId }) => {
     }
   };
 
+  const handleUpdateSection = async () => {
+    if (!editingSectionId) return;
+    try {
+      await axios.put(`${API_BASE_URL}/${adminId}/menu/${editingSectionId}`, {
+        section: editingSectionName,
+      });
+      toast.success("Section name updated successfully!");
+      fetchRestaurant();
+      setEditingSectionId(null);
+    } catch (error) {
+      toast.error("Failed to update section name");
+    }
+  };
+
   const handleDeleteItem = async (sectionId, itemId) => {
     if (!window.confirm("Are you sure you want to delete this item?")) return;
     try {
@@ -85,6 +105,18 @@ const MenuManagement = ({ adminId }) => {
       fetchRestaurant();
     } catch (error) {
       toast.error("Failed to delete item");
+    }
+  };
+
+  const handleDeleteSection = async (sectionId) => {
+    if (!window.confirm("Are you sure you want to delete this section?"))
+      return;
+    try {
+      await axios.delete(`${API_BASE_URL}/${adminId}/menu/${sectionId}`);
+      toast.success("Section deleted successfully!");
+      fetchRestaurant();
+    } catch (error) {
+      toast.error("Failed to delete section");
     }
   };
 
@@ -216,7 +248,50 @@ const MenuManagement = ({ adminId }) => {
         {restaurant?.menu && restaurant.menu.length > 0 ? (
           restaurant.menu.map((menuSection, index) => (
             <div key={index} className="mb-3 px-2 border rounded shadow">
-              <h4 className="font-semibold text-lg">{menuSection.section}</h4>
+              {/* <h4 className="font-semibold text-lg">{menuSection.section}</h4>
+              <ul className=""> */}
+              <div className="flex justify-between items-center">
+                {editingSectionId === menuSection._id ? (
+                  <input
+                    type="text"
+                    value={editingSectionName}
+                    onChange={(e) => setEditingSectionName(e.target.value)}
+                    className="border p-1 rounded"
+                    autoFocus
+                  />
+                ) : (
+                  <h4 className="font-semibold text-lg">
+                    {menuSection.section}
+                  </h4>
+                )}
+                <div>
+                  {editingSectionId === menuSection._id ? (
+                    <button
+                      onClick={handleUpdateSection}
+                      className="bg-green-500 text-white p-1 mr-2 rounded"
+                    >
+                      Save
+                    </button>
+                  ) : (
+                    <>
+                      <button
+                        onClick={() =>
+                          startEditingSection(menuSection._id, menuSection.section)
+                        }
+                        className="bg-yellow-500 text-white p-1 mr-2 rounded"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDeleteSection(menuSection._id)}
+                        className="bg-red-500 text-white p-1 rounded"
+                      >
+                        Delete
+                      </button>
+                    </>
+                  )}
+                </div>
+              </div>
               <ul className="">
                 {menuSection.items.map((item) => (
                   <li
@@ -261,7 +336,7 @@ const MenuManagement = ({ adminId }) => {
                             onClick={() => startEditing(menuSection._id, item)}
                             className="bg-yellow-500 mr-4 text-white px-2 rounded"
                           >
-                            <i class="fa-solid fa-pen-to-square"></i>
+                            <i className="fa-solid fa-pen-to-square"></i>
                           </button>
                           <button
                             onClick={() =>
@@ -269,7 +344,7 @@ const MenuManagement = ({ adminId }) => {
                             }
                             className="bg-red-500 text-white mr-4 px-2 rounded"
                           >
-                            <i class="fa-solid fa-trash"></i>
+                            <i className="fa-solid fa-trash"></i>
                           </button>
                         </>
                       )}

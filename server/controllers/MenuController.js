@@ -44,6 +44,27 @@ const updateMenuItem = async (req, res) => {
   }
 };
 
+const updateSection = async (req, res) => {
+  const { section } = req.body;
+  try {
+    const restaurant = await RestaurantSchema.findOne({ adminId: req.params.adminId });
+    if (!restaurant) {
+      return res.status(404).json({ message: "Restaurant not found" });
+    }
+
+    const sectionToUpdate = restaurant.menu.id(req.params.sectionId);
+    if (!sectionToUpdate) {
+      return res.status(404).json({ message: "Section not found" });
+    }
+
+    sectionToUpdate.section = section;
+    await restaurant.save();
+    res.json(restaurant);
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+};
+
 const deleteMenuItem =  async (req, res) => {
   try {
       const { adminId, sectionId, itemId } = req.params;
@@ -62,5 +83,19 @@ const deleteMenuItem =  async (req, res) => {
   }
 };
 
+const deleteSection = async (req, res) => {
+  try {
+    const restaurant = await RestaurantSchema.findOne({ adminId: req.params.adminId });
+    if (!restaurant) {
+      return res.status(404).json({ message: "Restaurant not found" });
+    }
 
-module.exports = { addMenuSection ,updateMenuItem,deleteMenuItem};
+    restaurant.menu.pull({ _id: req.params.sectionId });
+    await restaurant.save();
+    res.json(restaurant);
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+};
+
+module.exports = { addMenuSection ,updateMenuItem,deleteMenuItem,deleteSection,updateSection};
