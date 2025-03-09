@@ -10,12 +10,13 @@ import Admin from "./components/admin/admin";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 // import User from "./components/user/UserNavebar";
 // import RestaurantMenu from "./pages/user/RestaurantMenu";
-import Menu from "./pages/user/Menu";
+import Restaurant from "./pages/user/Restaurant";
 import UserOrders from "./pages/user/UserOrders";
 import AdminOrders from "./pages/admin/AdminOrders";
 import Cart from './pages/user/Cart';
 import OurTeam from './components/common/OurTeam';
 import Profile from "./pages/user/Profile";
+import Menu from "./components/common/Menu";
 
 function App() {
   return (
@@ -35,10 +36,11 @@ function App() {
       <Route  path="cart" element={<Cart />} />
       {/* <Route path="/user/:id/*" element={<User />}/> */}
       {/* <Route path="/restaurant/:name" element={<RestaurantMenu />}/> */}
-      <Route path="/home/:name" element={<Menu />}/>
-      <Route path="/user/:id/:name" element={<Menu />}/>
+      <Route path="/home/:name" element={<Restaurant />}/>
+      <Route path="/user/:id/:name" element={<Restaurant />}/>
       <Route path="user/:id/profile" element={<Profile />} />  
       <Route path="/ourteam" element={<OurTeam/>}/>
+      <Route path="/menu" element={<Menu />} />
 
     </Routes>
     <Footer />

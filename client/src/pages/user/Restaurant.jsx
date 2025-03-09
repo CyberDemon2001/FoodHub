@@ -4,7 +4,7 @@ import { useLocation, useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const Menu = () => {
+const Restaurant = () => {
   const location = useLocation();
   const restaurant = location.state?.restaurant;
   const [cart, setCart] = useState([]);
@@ -106,4 +106,4 @@ const Menu = () => {
   );
 };
 
-export default Menu;
+export default Restaurant;

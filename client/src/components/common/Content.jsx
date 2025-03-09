@@ -13,7 +13,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 import image from "../../assets/rest.jpg";
-
+import Menu from "../common/Menu";
 
 function Content() {
   const [restaurant, setRestaurant] = useState([]);
@@ -27,8 +27,8 @@ function Content() {
     const fetchRestaurant = async () => {
       try {
         setLoading(true);
-        const response = await axios.get("http://localhost:5000/home");
-        console.log("Api Response", response.data);
+        const response = await axios.get("http://localhost:5000/api/home");
+        // console.log("Api Response", response.data);
         if (Array.isArray(response.data)) {
           setRestaurant(response.data);
         } else {
@@ -58,7 +58,7 @@ function Content() {
 
   // Remove duplicates using Set
   const uniqueSections = [...new Set(allSections)];
-  console.log("Unique Sections:", uniqueSections);
+  // console.log("Unique Sections:", uniqueSections);
 
   // Flatten the items while keeping track of restaurant
   const allItems = restaurant.flatMap(
@@ -82,9 +82,13 @@ function Content() {
 
   const handleViewMenu = (selectedRestaurant) => {
     if (!id) {
-      navigate(`/home/${selectedRestaurant.restaurantName}`, { state: { restaurant: selectedRestaurant } });
+      navigate(`/home/${selectedRestaurant.restaurantName}`, {
+        state: { restaurant: selectedRestaurant },
+      });
     } else {
-      navigate(`/user/${id}/${selectedRestaurant.restaurantName}`, { state: { restaurant: selectedRestaurant } });
+      navigate(`/user/${id}/${selectedRestaurant.restaurantName}`, {
+        state: { restaurant: selectedRestaurant },
+      });
     }
   };
 
@@ -117,10 +121,13 @@ function Content() {
                 src={slide}
                 alt={`Slide ${index + 1}`}
                 className="w-full h-full object-cover absolute"
-                
               />
-              <h1 className="text-white block bg-white/10 backdrop-blur-xs font-bold text-4xl relative text-center top-1/3">FoodHub</h1>
-              <h1 className="text-white bg-white/10 backdrop-blur-xs text-2xl relative text-center top-1/3">Your Favorite Food, Delivered Fast!</h1>
+              <h1 className="text-white block bg-white/10 backdrop-blur-xs font-bold text-4xl relative text-center top-1/3">
+                FoodHub
+              </h1>
+              <h1 className="text-white bg-white/10 backdrop-blur-xs text-2xl relative text-center top-1/3">
+                Your Favorite Food, Delivered Fast!
+              </h1>
             </SwiperSlide>
           ))}
         </Swiper>
@@ -128,44 +135,45 @@ function Content() {
 
       {/* Restaurant Swiper with Hover Effect */}
       <div className="border-2 mx-15">
-      <Swiper
-  modules={[Navigation, Pagination, Autoplay]}
-  navigation
-  pagination={{ clickable: true }}
-  autoplay={{
-    delay: 2000,
-    pauseOnMouseEnter: true,
-  }}
-  spaceBetween={70}
-  slidesPerView={4}
-  loop={true}
->
-  {restaurant.map((restaurant, index) => (
-    <SwiperSlide key={index}>
-      <div className="border-10 mx-5 my-5  h-[250px] text-center bg-white border-gray-900 transition-transform duration-300 ease-in-out transform hover:scale-110 shadow-lg relative overflow-hidden rounded-lg">
-        {/* Restaurant Image */}
-        <img
-          src={image}
-          className="w-full h-full object-cover rounded-lg"
-          alt="restaurant"
-        />
-
-        {/* Open Menu Button */}
-        <button
-          className="absolute top-2/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-orange-500 text-white w-[50%] rounded-md shadow-lg opacity-90 hover:opacity-100 transition"
-          onClick={() => handleViewMenu(restaurant)}
+        <Swiper
+          modules={[Navigation, Pagination, Autoplay]}
+          navigation
+          pagination={{ clickable: true }}
+          autoplay={{
+            delay: 2000,
+            pauseOnMouseEnter: true,
+          }}
+          spaceBetween={70}
+          slidesPerView={4}
+          loop={true}
         >
-        Open Menu
-        </button>
+          {restaurant.map((restaurant, index) => (
+            <SwiperSlide key={index}>
+              <div className="border-10 mx-5 my-5  h-[250px] text-center bg-white border-gray-900 transition-transform duration-300 ease-in-out transform hover:scale-110 shadow-lg relative overflow-hidden rounded-lg">
+                {/* Restaurant Image */}
+                <p className="text-sm ">{restaurant.adminId}</p>
+                <img
+                  src={`https://res.cloudinary.com/dzkiozbbk/image/upload/FoodHub/${restaurant.adminId}`}
+                  className="w-full h-full object-cover rounded-lg"
+                  alt={restaurant.restaurantName}
+                />
 
-        {/* Restaurant Name at the Bottom */}
-        <h1 className="absolute bottom-2 left-0 right-0 text-lg font-bold bg-white text-black py-1">
-          {restaurant.restaurantName || "Unnamed Restaurant"}
-        </h1>
-      </div>
-    </SwiperSlide>
-  ))}
-</Swiper>
+                {/* Open Menu Button */}
+                <button
+                  className="absolute top-2/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-orange-500 text-white w-[50%] rounded-md shadow-lg opacity-90 hover:opacity-100 transition"
+                  onClick={() => handleViewMenu(restaurant)}
+                >
+                  Open Menu
+                </button>
+
+                {/* Restaurant Name at the Bottom */}
+                <h1 className="absolute bottom-2 left-0 right-0 text-lg font-bold bg-white text-black py-1">
+                  {restaurant.restaurantName || "Unnamed Restaurant"}
+                </h1>
+              </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
       </div>
 
       {/* Favorite Food Section */}
