@@ -41,4 +41,10 @@ router.post("/:id/settings", upload.single("image"), async (req, res) => {
 });
 
 
+//update Section
+router.put("/restaurant/:adminId/menu/:sectionId", updateSection);
+
+// Delete section
+router.delete("/restaurant/:adminId/menu/:sectionId", deleteSection);
+
 module.exports = router;
