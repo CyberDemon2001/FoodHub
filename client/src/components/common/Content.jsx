@@ -82,10 +82,12 @@
     //   navigate(`/home/${restaurantName}`, {state:{restaurant}})
     // }
     useEffect(() => {
-      if (allItems.length > 0) {
-        setAllItems(allItems);
-      }
+      setAllItems((prevItems) => {
+        // Update only if the new allItems are different from the previous ones
+        return JSON.stringify(prevItems) !== JSON.stringify(allItems) ? allItems : prevItems;
+      });
     }, [allItems, setAllItems]);
+    
     
     
 
