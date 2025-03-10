@@ -51,10 +51,15 @@ const Navbar = ({ allItems }) => {
     }
   };
 
-  const handleSelectItem = (item) => {
+  const handleSelectItem = (item, event) => {
+    event.stopPropagation();  // Prevent issues with input field
     setSearchQuery(item.name);
     setSearchResults([]);
+    console.log("Selected Item:", item);
+    console.log("Navigating to:", `/home/${item.restaurantName}`);
+    navigate(`/home/${item.restaurantName}`);
   };
+  
 
   return (
     <nav className="bg-[#101010] z-50 text-white w-full h-[10vh] sticky top-0 shadow-md flex justify-between items-center px-8 md:px-16">
@@ -97,7 +102,7 @@ const Navbar = ({ allItems }) => {
         <li
           key={index}
           className="px-3 py-2 cursor-pointer hover:bg-gray-200 flex justify-between"
-          onClick={() => handleSelectItem(item)}
+          onClick={(event) => handleSelectItem(item, event )}
         >
           <span>{item.name}</span>
           <span className="text-sm text-gray-500">{item.restaurantName}</span>
