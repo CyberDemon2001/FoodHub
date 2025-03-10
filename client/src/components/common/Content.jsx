@@ -1,24 +1,21 @@
-import React, { useEffect, useState } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import { Navigation, Pagination, Autoplay } from "swiper/modules";
-import slide1 from "../../assets/slide1.jpg";
-import slide2 from "../../assets/slide2.jpg";
-import slide3 from "../../assets/slide3.jpg";
-import slide4 from "../../assets/slide4.jpg";
-import slide5 from "../../assets/slide5.jpg";
-import axios from "axios";
-import { toast } from "react-toastify";
-import { useNavigate, useParams } from "react-router-dom";
-import image from "../../assets/rest.jpg";
-import Menu from "../common/Menu";
-<<<<<<< HEAD
-import Navbar from "./Navbar";
-=======
-import image1 from "../../assets/restaurant1.jpg";
->>>>>>> 62a4e3d35f52086bf11a838a1bb9ed72b0c07d2d
+  import React, { useEffect, useState } from "react";
+  import { Swiper, SwiperSlide } from "swiper/react";
+  import "swiper/css";
+  import "swiper/css/navigation";
+  import "swiper/css/pagination";
+  import { Navigation, Pagination, Autoplay } from "swiper/modules";
+  import slide1 from "../../assets/slide1.jpg";
+  import slide2 from "../../assets/slide2.jpg";
+  import slide3 from "../../assets/slide3.jpg";
+  import slide4 from "../../assets/slide4.jpg";
+  import slide5 from "../../assets/slide5.jpg";
+  import axios from "axios";
+  import { toast } from "react-toastify";
+  import { useNavigate, useParams } from "react-router-dom";
+  import image from "../../assets/rest.jpg";
+  import Menu from "../common/Menu";
+  import image1 from "../../assets/restaurant1.jpg";
+  import Navbar from "./Navbar";
 
   function Content({ setAllItems }) {
     const [restaurant, setRestaurant] = useState([]);
@@ -171,13 +168,13 @@ import image1 from "../../assets/restaurant1.jpg";
                     alt={restaurant.restaurantName}
                   />
 
-                {/* Open Menu Button */}
-                {/* <button
-                  className="absolute top-2/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-orange-500 text-white w-[50%] rounded-md shadow-lg opacity-90 hover:opacity-100 transition"
-                  onClick={() => handleViewMenu(restaurant)}
-                >
-                  Open Menu
-                </button> */}
+                  {/* Open Menu Button */}
+                  {/* <button
+                    className="absolute top-2/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-orange-500 text-white w-[50%] rounded-md shadow-lg opacity-90 hover:opacity-100 transition"
+                    onClick={() => handleViewMenu(restaurant)}
+                  >
+                    Open Menu
+                  </button> */}
 
                   {/* Restaurant Name at the Bottom */}
                   <h1 className="absolute bottom-2 left-0 right-0 text-lg font-bold  bg-orange-500 text-black py-3 ">
