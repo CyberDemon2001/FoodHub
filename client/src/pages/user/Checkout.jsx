@@ -13,6 +13,7 @@ const Checkout = () => {
   useEffect(() => {
     if (user) {
       const storedCart = JSON.parse(localStorage.getItem(`cart_${id}`)) || [];
+      console.log("Stored Cart:", storedCart);
       setCart(storedCart);
     }
   }, [user]);
@@ -57,7 +58,7 @@ const Checkout = () => {
       .filter((restaurant) => restaurant.items.length > 0); // Remove empty restaurants
 
     updateCart(updatedCart);
-    toast.error("Item removed from cart", { autoClose: 500 });
+    toast.error("Item removed from cart", { autoClose: 100 });
   };
 
   if (!user) {

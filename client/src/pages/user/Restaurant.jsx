@@ -56,6 +56,7 @@ const Restaurant = () => {
     } else {
       updatedCart.push({
         userId: userId,
+        restaurantName: restaurant.restaurantName,
         restaurantId: restaurant._id,
         items: [{ ...item, section: section.section, quantity: 1 }],
       });
