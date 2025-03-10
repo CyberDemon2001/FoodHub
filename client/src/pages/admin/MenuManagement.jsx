@@ -82,18 +82,24 @@ const MenuManagement = ({ adminId }) => {
   };
 
   const handleUpdateSection = async () => {
-    if (!editingSectionId) return;
+    if (!editingSectionId || !editingSectionName.trim()) {
+      console.log(editingSectionId, editingSectionName)
+      toast.error("Section name cannot be empty!");
+      return;
+    }
     try {
       await axios.put(`${API_BASE_URL}/${adminId}/menu/${editingSectionId}`, {
-        section: editingSectionName,
+        section: editingSectionName, // Ensure correct data is sent
       });
       toast.success("Section name updated successfully!");
-      fetchRestaurant();
+      fetchRestaurant(); // Refresh menu
       setEditingSectionId(null);
+      setEditingSectionName(""); // Reset input
     } catch (error) {
       toast.error("Failed to update section name");
     }
   };
+  
 
   const handleDeleteItem = async (sectionId, itemId) => {
     if (!window.confirm("Are you sure you want to delete this item?")) return;
