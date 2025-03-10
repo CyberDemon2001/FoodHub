@@ -14,11 +14,8 @@ import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 import image from "../../assets/rest.jpg";
 import Menu from "../common/Menu";
-<<<<<<< HEAD
 import Navbar from "./Navbar";
-=======
 import image1 from "../../assets/restaurant1.jpg";
->>>>>>> 62a4e3d35f52086bf11a838a1bb9ed72b0c07d2d
 
 function Content() {
   const [restaurant, setRestaurant] = useState([]);
