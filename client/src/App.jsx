@@ -1,5 +1,6 @@
 import UserSignup from "./pages/user/UserSignup"
 import './App.css';
+import React from 'react';
 import AdminSignup from "./pages/admin/AdminSignup"
 import Login from './pages/auth/Login';
 import { Routes, Route, Navigate } from 'react-router-dom';
@@ -19,17 +20,19 @@ import Profile from "./pages/user/Profile";
 import Menu from "./components/common/Menu";
 
 function App() {
+
+  const [allItems, setAllItems] = React.useState([]);
   return (
     <>
-    <Navbar />
+    <Navbar  allItems={allItems} />
     <Routes>
       <Route path="/" element={<Navigate to="/home" />} />
-      <Route path="/home" element={<Content />} />
+      <Route path="/home" element={<Content  setAllItems={setAllItems} />} />
       <Route path="/admin/signup" element={<AdminSignup />} />
       <Route path="/user/signup" element={<UserSignup />} />
       <Route path="/login" element={<Login />} />
       <Route path="/admin/:id/*" element={<Admin />} />
-      <Route path="/user/:id/home" element={<Content />} />
+      <Route path="/user/:id/home" element={<Content setAllItems={setAllItems}  />} />
       <Route path="/user/:id/orders" element={<UserOrders />} />
       <Route path="/admin/orders/:id" element={<AdminOrders />} />
       <Route path="/user/:id/cart" element={<Cart />} />
