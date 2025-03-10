@@ -160,12 +160,12 @@ function Content() {
                 />
 
                 {/* Open Menu Button */}
-                {/* <button
+                <button
                   className="absolute top-2/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-orange-500 text-white w-[50%] rounded-md shadow-lg opacity-90 hover:opacity-100 transition"
                   onClick={() => handleViewMenu(restaurant)}
                 >
                   Open Menu
-                </button> */}
+                </button>
 
                 {/* Restaurant Name at the Bottom */}
                 <h1 className="absolute bottom-2 left-0 right-0 text-lg font-bold  bg-orange-500 text-black py-3 ">
