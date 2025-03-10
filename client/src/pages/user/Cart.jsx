@@ -54,7 +54,7 @@ const Cart = () => {
 
   return (
     <>
-    <div className="mx-30 h-[90vh] bg-white flex flex-col overflow-auto justify-between">
+    <div className="mx-30 h-[90vh] bg-white flex flex-col px-20 py-10 overflow-auto justify-between">
       <div>
         <div className="relative p-2 flex items-center justify-between w-full">
           <div className="absolute top-1/3 left-1/6 right-1/6 h-1 bg-gray-300 z-0"></div>

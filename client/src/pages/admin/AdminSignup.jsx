@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import backgroundImage from "../../assets/bg.jpg"; // Use your background image path
+import backgroundImage from "../../assets/bg.jpg"; 
 import { useNavigate } from "react-router-dom";
 
 const AdminSignup = () => {
@@ -32,29 +32,29 @@ const AdminSignup = () => {
     try {
       const response = await axios.post("http://localhost:5000/api/admin/signup", formData);
       alert(response.data.message);
-      // console.log(response.data);
-      navigate('/login');
-      
+      navigate("/login");
     } catch (err) {
       setError(err.response?.data?.message || "Registration failed! Please try again.");
     }
   };
 
   return (
-    <div className="relative flex justify-center items-center h-[90vh]">
+    <div className="relative flex justify-center items-center h-screen px-4">
+      {/* Background with Blur Effect */}
       <div
-        className="absolute inset-0 bg-cover bg-center"
+        className="absolute inset-0 bg-cover bg-center opacity-80"
         style={{
           backgroundImage: `url(${backgroundImage})`,
-          filter: "blur(0px)",
+          filter: "blur(4px)",
           zIndex: "-1",
         }}
       ></div>
 
-      <div className="relative z-10 h-auto w-[350px] bg-transparent p-6 rounded-2xl shadow-2xl border border-gray-300">
-        <h2 className="text-2xl font-bold text-orange-400 text-left mb-4">Admin Signup</h2>
+      {/* Signup Form */}
+      <div className="relative z-10 w-[400px] bg-white bg-opacity-90 p-8 rounded-2xl shadow-2xl border border-gray-200">
+        <h2 className="text-3xl font-bold text-orange-500 text-left mb-5">Admin Signup</h2>
 
-        <form onSubmit={handleSubmit} className="flex flex-col">
+        <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
           {[
             { label: "Name", name: "name", type: "text" },
             { label: "Email", name: "email", type: "email" },
@@ -64,8 +64,7 @@ const AdminSignup = () => {
             { label: "Password", name: "password", type: "password" },
             { label: "Confirm Password", name: "confirmPassword", type: "password" },
           ].map(({ label, name, type }) => (
-            <div className="mb-4" key={name}>
-              {/* <label className="block text-white font-medium text-sm mb-1">{label}:</label> */}
+            <div className="mb-2" key={name}>
               <input
                 type={type}
                 name={name}
@@ -73,7 +72,7 @@ const AdminSignup = () => {
                 onChange={handleChange}
                 placeholder={label}
                 required
-                className="w-full p-1 bg-gray-100 text-gray-700 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 transition placeholder:font-bold placeholder:text-gray-500"
+                className="w-full p-3 bg-gray-100 text-gray-700 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 transition placeholder:font-medium"
               />
             </div>
           ))}
@@ -82,7 +81,7 @@ const AdminSignup = () => {
 
           <button
             type="submit"
-            className="w-full py-2 bg-orange-500 text-white font-semibold rounded-lg hover:bg-orange-600 transition mt-2"
+            className="w-full py-3 bg-orange-500 text-white font-semibold rounded-lg hover:bg-orange-600 transition-all duration-300 transform hover:scale-105 shadow-lg"
           >
             Register
           </button>

@@ -47,7 +47,7 @@ const UserOrders = () => {
   };
 
   return (
-    <div className="p-6 min-h-[90vh] bg-gray-100 text-gray-900">
+    <div className="p-6 min-h-[90vh] px-20 py-10 bg-gray-100 text-gray-900">
       <h1 className="text-3xl font-bold mb-4">Your Orders</h1>
 
       {loading ? (

@@ -26,7 +26,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use("/api", menuRoutes);
-app.use("/api/admin", adminRoutes);
+app.use("/api/admin", adminRoutes,menuRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/auth", loginRoutes);
 // app.use("/api/orders", orderRoutes); // 🔥 FIXED ROUTE
