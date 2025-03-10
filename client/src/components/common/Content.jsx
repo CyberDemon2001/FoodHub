@@ -24,71 +24,83 @@ function Content({ setAllItems }) {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchRestaurant = async () => {
-      try {
-        setLoading(true);
-        const response = await axios.get("http://localhost:5000/api/home");
-        if (Array.isArray(response.data)) {
-          setRestaurant(response.data);
-        } else {
-          console.error("Unexpected data format:", response.data);
-          setError("Invalid Restaurants Data Received");
+    useEffect(() => {
+      const fetchRestaurant = async () => {
+        try {
+          setLoading(true);
+          const response = await axios.get("http://localhost:5000/api/home");
+          // console.log("Api Response", response.data);
+          if (Array.isArray(response.data)) {
+            setRestaurant(response.data);
+          } else {
+            console.error("Unexpected data format:", response.data);
+            setError("Invalid Restaurants Data Received");
+          }
+        } catch (error) {
+          console.error(
+            "Error fetching restaurant:",
+            error.response?.data || error.message
+          );
+          setError(
+            error.response?.data?.message || "Failed to fetch restaurant details"
+          );
+          toast.error("Failed to fetch restaurant details");
+        } finally {
+          setLoading(false);
         }
-      } catch (error) {
-        console.error(
-          "Error fetching restaurant:",
-          error.response?.data || error.message
-        );
-        setError(
-          error.response?.data?.message || "Failed to fetch restaurant details"
-        );
-        toast.error("Failed to fetch restaurant details");
-      } finally {
-        setLoading(false);
+      };
+      fetchRestaurant();
+    }, []);
+
+    // Extracting all unique sections
+    const allSections = restaurant.flatMap((restaurant) =>
+      restaurant.menu ? restaurant.menu.map((section) => section.section) : []
+    );
+
+    // Remove duplicates using Set
+    const uniqueSections = [...new Set(allSections)];
+    // console.log("Unique Sections:", uniqueSections);
+
+    // Flatten the items while keeping track of restaurant
+    const allItems = restaurant.flatMap(
+      (res) =>
+        res.menu?.flatMap(
+          (section) =>
+            section.items?.map((item) => ({
+              restaurantName: res.restaurantName,
+              section: section.section,
+              itemId: item._id,
+              name: item.name,
+              price: item.price,
+            })) || []
+        ) || []
+    );
+    console.log("All Items:", allItems);
+
+    // const handleViewMenu=(restaurantName)=>{
+    //   navigate(`/home/${restaurantName}`, {state:{restaurant}})
+    // }
+    useEffect(() => {
+      setAllItems((prevItems) => {
+        // Update only if the new allItems are different from the previous ones
+        return JSON.stringify(prevItems) !== JSON.stringify(allItems) ? allItems : prevItems;
+      });
+    }, [allItems, setAllItems]);
+    
+    
+    
+
+    const handleViewMenu = (selectedRestaurant) => {
+      if (!id) {
+        navigate(`/home/${selectedRestaurant.restaurantName}`, {
+          state: { restaurant: selectedRestaurant },
+        });
+      } else {
+        navigate(`/user/${id}/${selectedRestaurant.restaurantName}`, {
+          state: { restaurant: selectedRestaurant },
+        });
       }
     };
-    fetchRestaurant();
-  }, []);
-
-  const allSections = restaurant.flatMap((restaurant) =>
-    restaurant.menu ? restaurant.menu.map((section) => section.section) : []
-  );
-
-  const uniqueSections = [...new Set(allSections)];
-
-  const allItems = restaurant.flatMap(
-    (res) =>
-      res.menu?.flatMap(
-        (section) =>
-          section.items?.map((item) => ({
-            restaurantName: res.restaurantName,
-            section: section.section,
-            itemId: item._id,
-            name: item.name,
-            price: item.price,
-          })) || []
-      ) || []
-  );
-
-  // useEffect(() => {
-  //   if (allItems.length > 0) {
-  //     setAllItems(allItems);
-  //   }
-  // }, [allItems, setAllItems]);
-
-  const handleViewMenu = (selectedRestaurant) => {
-    console.log("Selected Restaurant:", selectedRestaurant);
-    if (!id) {
-      navigate(`/home/${selectedRestaurant.restaurantName}`, {
-        state: { restaurant: selectedRestaurant },
-      });
-    } else {
-      navigate(`/user/${id}/${selectedRestaurant.restaurantName}`, {
-        state: { restaurant: selectedRestaurant },
-      });
-    }
-  };
 
   if (loading) {
     return <p className="text-center text-gray-600">Loading...</p>;
