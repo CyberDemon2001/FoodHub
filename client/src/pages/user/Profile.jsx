@@ -25,13 +25,11 @@ function Profile() {
 
   const handleChange = (e, key) => {
     let value = e.target.value;
-    // Allow only numbers for mobile and limit to 10 digits
-  if (key === "mobile") {
-    value = value.replace(/\D/g, ""); // Remove non-numeric characters
-    if (value.length > 10) return; // Restrict to 10 digits
-  }
-
-    setFormData({ ...formData, [key]:  value });
+    if (key === "mobile") {
+      value = value.replace(/\D/g, "");
+      if (value.length > 10) return;
+    }
+    setFormData({ ...formData, [key]: value });
   };
 
   const handleSave = async (key) => {
@@ -39,7 +37,6 @@ function Profile() {
 
     try {
       const response = await axios.patch(`http://localhost:5000/api/user/${user.id}/profile`, updatedField);
-
       if (response.status === 200) {
         const updatedUser = { ...user, ...updatedField };
         localStorage.setItem("user", JSON.stringify(updatedUser));
@@ -51,73 +48,76 @@ function Profile() {
   };
 
   return (
-    <div className="min-h-[90vh] flex items-center justify-center bg-gradient-to-r from-blue-100 to-yellow-100">
-      <div className="w-full h-[90%] max-w-6xl bg-white rounded-2xl shadow-lg p-10">
-        <h2 className="text-xl font-semibold">Welcome, {user.name}</h2>
-        <p className="text-gray-500">{formattedDate}</p>
+    <div className="min-h-[90vh] flex flex-col items-center justify-center bg-gradient-to-r from-gray-100 to-orange-100">
+      {/* Profile Heading */}
+      <h1 className="text-4xl font-bold text-black mb-6 relative">
+        Profile
+        <span className="block w-20 h-1 bg-orange-500 mt-1 mx-auto"></span>
+      </h1>
+
+      <div className="w-full max-w-4xl bg-white shadow-lg border border-gray-300 rounded-2xl p-8">
+        <h2 className="text-2xl font-bold text-black">Welcome, {user.name}</h2>
+        <p className="text-gray-600">{formattedDate}</p>
 
         {/* Profile Section */}
-        <div className="mt-6 flex items-center space-x-4 relative">
+        <div className="mt-6 flex items-center space-x-6 relative">
           <div className="relative">
-            <img className="w-25 h-25 rounded-full border" src={image} alt="Profile" />
+            <img className="w-28 h-28 rounded-full border-4 border-gray-400" src={image} alt="Profile" />
             <button
-              className="absolute -top-1 -right-0 bg-red-500 text-white p-1 rounded-full hover:bg-red-600 shadow-md"
+              className="absolute -top-2 -right-2 bg-orange-500 text-white p-2 rounded-full hover:bg-orange-600 shadow-md"
               onClick={() => setIsProfileEditing(!isProfileEditing)}
             >
               <i className="fa-solid fa-pencil"></i>
             </button>
           </div>
           <div>
-            <h3 className="text-xl font-semibold">{user.name}</h3>
-            <p className="text-gray-500">{user.email}</p>
+            <h3 className="text-xl font-semibold text-black">{user.name}</h3>
+            <p className="text-gray-600">{user.email}</p>
           </div>
         </div>
 
         {/* Form Fields */}
-        <div className="mt-6 grid grid-cols-2 gap-4">
+        <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
           {fields.map((field, index) => (
-            <div key={index} className="flex items-center space-x-2 relative">
-              <div className="flex-1">
-                <label className="text-gray-600">{field.label}</label>
-                <div className="relative">
+            <div key={index} className="relative">
+              <label className="text-gray-700 font-medium">{field.label}</label>
+              <div className="relative mt-1">
                 <input
-  type={field.key === "dob" && editableFields[field.key] ? "date" : "text"}
-  value={
-    field.key === "dob" && formData.dob
-      ? editableFields[field.key]
-        ? new Date(formData.dob).toISOString().split("T")[0] // Format for <input type="date">
-        : new Date(formData.dob).toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          }) // Readable format when not editing
-      : formData[field.key] || ""
-  }
-  placeholder={field.placeholder}
-  className={`mt-1 w-full p-2 pr-10 rounded-lg transition-all duration-300 ${
-    editableFields[field.key]
-      ? "border border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-300"
-      : "border-none bg-transparent"
-  }`}
-  disabled={!editableFields[field.key]}
-  onChange={(e) => handleChange(e, field.key)}
-/>
-
-                  <button
-                    className={`absolute right-2 top-1/2 transform -translate-y-1/2 text-white px-2 py-1 rounded-lg transition-all duration-300 ${
-                      editableFields[field.key] ? "bg-green-500 hover:bg-green-600" : "bg-red-500 hover:bg-red-600"
-                    }`}
-                    onClick={() =>
-                      editableFields[field.key] ? handleSave(field.key) : handleEditClick(field.key)
-                    }
-                  >
-                    {editableFields[field.key] ? (
-                      <i className="fa-solid fa-floppy-disk"></i>
-                    ) : (
-                      <i className="fa-solid fa-pencil"></i>
-                    )}
-                  </button>
-                </div>
+                  type={field.key === "dob" && editableFields[field.key] ? "date" : "text"}
+                  value={
+                    field.key === "dob" && formData.dob
+                      ? editableFields[field.key]
+                        ? new Date(formData.dob).toISOString().split("T")[0]
+                        : new Date(formData.dob).toLocaleDateString("en-US", {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          })
+                      : formData[field.key] || ""
+                  }
+                  placeholder={field.placeholder}
+                  className={`w-full p-2 pr-12 rounded-lg border transition-all duration-300 ${
+                    editableFields[field.key]
+                      ? "border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-300"
+                      : "border-gray-400 bg-gray-100"
+                  }`}
+                  disabled={!editableFields[field.key]}
+                  onChange={(e) => handleChange(e, field.key)}
+                />
+                <button
+                  className={`absolute right-3 top-1/2 transform -translate-y-1/2 px-3 py-1 rounded-lg transition-all duration-300 text-white ${
+                    editableFields[field.key] ? "bg-green-500 hover:bg-green-600" : "bg-red-500 hover:bg-red-600"
+                  }`}
+                  onClick={() =>
+                    editableFields[field.key] ? handleSave(field.key) : handleEditClick(field.key)
+                  }
+                >
+                  {editableFields[field.key] ? (
+                    <i className="fa-solid fa-floppy-disk"></i>
+                  ) : (
+                    <i className="fa-solid fa-pencil"></i>
+                  )}
+                </button>
               </div>
             </div>
           ))}

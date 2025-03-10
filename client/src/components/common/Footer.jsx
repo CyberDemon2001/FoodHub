@@ -5,19 +5,21 @@ const Footer = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="bg-[#101010] text-white py-2 flex justify-center">
-      {/* Left Section */}
-      <div className="">
-        <div className="items-center mb-2">
+    <footer className="bg-[#101010] text-white py-6 flex flex-col items-center">
+      {/* Contact Info */}
+      <div className="text-center mb-4">
+        <div className="flex items-center justify-center mb-2">
           <i className="fas fa-phone-alt text-amber-500 mr-2"></i>
-          <span className="pr-8">+91 XXXXXXXXXX</span>
+          <span className="pr-6">+91 XXXXXXXXXX</span>
           <i className="fas fa-envelope text-amber-500 mr-2"></i>
           <a href="mailto:support@company.com" className="text-blue-400 hover:underline">
             foodhub@gmail.com
           </a>
         </div>
-        
-        <div className="flex gap-4 justify-center">
+      </div>
+
+      {/* Social Media Links */}
+      <div className="flex gap-4 mb-4">
         <a href="#" className="text-gray-400 hover:text-white text-lg">
           <i className="fab fa-facebook-f"></i>
         </a>
@@ -31,23 +33,20 @@ const Footer = () => {
           <i className="fab fa-github"></i>
         </a>
       </div>
-      <button className="cursor-pointer text-gray-400 hover:text-white" onClick={()=>navigate("/ourteam")}>Our Team</button>
-      <div className="text-center text-gray-400 text-sm mt-3">
+
+      {/* Navigation Button */}
+      <button
+        className="cursor-pointer text-gray-400 hover:text-white mb-3"
+        onClick={() => navigate("/ourteam")}
+      >
+        Our Team
+      </button>
+
+      {/* Copyright */}
+      <div className="text-gray-400 text-sm text-center">
         &copy; {new Date().getFullYear()} FoodHub. All rights reserved.
       </div>
-        </div>
-        </div>
-
-      // /* Right Section
-      // <div className="text-center md:text-left">
-      //   {/* <h2 className="font-bold text-lg mb-2">About the company</h2>
-      //   <p className="text-gray-400 text-sm">
-      //     Lorem ipsum dolor sit amet,
-      //   </p> */
-      //    /* Social Media Icons *
-      
-
-    
+    </footer>
   );
 };
 

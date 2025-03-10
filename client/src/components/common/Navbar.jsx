@@ -57,13 +57,16 @@ const Navbar = ({ allItems }) => {
   };
 
   return (
-    <nav className="bg-[#101010] text-white w-full h-[10vh] sticky top-0 shadow-xl flex justify-between items-center px-18 z-50">
-      {/* Logo */}
-      <div className="flex items-end gap-4 h-full cursor-pointer" onClick={handleLogo}>
-        <img src={logo} alt="FOODHUB" className="h-full py-2" />
-        <div className="pb-2">
-          <h1 className="font-bold mt-2 text-2xl font-[cursive] leading-5">FOODHUB</h1>
-          <h2 className="text-sm ml-10">Food For Your Soul...</h2>
+    <nav className="bg-[#101010] z-50 text-white w-full h-[10vh] sticky top-0 shadow-md flex justify-between items-center px-8 md:px-16">
+      {/* Logo & Home Navigation */}
+      <div
+        className="flex items-center gap-4 cursor-pointer"
+        onClick={handleLogo}
+      >
+        <img src={logo} alt="FOODHUB" className="h-12" />
+        <div>
+          <h1 className="font-bold text-2xl font-[cursive]">FOODHUB</h1>
+          <h2 className="text-sm text-gray-300">Food For Your Soul...</h2>
         </div>
       </div>
 
