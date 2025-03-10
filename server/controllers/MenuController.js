@@ -29,6 +29,8 @@ const updateMenuItem = async (req, res) => {
   try {
       const { adminId, sectionId, itemId } = req.params;
       const { name, price } = req.body;
+      console.log(req.body);
+      console.log(req.params);
 
       const restaurant = await RestaurantSchema.findOneAndUpdate(
           { adminId, "menu._id": sectionId, "menu.items._id": itemId },

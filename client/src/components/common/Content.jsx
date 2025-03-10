@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 import image from "../../assets/rest.jpg";
 import Menu from "../common/Menu";
+import Navbar from "./Navbar";
 
 function Content() {
   const [restaurant, setRestaurant] = useState([]);
@@ -200,6 +201,7 @@ function Content() {
             </SwiperSlide>
           ))}
         </Swiper>
+        <Navbar allItems={allItems} />
       </div>
     </>
   );

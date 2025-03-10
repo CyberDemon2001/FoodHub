@@ -2,8 +2,9 @@ import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import { toast, ToastContainer } from "react-toastify";
+import { all } from "axios";
 
-const Navbar = () => {
+const Navbar = ({allItems}) => {
   const user = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
   const location = useLocation();
@@ -23,6 +24,43 @@ const Navbar = () => {
 
   const isActive = (path) =>
     location.pathname === path ? "bg-orange-500 px-3 py-5 rounded-lg" : "text-white";
+
+  const [searchQuery, setSearchQuery] = React.useState("");
+
+  // const handleSearch = (e) => {
+  //   e.preventDefault();
+  //   alert(`Searching for: ${searchQuery}`);
+  // };
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+  
+    if (!searchQuery.trim()) {
+      toast.warn("Please enter a search term!");
+      return;
+    }
+  
+    if (!allItems || allItems.length === 0) {
+      toast.warn("No items available for search!");
+      console.log("allItems is empty or undefined:", allItems);
+      return;
+    }
+  
+    const lowerCaseQuery = searchQuery.toLowerCase().trim();
+  
+    const results = allItems.filter((item) =>
+      item.restaurantName.toLowerCase().includes(lowerCaseQuery) ||
+      item.name.toLowerCase().includes(lowerCaseQuery)
+    );
+  
+    console.log("Search Query:", searchQuery);
+    console.log("Search Results:", results);
+  
+    if (results.length === 0) {
+      toast.error("No matching results found!");
+    }
+  };
+  
 
   return (
     <nav className="bg-[#101010] text-white w-full h-[10vh] shadow-xl flex justify-between items-end px-18">
@@ -110,6 +148,23 @@ const Navbar = () => {
         </div>
       ) : (
         <ul className="list-none h-full items-center flex text-lg gap-8">
+
+          <form onSubmit={handleSearch} className="relative flex items-center">
+  <input
+    type="text"
+    placeholder="Search..."
+    className="px-4 py-1 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-400"
+    value={searchQuery}
+    onChange={(e) => setSearchQuery(e.target.value)}
+  />
+  <button
+    type="submit"
+    className="absolute right-3 text-gray-500 hover:text-black"
+  >
+    <i className="fa-brands fa-searchengin"></i>
+  </button>
+</form>
+
            <li
             className={`cursor-pointer hover:text-white ${isActive(
               "/menu"
@@ -118,6 +173,7 @@ const Navbar = () => {
           >
             <i className="fa-solid fa-bowl-food pr-2"></i>Menu
           </li>
+
 
           <li
             className={`cursor-pointer hover:text-white ${isActive("/login")}`}
