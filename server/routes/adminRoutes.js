@@ -1,6 +1,10 @@
 const express = require("express");
 const { Signup } = require("../controllers/AdminController");
+<<<<<<< HEAD
 const { addMenuSection, updateMenuItem, deleteMenuItem, deleteSection, updateSection } = require("../controllers/MenuController");
+=======
+const { addMenuSection, updateMenuItem, deleteMenuItem, updateSection ,deleteSection } = require("../controllers/MenuController");
+>>>>>>> 62a4e3d35f52086bf11a838a1bb9ed72b0c07d2d
 const { ExistingSection } = require("../controllers/ExistingSectionController");
 
 const Restaurant = require("../models/Restaurant"); // Import restaurant model

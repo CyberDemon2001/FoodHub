@@ -63,7 +63,7 @@ const Navbar = ({allItems}) => {
   
 
   return (
-    <nav className="bg-[#101010] text-white w-full h-[10vh] shadow-xl flex justify-between items-end px-18">
+    <nav className="bg-[#101010] text-white w-full h-[10vh] sticky shadow-xl flex justify-between items-end px-18">
       {/* Logo & Home Navigation */}
       <div
         className="flex items-end gap-4 h-full cursor-pointer"
@@ -81,14 +81,14 @@ const Navbar = ({allItems}) => {
       {/* Navigation Links */}
       {user && user.role === "student" && (
         <ul className="h-full text-lg items-center flex list-none gap-15">
-          <li
+          {/* <li
             className={`cursor-pointer list-none hover:text-white ${isActive(
               `/user/${user.id}/cart`
             )}`}
             onClick={() => navigate(`/user/${user.id}/cart`)}
           >
             <i className="fa-solid fa-cart-shopping pr-1"></i>Cart
-          </li>
+          </li> */}
           <li
             className={`cursor-pointer hover:text-white ${isActive(
               `/user/${user.id}/home`
