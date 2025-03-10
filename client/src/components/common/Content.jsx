@@ -150,7 +150,7 @@ function Content() {
         >
           {restaurant.map((restaurant, index) => (
             <SwiperSlide key={index}>
-              <div className="border-20 mx-5 my-5  h-[350px] text-center shadow-2xl bg-white border-white transition-transform duration-300 ease-in-out transform hover:scale-110 shadow-lg relative overflow-hidden rounded-lg">
+              <div className="border-20 mx-5 my-5  h-[300px] text-center shadow-2xl bg-white border-white transition-transform duration-300 ease-in-out transform hover:scale-110 shadow-lg relative overflow-hidden rounded-lg">
                 {/* Restaurant Image */}
                 {/* <p className="text-sm ">{restaurant.adminId}</p> */}
                 <img
@@ -188,7 +188,10 @@ function Content() {
           modules={[Navigation, Pagination, Autoplay]}
           navigation
           pagination={{ clickable: true }}
-          autoplay={{ delay: 1000 }}
+          autoplay={{
+            delay: 2000,
+            pauseOnMouseEnter: true,
+          }}
           spaceBetween={30}
           slidesPerView={4}
           loop={true}

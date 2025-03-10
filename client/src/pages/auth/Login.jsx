@@ -61,14 +61,14 @@ const Login = () => {
         >
           {/* Sliding Background */}
           <div
-            className={`absolute top-1 bottom-1 w-1/2 rounded-full transition-all duration-300 ease-in-out ${
-              role === "admin" ? "translate-x-full bg-orange-500" : "translate-x-0 bg-orange-400"
+            className={`absolute top-0.5 left-1 w-[48%] h-[90%] rounded-full transition-all duration-300 ease-in-out ${
+              role === "admin" ? "translate-x-[100%] bg-orange-500" : "bg-orange-400"
             }`}
           ></div>
 
           {/* User Role */}
           <span
-            className={`w-1/2 text-center font-semibold z-10 transition-all ${
+            className={`w-1/2 text-center font-semibold relative z-10 transition-all ${
               role === "student" ? "text-white" : "text-gray-700"
             }`}
           >
@@ -77,7 +77,7 @@ const Login = () => {
 
           {/* Admin Role */}
           <span
-            className={`w-1/2 text-center font-semibold z-10 transition-all ${
+            className={`w-1/2 text-center font-semibold relative z-10 transition-all ${
               role === "admin" ? "text-white" : "text-gray-700"
             }`}
           >
