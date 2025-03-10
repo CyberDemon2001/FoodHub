@@ -56,7 +56,6 @@ const Navbar = ({ allItems }) => {
     setSearchQuery(item.name);
     setSearchResults([]);
     console.log("Selected Item:", item);
-    console.log("Navigating to:", `/home/${item.restaurantName}`);
     navigate(`/home/${item.restaurantName}`);
   };
   

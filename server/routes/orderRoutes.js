@@ -33,7 +33,7 @@ router.post("/place-order", async (req, res) => {
       };
     });
 
-    console.log("Final Order Structure:", orders);
+    // console.log("Final Order Structure:", orders);
 
     // Insert each order into the database
     await Order.insertMany(orders.map(order => ({
@@ -74,6 +74,7 @@ router.get("/admin/:adminId/orders", async (req, res) => {
       .populate("restaurantId", "restaurantName"); // Optional: Populate restaurant details
 
     res.status(200).json(orders);
+    console.log("Orders:", orders);
   } catch (error) {
     console.error("Error fetching admin orders:", error);
     res.status(500).json({ message: "Server error" });
