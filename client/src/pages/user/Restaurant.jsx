@@ -1,29 +1,47 @@
 import React, { useState, useEffect } from "react";
-import image from "../../assets/menusec.jpg";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import image from "../../assets/menusec.jpg";
 import slide1 from "../../assets/slide1.jpg";
 
 const Restaurant = () => {
   const location = useLocation();
-  const restaurant = location.state?.restaurant;
+  const navigate = useNavigate();
+  const { name } = useParams(); // Get restaurant name from URL
+
+  const [restaurant, setRestaurant] = useState(location.state?.restaurant || null);
+  const [loading, setLoading] = useState(!restaurant);
   const [cart, setCart] = useState([]);
-  const { id } = useParams();
 
   const user = JSON.parse(localStorage.getItem("user"));
   const userId = user?.id;
 
   useEffect(() => {
+    if (!restaurant) {
+      // Fetch restaurant details by name if opened via direct URL
+      axios.get(`http://localhost:5000/api/home/${name}`)
+        .then((response) => setRestaurant(response.data))
+        .catch((error) => {
+          console.error("Error fetching restaurant:", error);
+          toast.error("Restaurant not found!");
+          navigate("/home"); // Redirect if not found
+        })
+        .finally(() => setLoading(false));
+    }
+  }, [name, restaurant, navigate]);
+
+  useEffect(() => {
     if (user) {
-      const storedCart = JSON.parse(localStorage.getItem(`cart_${id}`)) || [];
+      const storedCart = JSON.parse(localStorage.getItem(`cart_${name}`)) || [];
       setCart(storedCart);
     }
   }, [userId]);
 
   const updateCart = (updatedCart) => {
     setCart(updatedCart);
-    localStorage.setItem(`cart_${id}`, JSON.stringify(updatedCart));
+    localStorage.setItem(`cart_${name}`, JSON.stringify(updatedCart));
   };
 
   const handleAddToCart = (item, section) => {
@@ -33,9 +51,7 @@ const Restaurant = () => {
     }
 
     const updatedCart = [...cart];
-    const restaurantIndex = updatedCart.findIndex(
-      (r) => r.restaurantId === restaurant._id
-    );
+    const restaurantIndex = updatedCart.findIndex((r) => r.restaurantName === restaurant.restaurantName);
 
     if (restaurantIndex !== -1) {
       const existingItemIndex = updatedCart[restaurantIndex].items.findIndex(
@@ -58,13 +74,18 @@ const Restaurant = () => {
         userId: userId,
         restaurantName: restaurant.restaurantName,
         restaurantId: restaurant._id,
+        restaurantName: restaurant.restaurantName,
         items: [{ ...item, section: section.section, quantity: 1 }],
       });
       toast.success(`Added to cart: ${item.name}`, { autoClose: 1500 });
     }
 
     updateCart(updatedCart);
+    console.log("Updated Cart:", updatedCart);
   };
+
+  if (loading) return <p className="text-center text-gray-500">Loading...</p>;
+  if (!restaurant) return null;
 
   return (
     <div className="min-h-screen px-8 py-6 text-black bg-gray-100">
@@ -72,7 +93,6 @@ const Restaurant = () => {
 
       <div className="text-center mb-6">
         <h1 className="text-3xl bg-orange-500 p-5 uppercase font-bold">{restaurant.restaurantName}</h1>
-        {/* <p className="text-gray-500">Phone: {restaurant.phone}</p> */}
         <img src={slide1} alt="Restaurant" className="w-full h-52 object-cover rounded-md shadow-lg mt-3" />
       </div>
 

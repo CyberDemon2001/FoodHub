@@ -44,6 +44,7 @@ const Cart = () => {
       );
 
       toast.success(response.data.message);
+      
       localStorage.removeItem(`cart_${user.id}`);
       setStep(1);
     } catch (error) {

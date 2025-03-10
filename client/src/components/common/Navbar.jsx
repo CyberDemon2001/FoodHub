@@ -56,7 +56,6 @@ const Navbar = ({ allItems }) => {
     setSearchQuery(item.name);
     setSearchResults([]);
     console.log("Selected Item:", item);
-    console.log("Navigating to:", `/home/${item.restaurantName}`);
     navigate(`/home/${item.restaurantName}`);
   };
   
@@ -76,12 +75,13 @@ const Navbar = ({ allItems }) => {
       </div>
 
       {/* Search Bar */}
-      <div className="relative flex items-center">
-  <form onSubmit={handleSearch} className="relative flex">
+      {/* Search Bar */}
+<div className="relative flex items-center">
+  <form onSubmit={handleSearch} className="relative flex items-center border rounded-lg">
     <input
       type="text"
       placeholder="Search..."
-      className="px-4 py-2 w-48 rounded-lg border focus:outline-none focus:ring-2 focus:ring-blue-400"
+      className="px-4 py-2 w-65 pr-10 rounded-lg border-none focus:outline-none focus:ring-2 focus:ring-blue-400"
       value={searchQuery}
       onChange={(e) => {
         setSearchQuery(e.target.value);
@@ -90,27 +90,28 @@ const Navbar = ({ allItems }) => {
         }
       }}
     />
-    <button type="submit" className="absolute right-3 text-gray-500 hover:text-black">
+    <button type="submit" className="absolute right-3 text-white hover:text-gray-500">
       <i className="fa-solid fa-search"></i>
     </button>
   </form>
 
   {/* Dropdown for search results */}
   {searchResults.length > 0 && (
-    <ul className="absolute top-full left-0 bg-white text-black border mt-1 w-full rounded-md shadow-md max-h-48 overflow-y-auto">
+    <ul className="absolute top-full left-0 bg-gray-100 text-black border mt-1 w-full rounded-sm shadow-md max-h-48 overflow-y-auto">
       {searchResults.map((item, index) => (
         <li
           key={index}
-          className="px-3 py-2 cursor-pointer hover:bg-gray-200 flex justify-between"
+          className="px-3 py-1 cursor-pointer hover:text-white hover:bg-orange-500 flex justify-between"
           onClick={(event) => handleSelectItem(item, event )}
         >
           <span>{item.name}</span>
-          <span className="text-sm text-gray-500">{item.restaurantName}</span>
+          <span className="text-sm text-black">{item.restaurantName}</span>
         </li>
       ))}
     </ul>
   )}
 </div>
+
 
       {/* Navigation Links */}
       <ul className="h-full text-lg items-center flex list-none gap-15">

@@ -8,6 +8,7 @@ const Checkout = () => {
   const [cart, setCart] = useState([]);
   const navigate = useNavigate();
   const {id}=useParams();
+  console.log(cart);
 
   // Load cart from localStorage when component mounts
   useEffect(() => {

@@ -87,8 +87,6 @@ function Content({ setAllItems }) {
       });
     }, [allItems, setAllItems]);
     
-    
-    
 
     const handleViewMenu = (selectedRestaurant) => {
       if (!id) {
