@@ -73,6 +73,35 @@ function Content({ restaurant }) {
         </Swiper>
       </div>
 
+      <div className="mx-15">
+        <Swiper
+          modules={[Navigation, Pagination, Autoplay]}
+          navigation
+          pagination={{ clickable: true }}
+          autoplay={{
+            delay: 2000,
+            pauseOnMouseEnter: true,
+          }}
+          spaceBetween={15}
+          slidesPerView={5}
+          loop={true}
+        >
+          {uniqueSections.map((section, index) => (
+            <SwiperSlide key={index}>
+              <div className="border-10 mx-5 my-5 h-50 text-center bg-white border-white transition-transform duration-300 ease-in-out transform hover:scale-110 shadow-lg">
+               
+                <img
+                  src={image1}
+                  className="w-full h-full object-cover rounded-lg"
+                  alt={restaurant.restaurantName}
+                />
+                 <h1 className="absolute bottom-2 left-0 right-0 text-lg font-bold  bg-orange-500 text-black py-1 ">{section}</h1>
+              </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
+
       <div className=" mx-15">
         <Swiper
           modules={[Navigation, Pagination, Autoplay]}
@@ -90,7 +119,7 @@ function Content({ restaurant }) {
             <SwiperSlide key={index}>
               <div onClick={() => handleViewMenu(restaurant)} className="border-20 mx-5 my-5  h-[300px] text-center bg-white border-white transition-transform duration-300 ease-in-out transform hover:scale-110 shadow-lg relative overflow-hidden rounded-lg">
                 <img
-                  src={image1}
+                  src={restaurant.imageUrl || image1}
                   className="w-full h-full object-cover rounded-lg"
                   alt={restaurant.restaurantName}
                 />
@@ -114,33 +143,7 @@ function Content({ restaurant }) {
         <span className="text-black text-2xl font-bold">Favorite Food</span>
         <hr className="flex-grow border-2 border-gray-500 mx-20" />
       </div>
-      <div className=" mx-15">
-        <Swiper
-          modules={[Navigation, Pagination, Autoplay]}
-          navigation
-          pagination={{ clickable: true }}
-          autoplay={{
-            delay: 2000,
-            pauseOnMouseEnter: true,
-          }}
-          spaceBetween={30}
-          slidesPerView={4}
-          loop={true}
-        >
-          {uniqueSections.map((section, index) => (
-            <SwiperSlide key={index}>
-              <div className="border-20 mx-5 my-5 h-70 text-center bg-white border-white transition-transform duration-300 ease-in-out transform hover:scale-110 shadow-lg">
-                {section}
-                <img
-                  src={image1}
-                  className="w-full h-full object-cover rounded-lg"
-                  alt={restaurant.restaurantName}
-                />
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </div>
+      
     </>
   );
 }
