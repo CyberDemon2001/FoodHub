@@ -75,6 +75,7 @@ const Restaurant = () => {
         userId: userId,
         restaurantId: restaurant.restaurantId || restaurant._id ,
         restaurantName: restaurant.restaurantName,
+        restaurantId: restaurant._id,
         items: [{ ...item, section: section.section, quantity: 1 }],
       });
       toast.success(`Added to cart: ${item.name}`, { autoClose: 1500 });

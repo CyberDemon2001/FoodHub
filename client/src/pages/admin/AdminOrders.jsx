@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import moment from "moment";
+import "react-toastify/dist/ReactToastify.css";
 
 const Orders = ({ adminId }) => {
   const [orders, setOrders] = useState([]);
@@ -22,9 +23,7 @@ const Orders = ({ adminId }) => {
         setOrders(sortedOrders);
       } catch (error) {
         console.error(error);
-        toast.error(
-          error.response?.data?.message || "Failed to fetch orders!"
-        );
+        toast.error(error.response?.data?.message || "Failed to fetch orders!");
         setOrders([]);
       }
     };
