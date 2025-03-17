@@ -11,7 +11,7 @@ const RestaurantSchema = new mongoose.Schema({
   adminName: { type: String, required: true },
   email: { type: String, required: true, unique: true }, // Unique to prevent duplicate admin entries
   restaurantName: { type: String, required: true, unique: true, index:true }, // Ensures unique restaurant names
-  restaurantImage: { type: String, default: "" },
+  imageUrl: { type: String, default: "" },
   menu: [
     {
       section: { type: String, required: true },

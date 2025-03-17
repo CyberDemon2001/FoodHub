@@ -1,3 +1,5 @@
+const express = require("express");
+const router = express.Router();
 const cloudinary = require("cloudinary").v2;
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
 const multer = require("multer");
@@ -14,10 +16,11 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
   cloudinary,
   params: async (req, file) => {
+    const format = file.originalname.split('.').pop(); // ✅ More reliable format extraction
     return {
       folder: "FoodHub",
-      format: file.mimetype.split("/")[1], // Ensure correct format (jpg, png, etc.)
-      public_id: req.params.id, // ✅ Use user ID as the Cloudinary public ID
+      format,
+      public_id: req.params.id, // ✅ Use user ID as Cloudinary public ID
       overwrite: true, // ✅ Ensures it replaces the previous image
     };
   },
