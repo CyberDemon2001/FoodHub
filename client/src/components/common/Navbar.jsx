@@ -175,6 +175,14 @@ const Navbar = ({ allItems }) => {
               onClick={() => navigate("/menu")}>
             <i className="fa-solid fa-bowl-food pr-2"></i>Menu
           </li>
+          <li className={`cursor-pointer hover:text-white ${isActive("/admin/signup")}`}
+              onClick={() => navigate("/admin/signup")}>
+            <i className="fa-solid fa-bowl-food pr-2"></i>Admin Signup
+          </li>
+          <li className={`cursor-pointer hover:text-white ${isActive("/user/signup")}`}
+              onClick={() => navigate("/user/signup")}>
+            <i className="fa-solid fa-bowl-food pr-2"></i>User Signup
+          </li>
           <li className={`cursor-pointer hover:text-white ${isActive("/login")}`}
               onClick={() => navigate("/login")}>
             <i className="fa-solid fa-arrow-right-to-bracket pr-2"></i>Login
