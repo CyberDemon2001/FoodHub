@@ -27,19 +27,45 @@ router.delete("/restaurant/:adminId/menu/:sectionId/item/:itemId", deleteMenuIte
 // 🔄 Upload & Update Restaurant Image on Cloudinary
 router.post("/:id/settings", upload.single("image"), async (req, res) => {
   try {
-    if (!req.file || !req.file.path) {
+    if (!req.file) {
       return res.status(400).json({ error: "No image uploaded" });
     }
 
-    console.log("Uploaded Image Public ID:", req.params.id);
-    console.log("Cloudinary Response URL:", req.file.path);
+    const imageUrl = req.file.path; // ✅ Get uploaded image URL from Cloudinary
 
-    res.json({ message: "Image uploaded successfully", imageUrl: req.file.path });
+    // ✅ Store image URL in the restaurant document
+    const updatedRestaurant = await Restaurant.findOneAndUpdate(
+      { adminId: req.params.id }, // Find the restaurant by owner ID
+      { imageUrl },
+      { new: true, upsert: true }
+    );
+
+    return res.json({
+      message: "✅ Image uploaded successfully",
+      imageUrl: updatedRestaurant.imageUrl, // Return the updated image URL
+    });
   } catch (error) {
-    console.error("Upload error:", error.message);
-    res.status(500).json({ error: "Internal Server Error" });
+    console.error("❌ Upload error:", error.message);
+    return res.status(500).json({ error: "Image upload failed. Please try again." });
   }
 });
+
+router.get("/:id/settings", async (req, res) => {
+  try {
+    const restaurant = await Restaurant.findOne({ adminId: req.params.id });
+
+    if (!restaurant) {
+      return res.status(404).json({ error: "Restaurant not found" });
+    }
+
+    res.json({ imageUrl: restaurant.imageUrl });
+  } catch (error) {
+    console.error("Error fetching restaurant:", error.message);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+
 
 
 //update Section

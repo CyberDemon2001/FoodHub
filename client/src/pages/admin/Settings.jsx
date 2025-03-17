@@ -12,8 +12,18 @@ function Settings() {
 
   // Fetch the latest profile image from Cloudinary
   useEffect(() => {
-    setImage(`https://res.cloudinary.com/dzkiozbbk/image/upload/FoodHub/${id}?timestamp=${Date.now()}`);
+    const fetchImage = async () => {
+      try {
+        const res = await axios.get(`http://localhost:5000/api/admin/${id}/settings`);
+        setImage(res.data.imageUrl || "https://via.placeholder.com/150"); // ✅ Use default if no image
+      } catch (error) {
+        console.error("Failed to fetch image:", error);
+      }
+    };
+  
+    fetchImage();
   }, [id]);
+  
 
   const handleFileSelect = async (event) => {
     const file = event.target.files[0];
@@ -48,7 +58,7 @@ function Settings() {
       console.log("Uploaded Image URL:", res.data.imageUrl);
       
       // Update image state to show the new uploaded image
-      setImage(`${res.data.imageUrl}?timestamp=${Date.now()}`); // Force browser cache refresh
+      setImage(`${res.data.imageUrl}?v=${Math.random()}`); // Force browser cache refresh
       
       alert("Profile image updated!");
     } catch (error) {

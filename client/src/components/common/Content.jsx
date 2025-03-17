@@ -88,18 +88,18 @@ function Content({ restaurant }) {
         >
           {restaurant.map((restaurant, index) => (
             <SwiperSlide key={index}>
-              <div className="border-20 mx-5 my-5  h-[300px] text-center bg-white border-white transition-transform duration-300 ease-in-out transform hover:scale-110 shadow-lg relative overflow-hidden rounded-lg">
+              <div onClick={() => handleViewMenu(restaurant)} className="border-20 mx-5 my-5  h-[300px] text-center bg-white border-white transition-transform duration-300 ease-in-out transform hover:scale-110 shadow-lg relative overflow-hidden rounded-lg">
                 <img
                   src={image1}
                   className="w-full h-full object-cover rounded-lg"
                   alt={restaurant.restaurantName}
                 />
-                <button
+                {/* <button
                   className="absolute top-2/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-orange-500 text-white w-[50%] rounded-md shadow-lg opacity-90 hover:opacity-100 transition"
                   onClick={() => handleViewMenu(restaurant)}
                 >
                   Open Menu
-                </button>
+                </button> */}
                 <h1 className="absolute bottom-2 left-0 right-0 text-lg font-bold  bg-orange-500 text-black py-3 ">
                   {restaurant.restaurantName || "Unnamed Restaurant"}
                 </h1>
