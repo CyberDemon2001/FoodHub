@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-// import defaultRestaurant from "../../assets/defaultRestaurant.jpg";
+import defaultRestaurant from "../../assets/defaultRestaurant.jpg";
 
 function Settings() {
   const { id } = useParams();
@@ -15,7 +15,7 @@ function Settings() {
     const fetchImage = async () => {
       try {
         const res = await axios.get(`http://localhost:5000/api/admin/${id}/settings`);
-        setImage(res.data.imageUrl || "https://via.placeholder.com/150"); // ✅ Use default if no image
+        setImage(res.data.imageUrl || defaultRestaurant); // ✅ Use default if no image
       } catch (error) {
         console.error("Failed to fetch image:", error);
       }
