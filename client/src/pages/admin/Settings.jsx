@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import defaultRestaurant from "../../assets/defaultRestaurant.jpg";
+// import defaultRestaurant from "../../assets/defaultRestaurant.jpg";
 
 function Settings() {
   const { id } = useParams();
@@ -67,7 +67,7 @@ function Settings() {
 
         <div className="relative w-24 h-24 mx-auto mt-4 cursor-pointer" onClick={handleProfileClick}>
           <img
-            src={preview || image || defaultRestaurant}
+            src={preview || image}
             alt="Profile"
             className="w-24 h-24 rounded-full border object-cover"
           />

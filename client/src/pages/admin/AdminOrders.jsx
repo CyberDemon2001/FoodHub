@@ -16,10 +16,10 @@ const Orders = ({ adminId }) => {
         const response = await axios.get(
           `http://localhost:5000/api/admin/${adminId}/orders`
         );
-        const sortedOrders = response.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        const sortedOrders = response.data.sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
         setOrders(sortedOrders);
-        setOrders(sortedOrders); // ✅ Fix structure
-        // toast.success("Orders fetched successfully!");
       } catch (error) {
         console.error(error);
         toast.error(
@@ -39,7 +39,7 @@ const Orders = ({ adminId }) => {
         `http://localhost:5000/api/admin/orders/${orderId}/status`,
         { status: newStatus, restaurantId }
       );
-  
+
       if (response.status === 200) {
         toast.success(`Order status updated to ${newStatus}`);
         setOrders((prevOrders) =>
@@ -50,90 +50,132 @@ const Orders = ({ adminId }) => {
       }
     } catch (error) {
       console.error("Error updating order status:", error);
-      toast.error(error.response?.data?.message || "Failed to update order status!");
+      toast.error(
+        error.response?.data?.message || "Failed to update order status!"
+      );
     }
   };
 
+  // Group orders by date
+  const groupedOrders = orders.reduce((acc, order) => {
+    const date = moment(order.createdAt).format("YYYY-MM-DD");
+    if (!acc[date]) acc[date] = [];
+    acc[date].push(order);
+    return acc;
+  }, {});
 
+  const todayDate = moment().format("YYYY-MM-DD");
 
   return (
     <>
-      <div className="p-4">
-        <h2 className="text-2xl font-bold mb-4">Manage Orders</h2>
-        {orders.length === 0 ? (
-          <p>No orders found.</p>
+      <div className="">
+        <h2 className="text-3xl bg-orange-500 py-4 my-4 font-bold text-center">Manage Orders</h2>
+
+        {Object.keys(groupedOrders).length === 0 ? (
+          <p className="text-center text-lg font-medium">No orders found.</p>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full border-collapse border border-gray-300">
-              <thead>
-                <tr className="bg-gray-200">
-                  <th className="border p-2">Created At</th>
-                  <th className="border p-2">User</th>
-                  <th className="border p-2">Items</th>
-                  <th className="border p-2">Total Price</th>
-                  <th className="border p-2">Status</th>
-                  <th className="border p-2">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {orders.map((order, index) => (
-                  <tr key={index} className="border">
-                    <td className="border p-2">
-                      {moment(order.createdAt).format("DD MMMM YYYY, hh:mm A")}
-                    </td>
-                    <td className="border p-2">
-                      {order.userId?.name || "N/A"} {/* ✅ Fix user display */}
-                    </td>
-                    <td className="border p-2">
-                      {order.items.map((item, idx) => (
-                        <p key={idx}>
-                          {item.name} - {item.quantity}x ₹{item.price}
-                        </p>
-                      ))}
-                    </td>
-                    <td className="border p-2">
-                      ₹{order.items.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2)}
-                    </td>
-                    <td className="border p-2">{order.status || "Pending"}</td>
-                    <td className="border p-2">
-                      {order.status === "Pending" && (
-                        <>
-                          <button
-                            onClick={() => updateOrderStatus(order._id, order.restaurantId._id, "Accepted")}
-                            className="bg-green-500 text-white px-4 py-1 rounded mr-2"
-                          >
-                            Accept
-                          </button>
-                          <button
-                            onClick={() => updateOrderStatus(order._id, order.restaurantId._id, "Rejected")}
-                            className="bg-red-500 text-white px-4 py-1 rounded"
-                          >
-                            Reject
-                          </button>
-                        </>
-                      )}
-                      {order.status === "Accepted" && (
-                        <button
-                          onClick={() => updateOrderStatus(order._id, order.restaurantId._id, "Out for Delivery")}
-                          className="bg-yellow-500 text-white px-4 py-1 rounded mr-2"
-                        >
-                          Out for Delivery
-                        </button>
-                      )}
-                      {(order.status === "Accepted" || order.status === "Out for Delivery") && (
-                        <button
-                          onClick={() => updateOrderStatus(order._id, order.restaurantId._id, "Delivered")}
-                          className="bg-blue-500 text-white px-4 py-1 rounded mt-2"
-                        >
-                          Delivered
-                        </button>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          Object.keys(groupedOrders).map((date, index) => (
+            <div key={index} className="mb-4">
+              <h3 className="text-2xl font-semibold mb-2 bg-gray-300 p-1 rounded-md text-center">
+                {date === todayDate ? "📌 Today's Orders" : moment(date).format("DD MMMM YYYY")}
+              </h3>
+              <div className="overflow-x-auto">
+                <table className="w-full border-collapse border border-gray-400">
+                  <thead>
+                    <tr className="bg-gray-200 text-lg">
+                      <th className="border p-1">Time</th>
+                      <th className="border">User</th>
+                      <th className="border ">Items</th>
+                      <th className="border ">Total Price</th>
+                      <th className="border">Status</th>
+                      <th className="border ">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {groupedOrders[date].map((order, idx) => (
+                      <tr key={idx} className="border text-center text-lg">
+                        <td className="border">{moment(order.createdAt).format("hh:mm A")}</td>
+                        <td className="border">{order.userId?.name || "N/A"}</td>
+                        <td className="border p-3">
+                          <table className="w-full text-sm">
+                            <thead>
+                              <tr className="text-gray-700">
+                                <th className="text-left p-1">Item</th>
+                                <th className="text-center p-1">Qty</th>
+                                {/* <th className="text-right p-1">Price</th> */}
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {order.items.map((item, i) => (
+                                <tr key={i}>
+                                  <td className="text-left p-1">{item.name}</td>
+                                  <td className="text-center p-1">{item.quantity}x</td>
+                                  {/* <td className="text-right p-1">₹{item.price}</td> */}
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </td>
+                        <td className="border font-semibold">
+                          ₹
+                          {order.items
+                            .reduce(
+                              (sum, item) => sum + item.price * item.quantity,
+                              0
+                            )
+                            .toFixed(2)}
+                        </td>
+                        <td className="border font-semibold">{order.status || "Pending"}</td>
+                        <td className="border space-x-2">
+                          {order.status === "Pending" && (
+                            <>
+                              <button
+                                onClick={() =>
+                                  updateOrderStatus(order._id, order.restaurantId._id, "Accepted")
+                                }
+                                className="bg-green-500 text-white px-4 py-2 rounded-md mr-2"
+                              >
+                                Accept
+                              </button>
+                              <button
+                                onClick={() =>
+                                  updateOrderStatus(order._id, order.restaurantId._id, "Rejected")
+                                }
+                                className="bg-red-500 text-white px-2 py-2 rounded-md"
+                              >
+                                Reject
+                              </button>
+                            </>
+                          )}
+                          {order.status === "Accepted" && (
+                            <button
+                              onClick={() =>
+                                updateOrderStatus(order._id, order.restaurantId._id, "Out for Delivery")
+                              }
+                              className="bg-yellow-500 text-white px-2 py-2 rounded-md"
+                            >
+                              Out for Delivery
+                            </button>
+                          )}
+                          {(order.status === "Accepted" ||
+                            order.status === "Out for Delivery") && (
+                            <button
+                              onClick={() =>
+                                updateOrderStatus(order._id, order.restaurantId._id, "Delivered")
+                              }
+                              className="bg-blue-500 text-white px-2 py-2 rounded-md"
+                            >
+                              Delivered
+                            </button>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          ))
         )}
       </div>
       <ToastContainer />
@@ -142,4 +184,3 @@ const Orders = ({ adminId }) => {
 };
 
 export default Orders;
-  

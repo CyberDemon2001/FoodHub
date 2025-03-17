@@ -17,40 +17,9 @@ import Menu from "../common/Menu";
 import image1 from "../../assets/restaurant1.jpg";
 import Navbar from "./Navbar";
 
-function Content({ setAllItems }) {
-  const [restaurant, setRestaurant] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+function Content({ restaurant }) {
   const { id } = useParams();
   const navigate = useNavigate();
-
-    useEffect(() => {
-      const fetchRestaurant = async () => {
-        try {
-          setLoading(true);
-          const response = await axios.get("http://localhost:5000/api/home");
-          // console.log("Api Response", response.data);
-          if (Array.isArray(response.data)) {
-            setRestaurant(response.data);
-          } else {
-            console.error("Unexpected data format:", response.data);
-            setError("Invalid Restaurants Data Received");
-          }
-        } catch (error) {
-          console.error(
-            "Error fetching restaurant:",
-            error.response?.data || error.message
-          );
-          setError(
-            error.response?.data?.message || "Failed to fetch restaurant details"
-          );
-          toast.error("Failed to fetch restaurant details");
-        } finally {
-          setLoading(false);
-        }
-      };
-      fetchRestaurant();
-    }, []);
 
     // Extracting all unique sections
     const allSections = restaurant.flatMap((restaurant) =>
@@ -59,35 +28,8 @@ function Content({ setAllItems }) {
 
     // Remove duplicates using Set
     const uniqueSections = [...new Set(allSections)];
-    // console.log("Unique Sections:", uniqueSections);
-
-    // Flatten the items while keeping track of restaurant
-    const allItems = restaurant.flatMap(
-      (res) =>
-        res.menu?.flatMap(
-          (section) =>
-            section.items?.map((item) => ({
-              restaurantName: res.restaurantName,
-              section: section.section,
-              itemId: item._id,
-              name: item.name,
-              price: item.price,
-            })) || []
-        ) || []
-    );
-    console.log("All Items:", allItems);
-
-    // const handleViewMenu=(restaurantName)=>{
-    //   navigate(`/home/${restaurantName}`, {state:{restaurant}})
-    // }
-    useEffect(() => {
-      setAllItems((prevItems) => {
-        // Update only if the new allItems are different from the previous ones
-        return JSON.stringify(prevItems) !== JSON.stringify(allItems) ? allItems : prevItems;
-      });
-    }, [allItems, setAllItems]);
+    console.log("Unique Sections:", uniqueSections);
     
-
     const handleViewMenu = (selectedRestaurant) => {
       if (!id) {
         navigate(`/home/${selectedRestaurant.restaurantName}`, {
@@ -99,14 +41,6 @@ function Content({ setAllItems }) {
         });
       }
     };
-
-  if (loading) {
-    return <p className="text-center text-gray-600">Loading...</p>;
-  }
-
-  if (error) {
-    return <p className="text-center text-red-500">{error}</p>;
-  }
 
   return (
     <>

@@ -61,7 +61,7 @@ const Login = () => {
         >
           {/* Sliding Background */}
           <div
-            className={`absolute top-0.5 left-1 w-[48%] h-[90%] rounded-full transition-all duration-300 ease-in-out ${
+            className={`absolute top-0.5 left-1 w-[49%] h-[90%] rounded-full transition-all duration-300 ease-in-out ${
               role === "admin" ? "translate-x-[100%] bg-orange-500" : "bg-orange-400"
             }`}
           ></div>

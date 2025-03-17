@@ -11,7 +11,7 @@ const router = express.Router();
 router.post("/place-order", async (req, res) => {
   try {
     const { cart } = req.body;
-    console.log("Received Cart Data:", cart);
+    // console.log("Received Cart Data:", cart);
 
     if (!cart || cart.length === 0) {
       return res.status(400).json({ message: "Cart is empty" });
@@ -74,7 +74,7 @@ router.get("/admin/:adminId/orders", async (req, res) => {
       .populate("restaurantId", "restaurantName"); // Optional: Populate restaurant details
 
     res.status(200).json(orders);
-    console.log("Orders:", orders);
+    // console.log("Orders:", orders);
   } catch (error) {
     console.error("Error fetching admin orders:", error);
     res.status(500).json({ message: "Server error" });

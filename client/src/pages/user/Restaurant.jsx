@@ -31,17 +31,18 @@ const Restaurant = () => {
         .finally(() => setLoading(false));
     }
   }, [name, restaurant, navigate]);
+  console.log(restaurant)
 
   useEffect(() => {
     if (user) {
-      const storedCart = JSON.parse(localStorage.getItem(`cart_${name}`)) || [];
+      const storedCart = JSON.parse(localStorage.getItem(`cart_${userId}`)) || [];
       setCart(storedCart);
     }
   }, [userId]);
 
   const updateCart = (updatedCart) => {
     setCart(updatedCart);
-    localStorage.setItem(`cart_${name}`, JSON.stringify(updatedCart));
+    localStorage.setItem(`cart_${userId}`, JSON.stringify(updatedCart));
   };
 
   const handleAddToCart = (item, section) => {
@@ -72,11 +73,13 @@ const Restaurant = () => {
     } else {
       updatedCart.push({
         userId: userId,
+        restaurantId: restaurant.restaurantId || restaurant._id ,
         restaurantName: restaurant.restaurantName,
         items: [{ ...item, section: section.section, quantity: 1 }],
       });
       toast.success(`Added to cart: ${item.name}`, { autoClose: 1500 });
     }
+   
 
     updateCart(updatedCart);
     console.log("Updated Cart:", updatedCart);
@@ -86,11 +89,11 @@ const Restaurant = () => {
   if (!restaurant) return null;
 
   return (
-    <div className="min-h-screen px-8 py-6 text-black bg-gray-100">
+    <div className="min-h-screen px-8 py-3 text-black bg-gray-100">
       <ToastContainer position="top-right" />
 
       <div className="text-center mb-6">
-        <h1 className="text-3xl bg-orange-500 p-5 uppercase font-bold">{restaurant.restaurantName}</h1>
+        <h1 className="text-3xl bg-orange-500 p-4 uppercase font-bold">{restaurant.restaurantName}</h1>
         <img src={slide1} alt="Restaurant" className="w-full h-52 object-cover rounded-md shadow-lg mt-3" />
       </div>
 

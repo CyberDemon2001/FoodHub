@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import logo from "../../assets/logo.png";
-import { toast } from "react-toastify";
 
 const Navbar = ({ allItems }) => {
   const user = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
   const location = useLocation();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState({ foods: [], restaurants: [] });
 
   const handleLogo = () => {
     user ? navigate(`/user/${user.id}/home`) : navigate("/home");
@@ -21,52 +22,55 @@ const Navbar = ({ allItems }) => {
 
   const isActive = (path) =>
     location.pathname === path ? "bg-orange-500 px-3 py-2 rounded-lg text-white" : "text-white";
-  
 
-  const [searchQuery, setSearchQuery] = React.useState("");
-  const [searchResults, setSearchResults] = React.useState([]);
+  const handleSearchChange = (e) => {
+    const query = e.target.value.toLowerCase().trim();
+    setSearchQuery(e.target.value);
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    if (!searchQuery.trim()) {
-      toast.warn("Please enter a search term!");
-      return;
-    }
-    if (!allItems || allItems.length === 0) {
-      toast.warn("No items available for search!");
+    if (!query) {
+      setSearchResults({ foods: [], restaurants: [] });
       return;
     }
 
-    const lowerCaseQuery = searchQuery.toLowerCase().trim();
-    const results = allItems.filter(
-      (item) =>
-        item.restaurantName.toLowerCase().includes(lowerCaseQuery) ||
-        item.name.toLowerCase().includes(lowerCaseQuery)
-    );
+    // Filter food items
+    const foodMatches = allItems
+      ? allItems.filter(
+          (item) =>
+            item.name.toLowerCase().includes(query) || 
+            item.restaurantName.toLowerCase().includes(query)
+        )
+      : [];
 
-    setSearchResults(results);
+    // Extract unique restaurant names
+    const restaurantMatches = [
+      ...new Set(
+        allItems
+          ?.filter((item) => item.restaurantName.toLowerCase().includes(query))
+          .map((item) => item.restaurantName)
+      ),
+    ];
 
-    if (results.length === 0) {
-      toast.error("No matching results found!");
-    }
+    setSearchResults({ foods: foodMatches, restaurants: restaurantMatches });
   };
 
   const handleSelectItem = (item, event) => {
-    event.stopPropagation();  // Prevent issues with input field
-    setSearchQuery(item.name);
-    setSearchResults([]);
-    console.log("Selected Item:", item);
+    event.stopPropagation();
+    setSearchQuery("");
+    setSearchResults({ foods: [], restaurants: [] });
     navigate(`/home/${item.restaurantName}`);
   };
-  
+
+  const handleSelectRestaurant = (restaurant, event) => {
+    event.stopPropagation();
+    setSearchQuery("");
+    setSearchResults({ foods: [], restaurants: [] });
+    navigate(`/home/${restaurant}`);
+  };
 
   return (
     <nav className="bg-[#101010] z-50 text-white w-full h-[10vh] sticky top-0 shadow-md flex justify-between items-center px-8 md:px-16">
-      {/* Logo & Home Navigation */}
-      <div
-        className="flex items-center gap-4 cursor-pointer"
-        onClick={handleLogo}
-      >
+      {/* Logo */}
+      <div className="flex items-center gap-4 cursor-pointer" onClick={handleLogo}>
         <img src={logo} alt="FOODHUB" className="h-12" />
         <div>
           <h1 className="font-bold text-2xl font-[cursive]">FOODHUB</h1>
@@ -75,43 +79,56 @@ const Navbar = ({ allItems }) => {
       </div>
 
       {/* Search Bar */}
-      {/* Search Bar */}
-<div className="relative flex items-center">
-  <form onSubmit={handleSearch} className="relative flex items-center border rounded-lg">
-    <input
-      type="text"
-      placeholder="Search..."
-      className="px-4 py-2 w-65 pr-10 rounded-lg border-none focus:outline-none focus:ring-2 focus:ring-blue-400"
-      value={searchQuery}
-      onChange={(e) => {
-        setSearchQuery(e.target.value);
-        if (!e.target.value.trim()) {
-          setSearchResults([]); // Clear results when input is empty
-        }
-      }}
-    />
-    <button type="submit" className="absolute right-3 text-white hover:text-gray-500">
-      <i className="fa-solid fa-search"></i>
-    </button>
-  </form>
+      <div className="relative flex items-center">
+        <input
+          type="text"
+          placeholder="Search food or restaurant..."
+          className="px-4 py-2 w-72 pr-10 rounded-lg border-none focus:outline-none focus:ring-2 focus:ring-blue-400"
+          value={searchQuery}
+          onChange={handleSearchChange}
+        />
+        <button type="submit" className="absolute right-3 text-white hover:text-gray-500">
+          <i className="fa-solid fa-search"></i>
+        </button>
 
-  {/* Dropdown for search results */}
-  {searchResults.length > 0 && (
-    <ul className="absolute top-full left-0 bg-gray-100 text-black border mt-1 w-full rounded-sm shadow-md max-h-48 overflow-y-auto">
-      {searchResults.map((item, index) => (
-        <li
-          key={index}
-          className="px-3 py-1 cursor-pointer hover:text-white hover:bg-orange-500 flex justify-between"
-          onClick={(event) => handleSelectItem(item, event )}
-        >
-          <span>{item.name}</span>
-          <span className="text-sm text-black">{item.restaurantName}</span>
-        </li>
-      ))}
-    </ul>
-  )}
-</div>
+        {/* Dropdown for search results */}
+        {(searchResults.foods.length > 0 || searchResults.restaurants.length > 0) && (
+          <ul className="absolute top-full left-0 bg-white text-black border mt-1 w-full rounded-md shadow-md max-h-60 overflow-y-auto">
+            {/* Restaurant Matches */}
+            {searchResults.restaurants.length > 0 && (
+              <>
+                <li className="px-3 py-1 bg-gray-200 text-gray-700 font-semibold">Restaurants</li>
+                {searchResults.restaurants.map((restaurant, index) => (
+                  <li
+                    key={index}
+                    className="px-3 py-2 cursor-pointer font-bold text-orange-600 hover:text-white hover:bg-orange-500"
+                    onClick={(event) => handleSelectRestaurant(restaurant, event)}
+                  >
+                    🍽️ {restaurant}
+                  </li>
+                ))}
+              </>
+            )}
 
+            {/* Food Matches */}
+            {searchResults.foods.length > 0 && (
+              <>
+                <li className="px-3 py-1 bg-gray-200 text-gray-700 font-semibold">Food Items</li>
+                {searchResults.foods.map((item, index) => (
+                  <li
+                    key={index}
+                    className="px-3 py-2 cursor-pointer flex justify-between hover:text-white hover:bg-orange-500"
+                    onClick={(event) => handleSelectItem(item, event)}
+                  >
+                    <span>{item.name}</span>
+                    <span className="text-sm text-gray-600">{item.restaurantName}</span>
+                  </li>
+                ))}
+              </>
+            )}
+          </ul>
+        )}
+      </div>
 
       {/* Navigation Links */}
       <ul className="h-full text-lg items-center flex list-none gap-15">
@@ -161,14 +178,6 @@ const Navbar = ({ allItems }) => {
           <li className={`cursor-pointer hover:text-white ${isActive("/login")}`}
               onClick={() => navigate("/login")}>
             <i className="fa-solid fa-arrow-right-to-bracket pr-2"></i>Login
-          </li>
-          <li className={`cursor-pointer hover:text-white ${isActive("/user/signup")}`}
-              onClick={() => navigate("/user/signup")}>
-            <i className="fa-solid fa-address-card pr-2"></i>User Signup
-          </li>
-          <li className={`cursor-pointer hover:text-white ${isActive("/admin/signup")}`}
-              onClick={() => navigate("/admin/signup")}>
-            <i className="fa-solid fa-address-card pr-2"></i>Admin Signup
           </li>
           <li className={`cursor-pointer hover:text-white ${isActive("/cart")}`}
               onClick={() => navigate("/cart")}>
