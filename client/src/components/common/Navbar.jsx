@@ -177,11 +177,11 @@ const Navbar = ({ allItems }) => {
           </li>
           <li className={`cursor-pointer hover:text-white ${isActive("/admin/signup")}`}
               onClick={() => navigate("/admin/signup")}>
-            <i className="fa-solid fa-bowl-food pr-2"></i>Admin Signup
+            <i className="fa-solid fa-user pr-2"></i>Admin Signup
           </li>
           <li className={`cursor-pointer hover:text-white ${isActive("/user/signup")}`}
               onClick={() => navigate("/user/signup")}>
-            <i className="fa-solid fa-bowl-food pr-2"></i>User Signup
+            <i className="fa-solid fa-user-plus pr-2"></i>User Signup
           </li>
           <li className={`cursor-pointer hover:text-white ${isActive("/login")}`}
               onClick={() => navigate("/login")}>
