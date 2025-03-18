@@ -56,7 +56,7 @@ function Menu() {
       <div className="grid grid-cols-4 gap-x-20 gap-y-15 mt-10 max-w-6xl mx-auto">
         {restaurants.map((restaurant) => (
           <div key={restaurant._id || restaurant.id} className="bg-white shadow-md rounded-lg overflow-hidden cursor-pointer" onClick={() => handleViewMenu(restaurant)}>
-            <img src={restaurant.image || image} alt={restaurant.restaurantName} className="w-full h-40 object-cover" />
+            <img src={restaurant.imageUrl || image} alt={restaurant.restaurantName} className="w-full h-40 object-cover" />
             <div className="bg-orange-500 text-white text-center py-2 font-semibold">{restaurant.restaurantName}</div>
           </div>
         ))}
