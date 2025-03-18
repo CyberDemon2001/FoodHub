@@ -44,7 +44,7 @@ function Content({ restaurant }) {
 
   return (
     <>
-      <div className="bg-orange-500 w-full absolute mt-20 h-[70vh]"></div>
+      <div className="bg-orange-500  w-full absolute mt-20 h-[70vh]"></div>
 
       <div className="border-30 mx-15 my-6 relative border-gray-300 rounded-2xl bg-white h-[65vh]">
         <Swiper
@@ -73,7 +73,7 @@ function Content({ restaurant }) {
         </Swiper>
       </div>
 
-      <div className="mx-15">
+      <div className="mx-15 ">
         <Swiper
           modules={[Navigation, Pagination, Autoplay]}
           navigation
@@ -82,7 +82,7 @@ function Content({ restaurant }) {
             delay: 2000,
             pauseOnMouseEnter: true,
           }}
-          spaceBetween={15}
+          spaceBetween={30}
           slidesPerView={5}
           loop={true}
         >
