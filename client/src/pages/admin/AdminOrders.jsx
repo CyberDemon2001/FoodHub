@@ -68,7 +68,9 @@ const Orders = ({ adminId }) => {
   return (
     <>
       <div className="">
-        <h2 className="text-3xl bg-orange-500 py-4 my-4 font-bold text-center">Manage Orders</h2>
+        <h2 className="text-3xl bg-orange-500 py-4 my-4 font-bold text-center">
+          Manage Orders
+        </h2>
 
         {Object.keys(groupedOrders).length === 0 ? (
           <p className="text-center text-lg font-medium">No orders found.</p>
@@ -76,7 +78,9 @@ const Orders = ({ adminId }) => {
           Object.keys(groupedOrders).map((date, index) => (
             <div key={index} className="mb-4">
               <h3 className="text-2xl font-semibold mb-2 bg-gray-300 p-1 rounded-md text-center">
-                {date === todayDate ? "📌 Today's Orders" : moment(date).format("DD MMMM YYYY")}
+                {date === todayDate
+                  ? "📌 Today's Orders"
+                  : moment(date).format("DD MMMM YYYY")}
               </h3>
               <div className="overflow-x-auto">
                 <table className="w-full border-collapse border border-gray-400">
@@ -93,8 +97,12 @@ const Orders = ({ adminId }) => {
                   <tbody>
                     {groupedOrders[date].map((order, idx) => (
                       <tr key={idx} className="border text-center text-lg">
-                        <td className="border">{moment(order.createdAt).format("hh:mm A")}</td>
-                        <td className="border">{order.userId?.name || "N/A"}</td>
+                        <td className="border">
+                          {moment(order.createdAt).format("hh:mm A")}
+                        </td>
+                        <td className="border">
+                          {order.userId?.name || "N/A"}
+                        </td>
                         <td className="border p-3">
                           <table className="w-full text-sm">
                             <thead>
@@ -108,7 +116,9 @@ const Orders = ({ adminId }) => {
                               {order.items.map((item, i) => (
                                 <tr key={i}>
                                   <td className="text-left p-1">{item.name}</td>
-                                  <td className="text-center p-1">{item.quantity}x</td>
+                                  <td className="text-center p-1">
+                                    {item.quantity}x
+                                  </td>
                                   {/* <td className="text-right p-1">₹{item.price}</td> */}
                                 </tr>
                               ))}
@@ -124,13 +134,19 @@ const Orders = ({ adminId }) => {
                             )
                             .toFixed(2)}
                         </td>
-                        <td className="border font-semibold">{order.status || "Pending"}</td>
+                        <td className="border font-semibold">
+                          {order.status || "Pending"}
+                        </td>
                         <td className="border space-x-2">
                           {order.status === "Pending" && (
                             <>
                               <button
                                 onClick={() =>
-                                  updateOrderStatus(order._id, order.restaurantId._id, "Accepted")
+                                  updateOrderStatus(
+                                    order._id,
+                                    order.restaurantId._id,
+                                    "Accepted"
+                                  )
                                 }
                                 className="bg-green-500 text-white px-4 py-2 rounded-md mr-2"
                               >
@@ -138,7 +154,11 @@ const Orders = ({ adminId }) => {
                               </button>
                               <button
                                 onClick={() =>
-                                  updateOrderStatus(order._id, order.restaurantId._id, "Rejected")
+                                  updateOrderStatus(
+                                    order._id,
+                                    order.restaurantId._id,
+                                    "Rejected"
+                                  )
                                 }
                                 className="bg-red-500 text-white px-2 py-2 rounded-md"
                               >
@@ -149,7 +169,11 @@ const Orders = ({ adminId }) => {
                           {order.status === "Accepted" && (
                             <button
                               onClick={() =>
-                                updateOrderStatus(order._id, order.restaurantId._id, "Out for Delivery")
+                                updateOrderStatus(
+                                  order._id,
+                                  order.restaurantId._id,
+                                  "Out for Delivery"
+                                )
                               }
                               className="bg-yellow-500 text-white px-2 py-2 rounded-md"
                             >
@@ -160,7 +184,11 @@ const Orders = ({ adminId }) => {
                             order.status === "Out for Delivery") && (
                             <button
                               onClick={() =>
-                                updateOrderStatus(order._id, order.restaurantId._id, "Delivered")
+                                updateOrderStatus(
+                                  order._id,
+                                  order.restaurantId._id,
+                                  "Delivered"
+                                )
                               }
                               className="bg-blue-500 text-white px-2 py-2 rounded-md"
                             >

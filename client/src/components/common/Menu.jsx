@@ -16,7 +16,6 @@ function Menu() {
       try {
         setLoading(true);
         const response = await axios.get("http://localhost:5000/api/home");
-        // console.log("API Response", response.data);
         if (Array.isArray(response.data)) {
           setRestaurants(response.data);
         } else {
@@ -35,31 +34,41 @@ function Menu() {
   }, []);
 
   const handleViewMenu = (selectedRestaurant) => {
-    if (!id) {
-      navigate(`/home/${selectedRestaurant.restaurantName}`, { state: { restaurant: selectedRestaurant } });
-    } else {
-      navigate(`/user/${id}/${selectedRestaurant.restaurantName}`, { state: { restaurant: selectedRestaurant } });
-    }
+    const path = id ? `/user/${id}/${selectedRestaurant.restaurantName}` : `/home/${selectedRestaurant.restaurantName}`;
+    navigate(path, { state: { restaurant: selectedRestaurant } });
   };
-
-  if (loading) {
-    return <p className="text-center text-gray-600">Loading...</p>;
-  }
 
   if (error) {
     return <p className="text-center text-red-500">{error}</p>;
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 pb-10">
-      <div className="bg-orange-500 text-white text-center py-2 text-lg font-semibold">MENU</div>
-      <div className="grid grid-cols-4 gap-x-20 gap-y-15 mt-10 max-w-6xl mx-auto">
-        {restaurants.map((restaurant) => (
-          <div key={restaurant._id || restaurant.id} className="bg-white shadow-md rounded-lg overflow-hidden cursor-pointer" onClick={() => handleViewMenu(restaurant)}>
-            <img src={restaurant.imageUrl || image} alt={restaurant.restaurantName} className="w-full h-40 object-cover" />
-            <div className="bg-orange-500 text-white text-center py-2 font-semibold">{restaurant.restaurantName}</div>
-          </div>
-        ))}
+    <div className="min-h-screen bg-gray-100 pb-10 relative">
+      {/* Loading Overlay */}
+      {loading && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center  backdrop-blur-sm">
+          {/* <p className="text-blue text-lg font-semibold animate-bounce">Loading...</p> */}
+          {/* <div className="h-10 w-10 bg-blue-500 rounded-full animate-bounce"></div> */}
+          <div class="animate-spin rounded-full h-12 w-12 border-4 border-t-4 border-gray-200 border-t-blue-500"></div>
+        </div>
+      )}
+
+      {/* Blurred Background when Loading */}
+      <div className={`${loading ? "blur-sm" : ""}`}>
+        <div className="bg-orange-500 text-white text-center py-2 text-lg font-semibold">MENU</div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-20 gap-y-15 mt-10 max-w-6xl mx-auto">
+          {restaurants.map((restaurant) => (
+            <div key={restaurant._id || restaurant.id} className="bg-white w-70 h-60 shadow-md rounded-lg cursor-pointer" onClick={() => handleViewMenu(restaurant)}>
+              <img 
+                src={restaurant.imageUrl || image} 
+                alt={restaurant.restaurantName} 
+                className="w-full h-[90%] object-fill"
+                onError={(e) => { e.target.src = image; }} 
+              />
+              <div className="bg-orange-500 text-white text-center p-1 font-semibold">{restaurant.restaurantName}</div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -18,9 +18,9 @@ import section4 from "../../assets/sections/shakes.jpeg";
 import section5 from "../../assets/sections/tea.jpeg";
 import section6 from "../../assets/sections/momoz.jpeg";
 import section7 from "../../assets/sections/chiekcen.jpeg";
-import section8 from "../../assets/sections/hotcoffee.jpeg"
-import section9 from "../../assets/sections/paneer.jpeg"
-import section10 from "../../assets/sections/paratha.avif"
+import section8 from "../../assets/sections/hotcoffee.jpeg";
+import section9 from "../../assets/sections/paneer.jpeg";
+import section10 from "../../assets/sections/paratha.avif";
 
 function Content({ restaurant = [] }) {
   const { id } = useParams();
@@ -40,18 +40,30 @@ function Content({ restaurant = [] }) {
   };
 
   // Map sections to their corresponding images
-const sectionImages = {
-  Burger: section1,
-  Pizza: section2,
-  Mocktails: section3,
-  Shakes: section4,
-  Tea: section5,
-  Momos: section6,
-  Chicken: section7,
-  "Hot Coffee": section8,
-  Paneer: section9,
-  Paratha: section10,
-};
+  const sectionImages = {
+    Burger: section1,
+    Pizza: section2,
+    Mocktails: section3,
+    Shakes: section4,
+    Tea: section5,
+    Momos: section6,
+    Chicken: section7,
+    "Hot Coffee": section8,
+    Paneer: section9,
+    Paratha: section10,
+  };
+
+  const handleSectionClick = (section) => {
+    // Filter restaurants that have the selected section
+    const filteredRestaurants = restaurant.filter((restaurant) =>
+      restaurant.menu.some((menuItem) => menuItem.section === section)
+    );
+
+    // Navigate to the section page with the selected section and filtered data
+    navigate(`/section/${section}`, {
+      state: { section, restaurants: filteredRestaurants },
+    });
+  };
 
   const renderSwiperSlides = (data, isRestaurant = true) => {
     return data.map((item, index) => (
@@ -74,13 +86,16 @@ const sectionImages = {
             </h1>
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center h-60 w-60 ">
+          <div
+            className="flex flex-col items-center justify-center h-60 w-60 cursor-pointer"
+            onClick={() => handleSectionClick(item)}
+          >
             <img
               src={sectionImages[item] || image1}
               className="w-[90%] h-[90%] rounded-full object-cover border-10 border-white"
               alt={item}
             />
-            <h1 className="h-[10%] text-lg font-bold  text-black text-center">
+            <h1 className="h-[10%] text-lg font-bold text-black text-center">
               {item}
             </h1>
           </div>
@@ -91,7 +106,7 @@ const sectionImages = {
 
   return (
     <>
-      <div className="bg-orange-500  w-full absolute mt-20 h-[70vh]"></div>
+      <div className="bg-orange-500 w-full absolute mt-20 h-[70vh]"></div>
 
       <div className="border-30 mx-15 my-6 relative border-white rounded-2xl bg-white h-[65vh]">
         <Swiper

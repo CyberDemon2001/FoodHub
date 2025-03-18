@@ -7,6 +7,7 @@ import Login from './pages/auth/Login';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './components/common/Navbar';
 import Content from "./components/common/Content";
+import Section from "./components/common/Section";
 import Footer from "./components/common/Footer";
 import Admin from "./components/admin/admin";
 import "@fortawesome/fontawesome-free/css/all.min.css";
@@ -85,6 +86,7 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/admin/:id/*" element={<Admin />} />
       <Route path="/user/:id/home" element={<Content restaurant={restaurant} />} />
+      <Route path="/section/:section" element={<Section />} />
       <Route path="/user/:id/orders" element={<UserOrders />} />
       <Route path="/admin/orders/:id" element={<AdminOrders />} />
       <Route path="/user/:id/cart" element={<Cart />} />
