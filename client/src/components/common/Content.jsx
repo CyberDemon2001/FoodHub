@@ -11,6 +11,16 @@ import slide4 from "../../assets/slide4.jpg";
 import slide5 from "../../assets/slide5.jpg";
 import { useNavigate, useParams } from "react-router-dom";
 import image1 from "../../assets/restaurant1.jpg";
+import section1 from "../../assets/sections/burger.jpeg";
+import section2 from "../../assets/sections/pizza.jpg";
+import section3 from "../../assets/sections/moctails.jpg";
+import section4 from "../../assets/sections/shakes.jpeg";
+import section5 from "../../assets/sections/tea.jpeg";
+import section6 from "../../assets/sections/momoz.jpeg";
+import section7 from "../../assets/sections/chiekcen.jpeg";
+import section8 from "../../assets/sections/hotcoffee.jpeg"
+import section9 from "../../assets/sections/paneer.jpeg"
+import section10 from "../../assets/sections/paratha.avif"
 
 function Content({ restaurant = [] }) {
   const { id } = useParams();
@@ -28,6 +38,20 @@ function Content({ restaurant = [] }) {
       : `/home/${selectedRestaurant.restaurantName}`;
     navigate(path, { state: { restaurant: selectedRestaurant } });
   };
+
+  // Map sections to their corresponding images
+const sectionImages = {
+  Burger: section1,
+  Pizza: section2,
+  Mocktails: section3,
+  Shakes: section4,
+  Tea: section5,
+  Momos: section6,
+  Chicken: section7,
+  "Hot Coffee": section8,
+  Paneer: section9,
+  Paratha: section10,
+};
 
   const renderSwiperSlides = (data, isRestaurant = true) => {
     return data.map((item, index) => (
@@ -52,7 +76,7 @@ function Content({ restaurant = [] }) {
         ) : (
           <div className="flex flex-col items-center justify-center h-60 w-60 ">
             <img
-              src={image1}
+              src={sectionImages[item] || image1}
               className="w-[90%] h-[90%] rounded-full object-cover border-10 border-white"
               alt={item}
             />
@@ -69,7 +93,7 @@ function Content({ restaurant = [] }) {
     <>
       <div className="bg-orange-500  w-full absolute mt-20 h-[70vh]"></div>
 
-      <div className="border-30 mx-15 my-6 relative border-gray-300 rounded-2xl bg-white h-[65vh]">
+      <div className="border-30 mx-15 my-6 relative border-white rounded-2xl bg-white h-[65vh]">
         <Swiper
           modules={[Navigation, Autoplay]}
           navigation
@@ -107,7 +131,7 @@ function Content({ restaurant = [] }) {
           breakpoints={{
             320: { slidesPerView: 1 },
             768: { slidesPerView: 2 },
-            1024: { slidesPerView: 4 },
+            1024: { slidesPerView: 5 },
           }}
           loop={true}
         >

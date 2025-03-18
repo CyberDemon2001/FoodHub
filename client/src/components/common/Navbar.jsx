@@ -68,7 +68,7 @@ const Navbar = ({ allItems }) => {
   };
 
   return (
-    <nav className="bg-[#101010] z-50 text-white w-full h-[10vh] sticky top-0 shadow-md flex justify-between items-center px-8 md:px-16">
+    <nav className="bg-black z-50 text-white w-full h-[10vh] opacity-90 sticky top-0 shadow-md flex justify-between items-center px-8 md:px-16">
       {/* Logo */}
       <div className="flex items-center gap-4 cursor-pointer" onClick={handleLogo}>
         <img src={logo} alt="FOODHUB" className="h-12" />
