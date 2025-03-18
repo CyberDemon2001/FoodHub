@@ -67,7 +67,7 @@ function Content({ restaurant = [] }) {
 
   return (
     <>
-      <div className="bg-orange-500 w-full absolute mt-20 h-[70vh]"></div>
+      <div className="bg-orange-500  w-full absolute mt-20 h-[70vh]"></div>
 
       <div className="border-30 mx-15 my-6 relative border-gray-300 rounded-2xl bg-white h-[65vh]">
         <Swiper
@@ -145,7 +145,7 @@ function Content({ restaurant = [] }) {
                 className="border-20 mx-5 my-5 h-[300px] text-center bg-white border-white transition-transform duration-300 ease-in-out transform hover:scale-110 shadow-lg relative overflow-hidden rounded-lg"
               >
                 <img
-                  src={image1}
+                  src={restaurant.imageUrl || image1}
                   className="w-full h-full object-cover rounded-lg"
                   alt={restaurant.restaurantName}
                 />
