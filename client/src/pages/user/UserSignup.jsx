@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import backgroundImage from "../../assets/background.png";
+import Loader from "../../Loader";
 
 const UserSignup = () => {
   const [formData, setFormData] = useState({
@@ -13,6 +14,7 @@ const UserSignup = () => {
     confirmPassword: "",
   });
   const [error, setError] = useState("");
+  const [loading,setLoading] =useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,17 +28,26 @@ const UserSignup = () => {
       return;
     }
     setError("");
+    setLoading(true);
 
     try {
       const response = await axios.post("http://localhost:5000/api/user/signup", formData);
       alert(response.data.message);
     } catch (err) {
       setError(err.response?.data?.message || "Registration failed! Please try again.");
+    } finally{
+      setLoading(false);
     }
   };
 
   return (
     <div className="relative flex justify-center items-center h-screen px-4">
+  {loading && (
+    <div className="absolute inset-0 flex justify-center items-center  backdrop-blur-sm z-50">
+      <Loader />
+    </div>
+  )}
+
       {/* Background with Blur Effect */}
       <div
         className="absolute inset-0 bg-cover bg-center opacity-80"
@@ -48,7 +59,7 @@ const UserSignup = () => {
       ></div>
 
       {/* Signup Form */}
-      <div className="relative z-10 w-[400px] bg-white bg-opacity-90 p-8 rounded-2xl shadow-2xl border border-gray-200">
+      <div className={`${loading ? "blur-xs" : ""} relative z-10 w-[400px] bg-white bg-opacity-90 p-8 rounded-2xl shadow-2xl border border-gray-200`}>
         <h2 className="text-3xl font-bold text-orange-500 text-left mb-5">User Signup</h2>
 
         <form onSubmit={handleSubmit} className="flex flex-col space-y-4">

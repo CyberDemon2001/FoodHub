@@ -4,6 +4,8 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import image from "../../assets/image.jpeg";
 
+import Loader from "../../Loader.jsx";
+
 function Menu() {
   const [restaurants, setRestaurants] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -23,8 +25,13 @@ function Menu() {
           setError("Invalid Restaurants Data Received");
         }
       } catch (error) {
-        console.error("Error fetching restaurants:", error.response?.data || error.message);
-        setError(error.response?.data?.message || "Failed to fetch restaurant details");
+        console.error(
+          "Error fetching restaurants:",
+          error.response?.data || error.message
+        );
+        setError(
+          error.response?.data?.message || "Failed to fetch restaurant details"
+        );
         toast.error("Failed to fetch restaurant details");
       } finally {
         setLoading(false);
@@ -34,7 +41,9 @@ function Menu() {
   }, []);
 
   const handleViewMenu = (selectedRestaurant) => {
-    const path = id ? `/user/${id}/${selectedRestaurant.restaurantName}` : `/home/${selectedRestaurant.restaurantName}`;
+    const path = id
+      ? `/user/${id}/${selectedRestaurant.restaurantName}`
+      : `/home/${selectedRestaurant.restaurantName}`;
     navigate(path, { state: { restaurant: selectedRestaurant } });
   };
 
@@ -46,26 +55,32 @@ function Menu() {
     <div className="min-h-screen bg-gray-100 pb-10 relative">
       {/* Loading Overlay */}
       {loading && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center  backdrop-blur-sm">
-          {/* <p className="text-blue text-lg font-semibold animate-bounce">Loading...</p> */}
-          {/* <div className="h-10 w-10 bg-blue-500 rounded-full animate-bounce"></div> */}
-          <div class="animate-spin rounded-full h-12 w-12 border-4 border-t-4 border-gray-200 border-t-blue-500"></div>
-        </div>
+        <Loader />
       )}
 
       {/* Blurred Background when Loading */}
       <div className={`${loading ? "blur-sm" : ""}`}>
-        <div className="bg-orange-500 text-white text-center py-2 text-lg font-semibold">MENU</div>
+        <div className="bg-orange-500 text-white text-center py-2 text-lg font-semibold">
+          MENU
+        </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-20 gap-y-15 mt-10 max-w-6xl mx-auto">
           {restaurants.map((restaurant) => (
-            <div key={restaurant._id || restaurant.id} className="bg-white w-70 h-60 shadow-md rounded-lg cursor-pointer" onClick={() => handleViewMenu(restaurant)}>
-              <img 
-                src={restaurant.imageUrl || image} 
-                alt={restaurant.restaurantName} 
+            <div
+              key={restaurant._id || restaurant.id}
+              className="bg-white w-70 h-60 shadow-md rounded-lg cursor-pointer"
+              onClick={() => handleViewMenu(restaurant)}
+            >
+              <img
+                src={restaurant.imageUrl || image}
+                alt={restaurant.restaurantName}
                 className="w-full h-[90%] object-fill"
-                onError={(e) => { e.target.src = image; }} 
+                onError={(e) => {
+                  e.target.src = image;
+                }}
               />
-              <div className="bg-orange-500 text-white text-center p-1 font-semibold">{restaurant.restaurantName}</div>
+              <div className="bg-orange-500 text-white text-center p-1 font-semibold">
+                {restaurant.restaurantName}
+              </div>
             </div>
           ))}
         </div>
