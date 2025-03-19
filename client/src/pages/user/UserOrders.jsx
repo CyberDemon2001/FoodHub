@@ -17,15 +17,30 @@ const UserOrders = () => {
         const response = await axios.get(
           `http://localhost:5000/api/user/${id}/orders`
         );
-        setLiveOrders(response.data.liveOrders || []);
-        setPastOrders(response.data.pastOrders || []);
+  
+        const allLiveOrders = response.data.liveOrders || [];
+        const allPastOrders = response.data.pastOrders || [];
+  
+        // Filter out rejected orders from live orders
+        const filteredLiveOrders = allLiveOrders
+          .filter((order) => order.status !== "Rejected")
+          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); // Newest first
+  
+        // Add rejected orders to past orders
+        const updatedPastOrders = [
+          ...allPastOrders,
+          ...allLiveOrders.filter((order) => order.status === "Rejected"),
+        ].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); // Sort past orders too
+  
+        setLiveOrders(filteredLiveOrders);
+        setPastOrders(updatedPastOrders);
       } catch (err) {
         setError("Failed to fetch orders");
       } finally {
         setLoading(false);
       }
     };
-
+  
     fetchOrders();
     const interval = setInterval(fetchOrders, 10000);
     return () => clearInterval(interval);

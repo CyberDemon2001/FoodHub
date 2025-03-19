@@ -92,10 +92,10 @@ function Content({ restaurant = [] }) {
           >
             <img
               src={sectionImages[item] || image1}
-              className="w-[90%] h-[90%] rounded-full object-cover border-10 border-white"
+              className="w-[80%] h-[80%] rounded-full  object-cover border-10 border-white hover:shadow-xl hover:scale-105 transition-transform duration-200 ease-in-out"
               alt={item}
             />
-            <h1 className="h-[10%] text-lg font-bold text-black text-center">
+            <h1 className="h-[8%] text-lg mt-2 font-bold text-black text-center">
               {item}
             </h1>
           </div>

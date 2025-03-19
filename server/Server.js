@@ -10,6 +10,7 @@ const userRoutes = require("./routes/userRoutes");
 const loginRoutes = require("./routes/loginRoutes");
 const orderRoutes = require("./routes/orderRoutes"); // 🔥 Fix Import
 const menuRoutes = require("./routes/menuRoutes");
+const payment = require("./routes/payment");
 
 
 
@@ -26,6 +27,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use("/api", menuRoutes);
+app.use("/api", payment);
 app.use("/api/admin", adminRoutes, menuRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/auth", loginRoutes);

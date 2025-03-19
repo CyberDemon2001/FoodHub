@@ -23,6 +23,7 @@ const Navbar = ({ allItems }) => {
   const isActive = (path) =>
     location.pathname === path ? "bg-orange-500 px-3 py-2 rounded-lg text-white" : "text-white";
 
+  
   const handleSearchChange = (e) => {
     const query = e.target.value.toLowerCase().trim();
     setSearchQuery(e.target.value);
