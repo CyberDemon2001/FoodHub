@@ -20,7 +20,6 @@ router.put("/restaurant/:id/menu/:sectionId", ExistingSection);
 // 🛠️ Update a specific menu item within a section
 router.put("/restaurant/:adminId/menu/:sectionId/item/:itemId", updateMenuItem);
 
-
 // 🛠️ Delete a specific menu item from a section
 router.delete("/restaurant/:adminId/menu/:sectionId/item/:itemId", deleteMenuItem);
 
@@ -52,18 +51,35 @@ router.post("/:id/settings", upload.single("image"), async (req, res) => {
 
 router.get("/:id/settings", async (req, res) => {
   try {
-    const restaurant = await Restaurant.findOne({ adminId: req.params.id });
+    // Fetch restaurant and populate admin details
+    const restaurant = await Restaurant.findOne({ adminId: req.params.id }).populate("adminId");
 
     if (!restaurant) {
       return res.status(404).json({ error: "Restaurant not found" });
     }
 
-    res.json({ imageUrl: restaurant.imageUrl });
+    // Extract admin details
+    const admin = restaurant.adminId; // Since adminId is now populated
+
+    res.json({
+      // Restaurant Details
+      restaurantName: restaurant.restaurantName,
+      imageUrl: restaurant.imageUrl || "",
+
+      // Admin Details
+    
+        name: admin.name,
+        email: admin.email,
+        dob: admin.dob,
+        mobile: admin.mobile,
+      
+    });
   } catch (error) {
     console.error("Error fetching restaurant:", error.message);
     res.status(500).json({ error: "Server error" });
   }
 });
+
 
 
 

@@ -3,6 +3,7 @@ dotenv.config();
 const express = require("express");
 const mongoose = require("mongoose");
 
+const Restaurant = require('./models/Restaurant')
 const cors = require("cors");
 
 const adminRoutes = require("./routes/adminRoutes");
@@ -36,6 +37,28 @@ app.use("/api", orderRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
+});
+
+app.put("/add-menu/:adminId", async (req, res) => {
+  try {
+    const { adminId } = req.params;
+    const { menu } = req.body; // Menu to be added
+
+    // Find restaurant by adminId
+    const restaurant = await Restaurant.findOne({ adminId });
+
+    if (!restaurant) {
+      return res.status(404).json({ message: "Restaurant not found!" });
+    }
+
+    // Update the menu field
+    restaurant.menu = menu;
+    await restaurant.save();
+
+    res.json({ message: "Menu added successfully!", restaurant });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
 });
 
 module.exports = app; // Export the app if needed

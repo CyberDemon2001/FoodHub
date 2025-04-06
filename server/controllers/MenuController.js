@@ -47,22 +47,39 @@ const updateMenuItem = async (req, res) => {
 };
 
 const updateSection = async (req, res) => {
+  return res.status(200).json({ message: "Update section endpoint hit" });
+  const { adminId, sectionId } = req.params;
   const { section } = req.body;
+  
+  console.log("Received Params:", req.params);
+  console.log("Received Body:", req.body);
+  
+
   try {
-    const restaurant = await RestaurantSchema.findOne({ adminId: req.params.adminId });
+    const restaurant = await RestaurantSchema.findOne({ adminId: adminId });
+    console.log("Found Restaurant:", restaurant);
+
     if (!restaurant) {
       return res.status(404).json({ message: "Restaurant not found" });
     }
 
-    const sectionToUpdate = restaurant.menu.id(req.params.sectionId);
+    console.log("Checking Section ID in menu:", sectionId);
+    const sectionToUpdate = restaurant.menu.id(sectionId);
+    console.log("Section Found:", sectionToUpdate);
+
     if (!sectionToUpdate) {
       return res.status(404).json({ message: "Section not found" });
     }
 
     sectionToUpdate.section = section;
+    console.log("Updated Section Data:", sectionToUpdate);
+
     await restaurant.save();
+    console.log("Restaurant updated successfully");
+
     res.json(restaurant);
   } catch (error) {
+    console.error("Error updating section:", error);
     res.status(500).json({ message: "Server error", error });
   }
 };
@@ -86,6 +103,7 @@ const deleteMenuItem =  async (req, res) => {
 };
 
 const deleteSection = async (req, res) => {
+  console.log(req.params);
   try {
     const restaurant = await RestaurantSchema.findOne({ adminId: req.params.adminId });
     if (!restaurant) {

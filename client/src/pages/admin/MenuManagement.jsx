@@ -57,8 +57,8 @@ const MenuManagement = ({ adminId }) => {
 
   const startEditing = (sectionId, item) => {
     setEditingItemId(item._id);
-    setEditingSectionId(sectionId);
-    setEditItem({ name: item.name, price: item.price });
+    // setEditingSectionId(sectionId);
+    setEditItem({ name: item.name, price: item.price  });
   };
 
   const startEditingSection = (sectionId, sectionName) => {
@@ -67,38 +67,49 @@ const MenuManagement = ({ adminId }) => {
   };
 
   const handleUpdateItem = async () => {
-    if (!editingItemId || !editingSectionId) return;
-    try {
-      await axios.put(
-        `${API_BASE_URL}/${adminId}/menu/${editingSectionId}/item/${editingItemId}`,
-        editItem
-      );
-      toast.success("Item updated successfully!");
-      fetchRestaurant();
-      setEditingItemId(null);
-    } catch (error) {
-      toast.error("Failed to update item");
-    }
-  };
+    if (!editingItemId) return;
 
-  const handleUpdateSection = async () => {
-    if (!editingSectionId || !editingSectionName.trim()) {
-      console.log(editingSectionId, editingSectionName)
-      toast.error("Section name cannot be empty!");
-      return;
+    // Find the section that contains the item being edited
+    const section = restaurant?.menu?.find((menuSection) =>
+        menuSection.items.some((item) => item._id === editingItemId)
+    );
+
+    if (!section) {
+        toast.error("Failed to find the section for this item.");
+        return;
     }
+
     try {
-      await axios.put(`${API_BASE_URL}/${adminId}/menu/${editingSectionId}`, {
-        section: editingSectionName, // Ensure correct data is sent
-      });
-      toast.success("Section name updated successfully!");
-      fetchRestaurant(); // Refresh menu
-      setEditingSectionId(null);
-      setEditingSectionName(""); // Reset input
+        await axios.put(
+            `${API_BASE_URL}/${adminId}/menu/${section._id}/item/${editingItemId}`,
+            editItem
+        );
+        toast.success("Item updated successfully!");
+        fetchRestaurant();
+        setEditingItemId(null);
     } catch (error) {
-      toast.error("Failed to update section name");
+        toast.error("Failed to update item");
     }
-  };
+};
+
+  // const handleUpdateSection = async () => {
+  //   if (!editingSectionId || !editingSectionName.trim()) {
+  //     console.log(editingSectionId, editingSectionName)
+  //     toast.error("Section name cannot be empty!");
+  //     return;
+  //   }
+  //   try {
+  //     await axios.put(`${API_BASE_URL}/${adminId}/menu/${editingSectionId}`, {
+  //       section: editingSectionName, // Ensure correct data is sent
+  //     });
+  //     toast.success("Section name updated successfully!");
+  //     fetchRestaurant(); // Refresh menu
+  //     setEditingSectionId(null);
+  //     setEditingSectionName(""); // Reset input
+  //   } catch (error) {
+  //     toast.error("Failed to update section name");
+  //   }
+  // };
   
 
   const handleDeleteItem = async (sectionId, itemId) => {
@@ -228,7 +239,7 @@ const MenuManagement = ({ adminId }) => {
             <button
               type="button"
               onClick={() => handleRemoveItem(index)}
-              className="bg-red-500 text-white p-2 rounded"
+              className="bg-red-500 cursor-pointer text-white p-2 rounded"
               disabled={loading}
             >
               Remove
@@ -238,12 +249,12 @@ const MenuManagement = ({ adminId }) => {
         <button
           type="button"
           onClick={() => setItems([...items, { name: "", price: "" }])}
-          className="bg-blue-500 text-white p-2 rounded mr-2"
+          className="bg-blue-500 cursor-pointer text-white p-2 rounded mr-2"
           disabled={loading}
         >
           Add Item
         </button>
-        <button type="submit" className="bg-green-500 text-white p-2 rounded">
+        <button type="submit" className="bg-green-500 cursor-pointer text-white p-2 rounded">
           {loading ? "Adding..." : "Add Section"}
         </button>
       </form>
@@ -253,10 +264,10 @@ const MenuManagement = ({ adminId }) => {
         <h3 className="text-xl font-bold mb-2">Menu</h3>
         {restaurant?.menu && restaurant.menu.length > 0 ? (
           restaurant.menu.map((menuSection, index) => (
-            <div key={index} className="mb-3 px-2 border rounded shadow">
+            <div key={index} className="mb-3 rounded shadow">
               {/* <h4 className="font-semibold text-lg">{menuSection.section}</h4>
               <ul className=""> */}
-              <div className="flex justify-between items-center">
+              <div className="flex bg-orange-500 text-white items-center gap-2">
                 {editingSectionId === menuSection._id ? (
                   <input
                     type="text"
@@ -266,7 +277,7 @@ const MenuManagement = ({ adminId }) => {
                     autoFocus
                   />
                 ) : (
-                  <h4 className="font-semibold text-lg">
+                  <h4 className="font-semibold px-2 text-lg">
                     {menuSection.section}
                   </h4>
                 )}
@@ -274,54 +285,54 @@ const MenuManagement = ({ adminId }) => {
                   {editingSectionId === menuSection._id ? (
                     <button
                       onClick={handleUpdateSection}
-                      className="bg-green-500 text-white p-1 mr-2 rounded"
+                      className="bg-green-500 cursor-pointer text-white p-1 mr-2 rounded"
                     >
                       Save
                     </button>
                   ) : (
                     <>
-                      <button
+                      {/* <button
                         onClick={() =>
                           startEditingSection(menuSection._id, menuSection.section)
                         }
                         className="bg-yellow-500 text-white p-1 mr-2 rounded"
                       >
                         Edit
-                      </button>
+                      </button> */}
                       <button
                         onClick={() => handleDeleteSection(menuSection._id)}
-                        className="bg-red-500 text-white p-1 rounded"
+                        className="bg-red-500 cursor-pointer text-white px-1 rounded"
                       >
-                        Delete
+                        <i className="fa-solid fa-trash"></i>
                       </button>
                     </>
                   )}
                 </div>
               </div>
-              <ul className="">
+              <ul className="py-2">
                 {menuSection.items.map((item) => (
                   <li
                     key={item._id}
-                    className="flex justify-between pb-2 items-center relative"
+                    className="flex justify-between px-2 my-1 items-center relative"
                   >
                     <span className="flex-1">{item.name}</span>
 
                     {editingItemId === item._id ? (
                       <input
-                        type="number"
-                        value={editItem.price}
-                        onChange={(e) =>
-                          setEditItem({
-                            ...editItem,
-                            price: Math.max(0, Number(e.target.value)),
-                          })
-                        }
-                        className="border p-1 rounded absolute left-[85%] transform -translate-x-1/2 bg-white shadow-md"
-                        autoFocus
-                      />
+                      type="number"
+                      value={editItem.price === "" ? "" : editItem.price}
+                      onChange={(e) =>
+                        setEditItem({
+                          ...editItem,
+                          price: e.target.value === "" ? "" : Math.max(0, Number(e.target.value)),
+                        })
+                      }
+                      className="border p-1 rounded absolute left-[85%] transform -translate-x-1/2 bg-white shadow-md"
+                      autoFocus
+                    />
                     ) : (
                       <span
-                        className="font-bold w-20 text-center cursor-pointer"
+                        className="font-bold w-20 text-center"
                         onClick={() => startEditing(menuSection._id, item)}
                       >
                         ₹{item.price}
@@ -340,7 +351,7 @@ const MenuManagement = ({ adminId }) => {
                         <>
                           <button
                             onClick={() => startEditing(menuSection._id, item)}
-                            className="bg-yellow-500 mr-4 text-white px-2 rounded"
+                            className="bg-yellow-500 mr-4 cursor-pointer text-white px-1 rounded"
                           >
                             <i className="fa-solid fa-pen-to-square"></i>
                           </button>
@@ -348,7 +359,7 @@ const MenuManagement = ({ adminId }) => {
                             onClick={() =>
                               handleDeleteItem(menuSection._id, item._id)
                             }
-                            className="bg-red-500 text-white mr-4 px-2 rounded"
+                            className="bg-red-500 cursor-pointer text-white mr-4 px-1 rounded"
                           >
                             <i className="fa-solid fa-trash"></i>
                           </button>

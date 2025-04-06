@@ -7,6 +7,7 @@ import Orders from "../../pages/admin/AdminOrders";
 import Settings from "../../pages/admin/Settings";
 import Reviews from "../../pages/admin/Reviews";
 import Customers from "../../pages/admin/Customers";
+import Content from "../common/Content";
 
 const Admin = () => {
   const { id } = useParams(); // Extract restaurant ID from URL
@@ -30,7 +31,7 @@ const Admin = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user"); // Clear additional user data if any
     alert("Logged out successfully!");
-    navigate("/login"); // Use navigate for programmatic navigation
+    navigate("/home"); // Use navigate for programmatic navigation
   };
 
   return (

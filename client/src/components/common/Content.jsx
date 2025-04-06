@@ -42,7 +42,7 @@ function Content({ restaurant = [] }) {
   // Map sections to their corresponding images
   const sectionImages = {
     Burger: section1,
-    Pizza: section2,
+    Pizzas: section2,
     Mocktails: section3,
     Shakes: section4,
     Tea: section5,
@@ -168,7 +168,7 @@ function Content({ restaurant = [] }) {
           navigation
           pagination={{ clickable: true }}
           autoplay={{ delay: 2000, pauseOnMouseEnter: true }}
-          spaceBetween={30}
+          spaceBetween={10}
           slidesPerView={4}
           breakpoints={{
             320: { slidesPerView: 1 },

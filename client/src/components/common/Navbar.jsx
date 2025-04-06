@@ -4,13 +4,14 @@ import logo from "../../assets/logo.png";
 
 const Navbar = ({ allItems }) => {
   const user = JSON.parse(localStorage.getItem("user"));
+  const role = user?.role;
   const navigate = useNavigate();
   const location = useLocation();
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState({ foods: [], restaurants: [] });
 
   const handleLogo = () => {
-    user ? navigate(`/user/${user.id}/home`) : navigate("/home");
+    user ? navigate(`/${role}/${user.id}/home`) : navigate("/home");
   };
 
   const clickLogout = () => {
@@ -69,7 +70,7 @@ const Navbar = ({ allItems }) => {
   };
 
   return (
-    <nav className="bg-black z-50 text-white w-full h-[10vh] opacity-90 sticky top-0 shadow-md flex justify-between items-center px-8 md:px-16">
+    <nav className="bg-orange-500 z-50 text-white w-full h-[10vh] opacity-90 sticky top-0 shadow-md flex justify-between items-center px-8 md:px-16">
       {/* Logo */}
       <div className="flex items-center gap-4 cursor-pointer" onClick={handleLogo}>
         <img src={logo} alt="FOODHUB" className="h-12" />
@@ -84,11 +85,11 @@ const Navbar = ({ allItems }) => {
         <input
           type="text"
           placeholder="Search food or restaurant..."
-          className="px-4 py-2 w-72 pr-10 rounded-lg border-none focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="px-4 py-1 w-80 pr-10 bg-white text-black rounded-lg border-none focus:outline-none focus:ring-2 focus:ring-gray-700"
           value={searchQuery}
           onChange={handleSearchChange}
         />
-        <button type="submit" className="absolute right-3 text-white hover:text-gray-500">
+        <button type="submit" className="absolute right-3 cursor-pointer text-black hover:text-gray-500">
           <i className="fa-solid fa-search"></i>
         </button>
 
@@ -133,7 +134,7 @@ const Navbar = ({ allItems }) => {
 
       {/* Navigation Links */}
       <ul className="h-full text-lg items-center flex list-none gap-15">
-        {user && user.role === "student" && (
+        {user && user.role === "user" && (
           <>
             <li className={`cursor-pointer hover:text-white ${isActive(`/user/${user.id}/home`)}`}
                 onClick={() => navigate(`/user/${user.id}/home`)}>
@@ -153,6 +154,15 @@ const Navbar = ({ allItems }) => {
             </li>
           </>
         )}
+
+{user && user.role === "admin" && (
+    <>
+      <li className={`cursor-pointer hover:text-white ${isActive(`/admin/${user.id}/dashboard`)}`}
+          onClick={() => navigate(`/admin/${user.id}/dashboard`)}>
+        <i className="fa-solid fa-chart-line pr-2"></i>Dashboard
+      </li>
+    </>
+  )}
       </ul>
 
       {/* User Actions */}
@@ -171,10 +181,10 @@ const Navbar = ({ allItems }) => {
           </button>
         </div>
       ) : (
-        <ul className="list-none h-full items-center flex text-lg gap-8">
-          <li className={`cursor-pointer hover:text-white ${isActive("/menu")}`}
+        <ul className="list-none h-fullitems-center  flex text-lg gap-8">
+          <li className={`cursor-pointer  hover:text-white ${isActive("/menu")}`}
               onClick={() => navigate("/menu")}>
-            <i className="fa-solid fa-bowl-food pr-2"></i>Menu
+            <i className="fa-solid fa-bowl-food pr-2 "></i>Menu
           </li>
           <li className={`cursor-pointer hover:text-white ${isActive("/admin/signup")}`}
               onClick={() => navigate("/admin/signup")}>

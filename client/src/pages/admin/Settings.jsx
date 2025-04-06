@@ -9,31 +9,34 @@ function Settings() {
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState("");
   const [preview, setPreview] = useState("");
+  const [user, setUser] = useState({});
+  const [editableFields, setEditableFields] = useState({});
+  const [formData, setFormData] = useState({});
 
-  // Fetch the latest profile image from Cloudinary
   useEffect(() => {
-    const fetchImage = async () => {
+    const fetchUserData = async () => {
       try {
+        const storedUser = JSON.parse(localStorage.getItem("user")) || {};
+        setUser(storedUser);
+        setFormData(storedUser);
+
         const res = await axios.get(`http://localhost:5000/api/admin/${id}/settings`);
-        setImage(res.data.imageUrl || defaultRestaurant); // ✅ Use default if no image
+        setUser(res.data);
+        setFormData(res.data);
+        setImage(res.data.imageUrl || defaultRestaurant);
       } catch (error) {
-        console.error("Failed to fetch image:", error);
+        console.error("Failed to fetch data:", error);
       }
     };
-  
-    fetchImage();
+
+    fetchUserData();
   }, [id]);
-  
 
   const handleFileSelect = async (event) => {
     const file = event.target.files[0];
     if (!file) return;
 
-    // Show a temporary preview before uploading
-    const imagePreviewURL = URL.createObjectURL(file);
-    setPreview(imagePreviewURL);
-
-    // Upload the file
+    setPreview(URL.createObjectURL(file));
     await handleImageUpload(file);
   };
 
@@ -43,8 +46,8 @@ function Settings() {
 
   const handleImageUpload = async (file) => {
     if (!file) return;
-
     setLoading(true);
+
     const formData = new FormData();
     formData.append("image", file);
 
@@ -54,13 +57,7 @@ function Settings() {
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
-
-      console.log("Uploaded Image URL:", res.data.imageUrl);
-      
-      // Update image state to show the new uploaded image
-      setImage(`${res.data.imageUrl}?v=${Math.random()}`); // Force browser cache refresh
-      
-      alert("Profile image updated!");
+      setImage(`${res.data.imageUrl}?v=${Math.random()}`);
     } catch (error) {
       console.error("Upload failed:", error.response?.data || error.message);
     } finally {
@@ -68,38 +65,84 @@ function Settings() {
     }
   };
 
+  const handleEditClick = (key) => {
+    setEditableFields({ ...editableFields, [key]: !editableFields[key] });
+  };
+
+  const handleChange = (e, key) => {
+    setFormData({ ...formData, [key]: e.target.value });
+  };
+
+  const handleSave = async (key) => {
+    const updatedField = { [key]: formData[key] };
+
+    try {
+      await axios.patch(`http://localhost:5000/api/admin/${id}/settings`, updatedField);
+      setUser({ ...user, ...updatedField });
+      localStorage.setItem("user", JSON.stringify({ ...user, ...updatedField }));
+      setEditableFields({ ...editableFields, [key]: false });
+    } catch (error) {
+      console.error("Error updating field:", error);
+    }
+  };
+
   return (
-    <div className="min-h-screen p-6 bg-gray-100 text-gray-900">
-      <h2 className="text-2xl font-semibold mb-4">Settings</h2>
-
-      <div className="mb-6 text-center">
-        <h3 className="text-lg font-medium">Profile Picture</h3>
-
-        <div className="relative w-24 h-24 mx-auto mt-4 cursor-pointer" onClick={handleProfileClick}>
-          <img
-            src={preview || image}
-            alt="Profile"
-            className="w-24 h-24 rounded-full border object-cover"
-          />
-
-          <div className="absolute bottom-0 right-0 bg-black bg-opacity-70 p-1.5 rounded-full">
-            <i className="fa-solid fa-pen-to-square text-white text-lg"></i>
-          </div>
-
-          {loading && (
-            <div className="absolute inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 rounded-full">
-              <div className="w-6 h-6 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+    <div className="min-h-[90vh] flex flex-col items-center justify-center bg-gradient-to-r from-gray-100 to-orange-100">
+      <h1 className="text-4xl font-bold text-black mb-6 relative">Settings</h1>
+      <div className="w-full max-w-4xl bg-white shadow-lg border border-gray-300 rounded-2xl p-8">
+        <h2 className="text-2xl font-bold text-black">Manage Your Settings</h2>
+        <div className="mt-6 flex justify-center">
+  <div className="relative">
+    <img
+      className="w-28 h-28 rounded-full border-4 border-gray-400 object-cover"
+      src={preview || image}
+      alt="Profile"
+    />
+    <button
+      className="absolute -top-2 -right-2 bg-orange-500 text-white p-2 rounded-full"
+      onClick={handleProfileClick}
+    >
+      <i className="fa-solid fa-pencil"></i>
+    </button>
+    <input
+      type="file"
+      accept=".png, .jpg, .jpeg"
+      ref={fileInputRef}
+      onChange={handleFileSelect}
+      className="hidden"
+    />
+  </div>
+</div>
+        <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+          {["name", "restaurantName", "email", "mobile", "dob"].map((key, index) => (
+            <div key={index} className="relative">
+              <label className="text-gray-700 font-medium capitalize">{key.replace(/([A-Z])/g, " $1").trim()}</label>
+              <div className="relative mt-1">
+                <input
+                  type={key === "dob" && editableFields[key] ? "date" : "text"}
+                  value={
+                    key === "dob" && formData[key]
+                      ? new Date(formData[key]).toISOString().split("T")[0] // Ensures proper date format (YYYY-MM-DD)
+                      : formData[key] || ""
+                  }
+                  className={`w-full p-2 pr-12 rounded-lg border transition-all duration-300 ${
+                    editableFields[key] ? "border-orange-500" : "border-gray-400 bg-gray-100"
+                  }`}
+                  disabled={!editableFields[key]}
+                  onChange={(e) => handleChange(e, key)}
+                />
+                <button
+                  className={`absolute right-3 top-1/2 transform -translate-y-1/2 px-3 py-1 rounded-lg text-white ${
+                    editableFields[key] ? "bg-green-500" : "bg-red-500"
+                  }`}
+                  onClick={() => (editableFields[key] ? handleSave(key) : handleEditClick(key))}
+                >
+                  <i className={`fa-solid ${editableFields[key] ? "fa-floppy-disk" : "fa-pencil"}`}></i>
+                </button>
+              </div>
             </div>
-          )}
+          ))}
         </div>
-
-        <input
-          type="file"
-          accept=".png, .jpg, .jpeg"
-          ref={fileInputRef}
-          onChange={handleFileSelect}
-          className="hidden"
-        />
       </div>
     </div>
   );

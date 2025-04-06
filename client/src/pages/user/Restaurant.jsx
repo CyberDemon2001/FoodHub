@@ -20,7 +20,7 @@ const Restaurant = () => {
 
   useEffect(() => {
     if (!restaurant) {
-      // Fetch restaurant details by name if opened via direct URL
+      // Fetch restaurant details if opened via direct URL
       axios.get(`http://localhost:5000/api/home/${name}`)
         .then((response) => setRestaurant(response.data))
         .catch((error) => {
@@ -31,7 +31,6 @@ const Restaurant = () => {
         .finally(() => setLoading(false));
     }
   }, [name, restaurant, navigate]);
-  console.log(restaurant)
 
   useEffect(() => {
     if (user) {
@@ -61,29 +60,49 @@ const Restaurant = () => {
 
       if (existingItemIndex !== -1) {
         updatedCart[restaurantIndex].items[existingItemIndex].quantity += 1;
-        toast.info(`Quantity increased: ${item.name}`, { autoClose: 1500 });
+        // toast.info(`Quantity increased: ${item.name}`, { autoClose: 1500 });
       } else {
         updatedCart[restaurantIndex].items.push({
           ...item,
           section: section.section,
           quantity: 1,
         });
-        toast.success(`Added to cart: ${item.name}`, { autoClose: 1500 });
+        // toast.success(`Added to cart: ${item.name}`, { autoClose: 1500 });
       }
     } else {
       updatedCart.push({
         userId: userId,
-        restaurantId: restaurant.restaurantId || restaurant._id ,
+        restaurantId: restaurant.restaurantId || restaurant._id,
         restaurantName: restaurant.restaurantName,
-        // restaurantId: restaurant._id,
         items: [{ ...item, section: section.section, quantity: 1 }],
       });
       toast.success(`Added to cart: ${item.name}`, { autoClose: 1500 });
     }
-   
 
     updateCart(updatedCart);
-    console.log("Updated Cart:", updatedCart);
+  };
+
+  const handleChangeQuantity = (item, change) => {
+    const updatedCart = cart.map((restaurant) => {
+      if (restaurant.restaurantName === restaurant.restaurantName) {
+        const updatedItems = restaurant.items.map((cartItem) => {
+          if (cartItem._id === item._id) {
+            return { ...cartItem, quantity: cartItem.quantity + change };
+          }
+          return cartItem;
+        }).filter(cartItem => cartItem.quantity > 0); // Remove items with quantity 0
+
+        return { ...restaurant, items: updatedItems };
+      }
+      return restaurant;
+    }).filter(restaurant => restaurant.items.length > 0); // Remove empty restaurants
+
+    updateCart(updatedCart);
+  };
+
+  const getItemQuantity = (item) => {
+    const restaurantCart = cart.find(r => r.restaurantName === restaurant.restaurantName);
+    return restaurantCart?.items.find(cartItem => cartItem._id === item._id)?.quantity || 0;
   };
 
   if (loading) return <p className="text-center text-gray-500">Loading...</p>;
@@ -104,23 +123,45 @@ const Restaurant = () => {
         <div key={section._id} className="bg-gray-200 p-6 rounded-lg shadow-lg mb-6">
           <h2 className="text-xl font-bold mb-3">{section.section}</h2>
           <ul className="space-y-4">
-            {section.items.map((item) => (
-              <li key={`${section._id}-${item._id}`} className="flex items-center justify-between bg-gray-100 p-3 rounded-lg shadow-sm">
-                <div className="flex items-center space-x-4">
-                  <img src={image} alt={item.name} className="w-14 h-14 rounded-md shadow-md" />
-                  <div>
-                    <p className="text-lg font-semibold">{item.name}</p>
-                    <p className="text-sm font-bold">₹{item.price}</p>
+            {section.items.map((item) => {
+              const quantity = getItemQuantity(item);
+
+              return (
+                <li key={`${section._id}-${item._id}`} className="flex items-center justify-between bg-gray-100 p-3 rounded-lg shadow-sm">
+                  <div className="flex items-center space-x-4">
+                    <img src={image} alt={item.name} className="w-14 h-14 rounded-md shadow-md" />
+                    <div>
+                      <p className="text-lg font-semibold">{item.name}</p>
+                      <p className="text-sm font-bold">₹{item.price}</p>
+                    </div>
                   </div>
-                </div>
-                <button
-                  onClick={() => handleAddToCart(item, section)}
-                  className="bg-orange-500 text-white px-4 py-2 rounded-full shadow-md hover:cursor-pointer hover:bg-orange-600 transition"
-                >
-                  ADD
-                </button>
-              </li>
-            ))}
+                  {quantity > 0 ? (
+                    <div className="flex items-center">
+                      <button
+                        onClick={() => handleChangeQuantity(item, -1)}
+                        className="bg-red-500 text-white px-2 py-1 rounded-full hover:bg-red-600 transition"
+                      >
+                        -
+                      </button>
+                      <span className="mx-3 text-lg">{quantity}</span>
+                      <button
+                        onClick={() => handleChangeQuantity(item, 1)}
+                        className="bg-green-500 text-white px-2 py-1 rounded-full hover:bg-green-600 transition"
+                      >
+                        +
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => handleAddToCart(item, section)}
+                      className="bg-orange-500 text-white px-4 py-2 rounded-full shadow-md hover:bg-orange-600 transition"
+                    >
+                      ADD
+                    </button>
+                  )}
+                </li>
+              );
+            })}
           </ul>
         </div>
       ))}

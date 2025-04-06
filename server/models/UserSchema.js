@@ -14,7 +14,7 @@ const UserSchema = new mongoose.Schema({
     mobile: { type: String, required: true },
     dob: { type: Date, required: true },
     department: { type: String, required: true },
-    role: { type: String, default:"student"},
+    role: { type: String, default:"user"},
     address: { type: AddressSchema, default: null },
     orders: [{ type: mongoose.Schema.Types.ObjectId, ref: "Order" }],
     },{ timestamps: true });

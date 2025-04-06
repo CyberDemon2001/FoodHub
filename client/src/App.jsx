@@ -23,6 +23,7 @@ import Menu from "./components/common/Menu";
 import ScrollToTop from "./ScrollToTop";
 
 function App() {
+  const role = JSON.parse(localStorage.getItem("user"))?.role;
   const [restaurant, setRestaurant] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState("");
@@ -80,6 +81,7 @@ function App() {
     <Navbar  allItems={allItems} />
     <Routes>
       <Route path="/" element={<Navigate to="/home" />} />
+      <Route path="/admin/:id/home" element={<Content restaurant={restaurant} />} />
       <Route path="/home" element={<Content restaurant={restaurant} />} />
       <Route path="/admin/signup" element={<AdminSignup />} />
       <Route path="/user/signup" element={<UserSignup />} />

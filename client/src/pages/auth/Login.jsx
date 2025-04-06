@@ -8,7 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("student"); // Default role is "student"
+  const [role, setRole] = useState("user"); // Default role is "user"
   const navigate = useNavigate();
 
   const handleLogin = async () => {
@@ -18,7 +18,7 @@ const Login = () => {
         password,
         role,
       });
-
+  
       if (response.status === 200) {
         const { token, name, id, email, mobile, dob, department } = response.data;
         toast.success("Login Successfully");
@@ -57,7 +57,7 @@ const Login = () => {
         {/* Role Toggle Switch */}
         <div
           className="relative w-full h-12 border border-gray-400 bg-gray-300 rounded-full flex items-center mb-6 cursor-pointer p-1 transition-all duration-300"
-          onClick={() => setRole(role === "student" ? "admin" : "student")}
+          onClick={() => setRole(role === "user" ? "admin" : "user")}
         >
           {/* Sliding Background */}
           <div
@@ -69,7 +69,7 @@ const Login = () => {
           {/* User Role */}
           <span
             className={`w-1/2 text-center font-semibold relative z-10 transition-all ${
-              role === "student" ? "text-white" : "text-gray-700"
+              role === "user" ? "text-white" : "text-gray-700"
             }`}
           >
             User

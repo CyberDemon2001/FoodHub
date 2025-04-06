@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import axios from "axios";
 import backgroundImage from "../../assets/background.png";
 import Loader from "../../Loader";
+import { useNavigate } from "react-router-dom";
 
 const UserSignup = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -33,6 +35,7 @@ const UserSignup = () => {
     try {
       const response = await axios.post("http://localhost:5000/api/user/signup", formData);
       alert(response.data.message);
+      navigate("/login");
     } catch (err) {
       setError(err.response?.data?.message || "Registration failed! Please try again.");
     } finally{

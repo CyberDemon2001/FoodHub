@@ -6,6 +6,9 @@ const RestaurantSchema = require("../models/Restaurant");
 const Signup = async (req, res) => {
   try {
     const { name, email, password, restaurantName, dob, mobile } = req.body;
+    if(typeof name!='string'){
+      return res.status(400).json({message: "Name Not Valid"});
+    }
     // Check if the user already exists
     const admin = await AdminSchema.findOne({ email });
     if (admin) {

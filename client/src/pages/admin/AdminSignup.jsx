@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import backgroundImage from "../../assets/bg.jpg"; 
+import backgroundImage from "../../assets/background.png"; 
 import { useNavigate } from "react-router-dom";
 
 const AdminSignup = () => {

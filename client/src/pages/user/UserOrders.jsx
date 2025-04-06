@@ -35,7 +35,7 @@ const UserOrders = () => {
         setLiveOrders(filteredLiveOrders);
         setPastOrders(updatedPastOrders);
       } catch (err) {
-        setError("Failed to fetch orders");
+        setError("No orders");
       } finally {
         setLoading(false);
       }
