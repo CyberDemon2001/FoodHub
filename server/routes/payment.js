@@ -14,7 +14,7 @@ router.post("/create-order", async (req, res) => {
     const { amount, currency } = req.body;
 
     const options = {
-      amount: amount * 100, // Razorpay works in paise (₹1 = 100 paise)
+      amount: amount * 100,
       currency: currency || "INR",
       receipt: `receipt_${Date.now()}`,
     };

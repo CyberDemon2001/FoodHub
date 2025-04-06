@@ -56,7 +56,7 @@ function PaymentInfo({ setPaymentDone, confirmOrder }) {
         prefill: {
           name: user.name,
           email: user.email,
-          contact: "9999999999",
+          contact: user.mobile,
         },
         theme: {
           color: "#3399cc",
