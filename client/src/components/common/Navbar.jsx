@@ -147,11 +147,11 @@ const Navbar = ({ allItems }) => {
       </div>
 
       {/* Search Bar (Full width) */}
-      <div className="relative my-2">
+      <div className="relative my-2 ">
         <input
           type="text"
           placeholder="Search food or restaurant..."
-          className="w-full px-4 py-2 bg-white text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-700"
+          className="w-full px-4 py-2 mb-4 bg-white text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-700"
           value={searchQuery}
           onChange={handleSearchChange}
         />
