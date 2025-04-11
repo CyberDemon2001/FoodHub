@@ -4,8 +4,10 @@ import PaymentInfo from "./PaymentInfo";
 import Checkout from "./Checkout";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
+  const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [paymentDone, setPaymentDone] = useState(false);
 
@@ -44,6 +46,7 @@ const Cart = () => {
       toast.success(response.data.message);
       localStorage.removeItem(`cart_${user.id}`);
       setStep(1);
+      navigate(`/user/${user.id}/orders`);
     } catch (error) {
       toast.error("Failed to place order!");
       console.error(error);
@@ -52,9 +55,9 @@ const Cart = () => {
 
   return (
     <>
-      <div className="mx-30 h-[90vh] bg-white flex flex-col px-20 py-10 overflow-auto justify-between">
+      <div className="sm:mx-30 mx-0 sm:h-[90vh] h-[80vh] bg-white flex flex-col sm:px-20 py-10 overflow-auto justify-between">
         <div>
-          <div className="relative p-2 flex items-center justify-between w-full">
+          <div className="relative flex items-center justify-between w-full">
             <div className="absolute top-1/3 left-1/6 right-1/6 h-1 bg-gray-300 z-0"></div>
             <div className={`absolute top-1/3 left-1/6 h-1 ${step >= 2 ? "bg-orange-500" : "bg-gray-300"} w-1/3 z-0`}></div>
             <div className={`absolute top-1/3 left-1/2 h-1 ${step === 3 ? "bg-green-400" : "bg-gray-300"} w-1/3 z-0`}></div>
