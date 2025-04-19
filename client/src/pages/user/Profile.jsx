@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import image from "../../assets/profile.jpeg";
+const baseURL = import.meta.env.VITE_API_BASE_URL;
 
 function Profile() {
   const user = JSON.parse(localStorage.getItem("user")) || {};
