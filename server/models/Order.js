@@ -13,7 +13,7 @@ const OrderSchema = new mongoose.Schema(
       },
     ],
     totalPrice: { type: Number, required: true },
-    status: { type: String, default: "Pending" }, // Pending, Accepted, Rejected, Out for Delivery, Delivered
+    status: { type: String, default: "Pending" },
   },
   { timestamps: true }
 );

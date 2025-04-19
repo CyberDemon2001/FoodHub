@@ -36,7 +36,7 @@ const Cart = () => {
       }
 
       const response = await axios.post(
-        "http://localhost:5000/api/place-order",
+        `${baseURL}/place-order`,
         { cart },
         {
           headers: { Authorization: `Bearer ${user.token}` },

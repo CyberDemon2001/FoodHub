@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+const baseURL = import.meta.env.VITE_API_BASE_URL;
 
-const API_BASE_URL = "http://localhost:5000/api/admin/restaurant";
+const API_BASE_URL = `${baseURL}/api/admin/restaurant`;
 
 const MenuManagement = ({ adminId }) => {
   const [restaurant, setRestaurant] = useState(null);

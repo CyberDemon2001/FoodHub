@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 import image from "../../assets/image.jpeg";
+const baseURL = import.meta.env.VITE_API_BASE_URL;
 
 import Loader from "../../Loader.jsx";
 
@@ -17,7 +18,7 @@ function Menu() {
     const fetchRestaurants = async () => {
       try {
         setLoading(true);
-        const response = await axios.get("http://localhost:5000/api/home");
+        const response = await axios.get(`${baseURL}/home`);
         if (Array.isArray(response.data)) {
           setRestaurants(response.data);
         } else {
