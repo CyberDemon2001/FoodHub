@@ -20,6 +20,7 @@ function Section() {
   }, [cart, userId]);
 
   const handleAddToCart = (item, restaurant) => {
+    if(!user) return alert("Please Login To Add Item In Cart");
     const restaurantId = restaurant.restaurantId || restaurant.id || restaurant._id;
     
     if (!restaurantId) {
