@@ -11,7 +11,7 @@ import slide4 from "../../assets/slide4.jpg";
 import slide5 from "../../assets/slide5.jpg";
 import { useNavigate, useParams } from "react-router-dom";
 import image1 from "../../assets/restaurant1.jpg";
-import Loader from "../../Loader";
+import Loader from "../../FrontLoader";
 
 const PEXELS_API_KEY = "sSfQGKJtC1XMCCIBlUzPZd0hoSKEYaRpyYAmUSEVldfWmODXn9MSWzjL";
 
