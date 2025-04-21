@@ -54,7 +54,7 @@ function Settings() {
 
     try {
       const res = await axios.post(
-        `${baseURL}/api/admin/${id}/settings`,
+        `${baseURL}/admin/${id}/settings`,
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );

@@ -4,6 +4,7 @@ const { addMenuSection, updateMenuItem, deleteMenuItem, deleteSection, updateSec
 const { ExistingSection } = require("../controllers/ExistingSectionController");
 
 const Restaurant = require("../models/Restaurant"); // Import restaurant model
+const AdminSchema = require("../models/AdminSchema"); // Import admin model
 const { upload } = require("../middleware/cloudinary");
 
 const router = express.Router();
@@ -80,9 +81,18 @@ router.get("/:id/settings", async (req, res) => {
   }
 });
 
+router.patch("/:id/settings",async (req, res) => {
+  const { id } = req.params;
+  const updateData = req.body;
+  try {
+    const user = await AdminSchema.findByIdAndUpdate(id, updateData, { new: true });
+    if (!user) return res.status(404).json({ error: "User not found" });
 
-
-
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
 //update Section
 router.put("/restaurant/:adminId/menu/:sectionId", updateSection);
