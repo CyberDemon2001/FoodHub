@@ -14,8 +14,8 @@ const Restaurant = () => {
 
   const [restaurant, setRestaurant] = useState(location.state?.restaurant || null);
   const [restaurantLoading, setRestaurantLoading] = useState(!restaurant);
-  const [imageLoading, setImageLoading] = useState(true);
   const [itemImages, setItemImages] = useState({});
+  const [imageLoading, setImageLoading] = useState({});
   const [cart, setCart] = useState([]);
 
   const user = JSON.parse(localStorage.getItem("user"));
@@ -53,14 +53,17 @@ const Restaurant = () => {
     const fetchImages = async () => {
       if (!restaurant) return;
       const images = {};
+      const loadingStates = {};
       for (const section of restaurant.menu || []) {
         for (const item of section.items) {
+          loadingStates[item._id] = true;
           const img = await getPexelsImage(item.name);
           if (img) images[item._id] = img;
+          loadingStates[item._id] = false;
         }
       }
       setItemImages(images);
-      setImageLoading(false);
+      setImageLoading(loadingStates);
     };
     restaurant && fetchImages();
   }, [restaurant]);
@@ -116,7 +119,7 @@ const Restaurant = () => {
     cart.find(r => r.restaurantName === restaurant.restaurantName)
       ?.items.find(i => i._id === item._id)?.quantity || 0;
 
-  if (restaurantLoading || imageLoading)
+  if (restaurantLoading)
     return <div className="min-h-screen flex justify-center items-center"><Loader /></div>;
   if (!restaurant) return null;
 
@@ -145,7 +148,13 @@ const Restaurant = () => {
                 return (
                   <li key={item._id} className="flex items-center justify-between bg-gray-100 p-3 rounded-md shadow-sm">
                     <div className="flex items-center space-x-4">
-                      <img src={img} alt={item.name} className="w-14 h-14 rounded-md shadow-md" />
+                      {img ? (
+                        <img src={img} alt={item.name} className="w-14 h-14 rounded-md shadow-md" />
+                      ) : (
+                        <div className="w-14 h-14 bg-gray-300 animate-pulse rounded-md shadow-md flex items-center justify-center text-xs text-gray-500">
+                          Loading...
+                        </div>
+                      )}
                       <div>
                         <p className="text-md font-semibold">{item.name}</p>
                         <p className="text-sm font-bold">₹{item.price}</p>
@@ -173,7 +182,13 @@ const Restaurant = () => {
               const img = itemImages[item._id];
               return (
                 <div key={item._id} className="bg-white shadow-md rounded-2xl p-4 flex flex-col items-center aspect-square hover:shadow-xl transition">
-                  <img src={img} alt={item.name} className="w-58 h-34 object-cover rounded-lg mb-3 border" />
+                  {img ? (
+                    <img src={img} alt={item.name} className="w-58 h-34 object-cover rounded-lg mb-3 border" />
+                  ) : (
+                    <div className="w-58 h-34 bg-gray-300 animate-pulse rounded-lg mb-3 border flex items-center justify-center text-sm text-gray-500">
+                      Loading...
+                    </div>
+                  )}
                   <div className="text-center">
                     <p className="text-base font-semibold">{item.name}</p>
                     <p className="text-sm font-bold text-gray-600">₹{item.price}</p>
