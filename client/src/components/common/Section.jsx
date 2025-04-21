@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 
 function Section() {
   const location = useLocation();
@@ -18,6 +19,7 @@ function Section() {
   }, [cart, userId]);
 
   const handleAddToCart = (item, restaurant) => {
+    if(!user) return toast.error("Please Login To Add Item In Cart");
     const restaurantId = restaurant.restaurantId || restaurant.id || restaurant._id;
     if (!restaurantId) return;
 
@@ -146,6 +148,7 @@ function Section() {
           </div>
         ))}
       </div>
+      <ToastContainer/>
     </div>
   );
 }
