@@ -5,6 +5,8 @@ import Checkout from "./Checkout";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+const baseURL = import.meta.env.VITE_API_BASE_URL;
+
 
 const Cart = () => {
   const navigate = useNavigate();
@@ -36,7 +38,7 @@ const Cart = () => {
       }
 
       const response = await axios.post(
-        "http://localhost:5000/api/place-order",
+        `${baseURL}/place-order`,
         { cart },
         {
           headers: { Authorization: `Bearer ${user.token}` },

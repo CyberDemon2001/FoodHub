@@ -3,6 +3,7 @@ import axios from "axios";
 import backgroundImage from "../../assets/background.png";
 import Loader from "../../Loader";
 import { useNavigate } from "react-router-dom";
+const baseURL = import.meta.env.VITE_API_BASE_URL;
 
 const UserSignup = () => {
   const navigate = useNavigate();
@@ -33,7 +34,7 @@ const UserSignup = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post("http://localhost:5000/api/user/signup", formData);
+      const response = await axios.post(`${baseURL}/user/signup`, formData);
       alert(response.data.message);
       navigate("/login");
     } catch (err) {

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import backgroundImage from "../../assets/background.png"; 
 import { useNavigate } from "react-router-dom";
+const baseURL = import.meta.env.VITE_API_BASE_URL;
 
 const AdminSignup = () => {
   const [formData, setFormData] = useState({
@@ -30,7 +31,7 @@ const AdminSignup = () => {
     setError("");
 
     try {
-      const response = await axios.post("http://localhost:5000/api/admin/signup", formData);
+      const response = await axios.post(`${baseURL}/api/admin/signup`, formData);
       alert(response.data.message);
       navigate("/login");
     } catch (err) {

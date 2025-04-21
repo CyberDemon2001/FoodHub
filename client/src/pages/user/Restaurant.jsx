@@ -4,7 +4,8 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import slide1 from "../../assets/slide1.jpg";
-import Loader from "../../Loader";
+import Loader from "../../Loader"; // Import your loader here
+const baseURL = import.meta.env.VITE_API_BASE_URL;
 
 const Restaurant = () => {
   const { name } = useParams();
@@ -35,9 +36,10 @@ const Restaurant = () => {
 
   useEffect(() => {
     if (!restaurant) {
-      axios.get(`http://localhost:5000/api/home/${name}`)
-        .then(res => setRestaurant(res.data))
-        .catch(() => {
+      axios.get(`${baseURL}/home/${name}`)
+        .then((response) => setRestaurant(response.data))
+        .catch((error) => {
+          console.error("Error fetching restaurant:", error);
           toast.error("Restaurant not found!");
           navigate("/home");
         })

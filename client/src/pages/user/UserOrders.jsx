@@ -3,6 +3,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import moment from "moment";
+const baseURL = import.meta.env.VITE_API_BASE_URL;
 
 const UserOrders = () => {
   const [liveOrders, setLiveOrders] = useState([]);
@@ -15,7 +16,7 @@ const UserOrders = () => {
     const fetchOrders = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/user/${id}/orders`
+          `${baseURL}/user/${id}/orders`
         );
   
         const allLiveOrders = response.data.liveOrders || [];
@@ -49,7 +50,7 @@ const UserOrders = () => {
   // Cancel Order
   const cancelOrder = async (orderId) => {
     try {
-      await axios.put(`http://localhost:5000/api/orders/${orderId}/cancel`);
+      await axios.put(`${baseURL}/orders/${orderId}/cancel`);
       toast.success("Order cancelled successfully!");
       setLiveOrders((prev) => prev.filter((order) => order._id !== orderId));
     } catch (error) {

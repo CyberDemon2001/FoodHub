@@ -74,9 +74,9 @@ function Section() {
   };
 
   return (
-    <div className="p-6 md:p-10 bg-gradient-to-br from-gray-100 to-gray-200 min-h-screen">
-      <h1 className="text-4xl md:text-5xl font-extrabold text-center text-gray-800 mb-10 capitalize">
-        {section} Items
+    <div className="p-8 bg-gray-200 min-h-screen">
+      <h1 className="text-4xl font-bold text-center text-gray-800 mb-8 capitalize">
+        {section}
       </h1>
 
       <div className="space-y-12 max-w-7xl mx-auto">
