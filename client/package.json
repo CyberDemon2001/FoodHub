@@ -10,6 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@capacitor/android": "^7.2.0",
+    "@capacitor/cli": "^7.2.0",
+    "@capacitor/core": "^7.2.0",
     "@eslint/js": "^9.19.0",
     "@fortawesome/fontawesome-free": "^6.7.2",
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
@@ -20,7 +23,7 @@
     "@vitejs/plugin-react": "^4.3.4",
     "axios": "^1.7.9",
     "bootstrap": "^5.3.3",
-    "dotenv": "^16.4.7",
+    "dotenv": "^16.5.0",
     "eslint": "^9.19.0",
     "eslint-plugin-react": "^7.37.4",
     "eslint-plugin-react-hooks": "^5.0.0",
@@ -43,6 +46,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@capacitor/assets": "^3.0.5",
     "@tailwindcss/postcss": "^4.0.6",
     "autoprefixer": "^10.4.20",
     "postcss": "^8.5.2",
