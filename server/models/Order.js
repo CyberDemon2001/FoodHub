@@ -14,6 +14,8 @@ const OrderSchema = new mongoose.Schema(
     ],
     totalPrice: { type: Number, required: true },
     status: { type: String, default: "Pending" },
+    deliveryBoy:{type: String, default: "Not Assigned"},
+    deliveryTime: { type: Number, default: null }
   },
   { timestamps: true }
 );

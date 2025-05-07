@@ -13,6 +13,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import image1 from "../../assets/restaurant1.jpg";
 import Loader from "../../FrontLoader";
 
+const baseURL = import.meta.env.VITE_API_BASE_URL;
 const PEXELS_API_KEY = "sSfQGKJtC1XMCCIBlUzPZd0hoSKEYaRpyYAmUSEVldfWmODXn9MSWzjL";
 
 function Content({ restaurant = [] }) {
@@ -34,34 +35,59 @@ function Content({ restaurant = [] }) {
   const uniqueSections = [...new Set(allSections)];
 
   useEffect(() => {
-    const fetchSectionImages = async () => {
-      const updatedImages = {};
-
+    const updatedImages = {};
+  
+    // Load sectionImg from restaurant data
+    restaurant.forEach((rest) => {
+      rest.menu.forEach((menuItem) => {
+        if (menuItem.section && menuItem.sectionImg) {
+          updatedImages[menuItem.section] = menuItem.sectionImg;
+        }
+      });
+    });
+  
+    setSectionImages(updatedImages);
+  
+    // OPTIONAL: Fetch from Pexels only if sectionImg is missing
+    const fetchMissingImages = async () => {
       for (const section of uniqueSections) {
-        try {
-          const response = await fetch(
-            `https://api.pexels.com/v1/search?query=${section}&per_page=1`,
-            {
-              headers: {
-                Authorization: PEXELS_API_KEY,
-              },
+        if (!updatedImages[section]) {
+          try {
+            const response = await fetch(
+              `https://api.pexels.com/v1/search?query=${section}&per_page=1`,
+              {
+                headers: {
+                  Authorization: PEXELS_API_KEY,
+                },
+              }
+            );
+  
+            const data = await response.json();
+            if (data.photos && data.photos.length > 0) {
+              const imgUrl = data.photos[0].src.medium;
+              updatedImages[section] = imgUrl;
+  
+              // OPTIONAL: Save back to DB via API (write endpoint for this)
+              await fetch(`${baseURL}/admin/sections/image`, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ section, imageUrl: imgUrl }),
+              });
             }
-          );
-
-          const data = await response.json();
-          if (data.photos && data.photos.length > 0) {
-            updatedImages[section] = data.photos[0].src.medium;
+          } catch (error) {
+            console.error(`Failed to fetch image for ${section}`, error);
           }
-        } catch (error) {
-          console.error(`Failed to fetch image for ${section}`, error);
         }
       }
-
-      setSectionImages(updatedImages);
+  
+      setSectionImages({ ...updatedImages });
     };
-
-    fetchSectionImages();
+  
+    fetchMissingImages();
   }, [restaurant]);
+  
 
   const handleViewMenu = (selectedRestaurant) => {
     const path = id

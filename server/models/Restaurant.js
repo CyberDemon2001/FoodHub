@@ -15,10 +15,12 @@ const RestaurantSchema = new mongoose.Schema({
   menu: [
     {
       section: { type: String, required: true },
+      sectionImg:{ type: String, default: "" },
       items: [
         {
           name: { type: String, required: true },
           price: { type: Number, required: true, min: 0 },
+          itemImg:{ type: String, default: "" },
         },
       ],
     },

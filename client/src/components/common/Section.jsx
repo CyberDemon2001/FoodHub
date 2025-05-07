@@ -103,12 +103,15 @@ function Section() {
                   return (
                     <div
                       key={item.name}
-                      className="bg-white border border-gray-300 p-4 rounded-2xl shadow-sm hover:shadow-md transition-transform hover:scale-[1.03] flex flex-col justify-between"
+                      className="bg-white p-2 md:p-4 border border-gray-300 rounded-2xl shadow-sm hover:shadow-md transition-transform hover:scale-[1.03] flex flex-row md:flex-col justify-between items-center"
                     >
-                      <div>
-                        <h3 className="text-lg font-semibold text-gray-800">{item.name}</h3>
-                        <p className="text-xl font-bold text-orange-600 mt-1">₹{item.price}</p>
+                      <div className="w-14 h-14 md:w-58 md:h-34">
+                        <img src={item.itemImg} alt={item.name} className="border w-full h-full object-cover rounded-lg" />
                       </div>
+                      <div className="my-2">
+                      <p className="text-md font-semibold">{item.name}</p>
+                        <p className="text-sm font-bold text-start md:text-center">₹{item.price}</p>
+                        </div>
 
                       {cartItem.quantity > 0 ? (
                         <div className="flex items-center justify-between mt-6">
@@ -122,7 +125,7 @@ function Section() {
                           >
                             -
                           </button>
-                          <span className="font-semibold text-gray-700 text-lg">{cartItem.quantity}</span>
+                          <span className="font-semibold text-gray-700 mx-3 text-lg">{cartItem.quantity}</span>
                           <button
                             onClick={() =>
                               handleChangeQuantity(item, restaurant, (cartItem.quantity || 0) + 1)
@@ -136,7 +139,7 @@ function Section() {
                       ) : (
                         <button
                           onClick={() => handleAddToCart(item, restaurant)}
-                          className="mt-6 w-full bg-orange-500 text-white cursor-pointer font-semibold py-2 rounded-full hover:bg-orange-600 transition"
+                          className="w-20 h-10 md:w-18 bg-orange-500 text-white cursor-pointer font-semibold py-2 rounded-full hover:bg-orange-600 transition"
                         >
                           ADD
                         </button>
