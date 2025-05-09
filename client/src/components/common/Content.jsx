@@ -215,6 +215,7 @@ function Content({ restaurant = [] }) {
             </Swiper>
           </div>
 
+
           <div className="flex items-center justify-center mt-4 px-4 flex-wrap sm:flex-nowrap">
             <hr className="flex-grow border-2 border-gray-500 mx-4 sm:mx-20" />
             <span className="text-black text-2xl font-bold whitespace-nowrap">
